@@ -25,8 +25,8 @@ public class KhachHang {
     @Column(name = "makh")
     private String makh;
 
-    @Column(name = "hotenkh")
-    private String hotenkh;
+    @Column(name = "hovatenkh")
+    private String hovatenkh;
 
     @Column(name = "gioitinh")
     private Boolean gioitinh;
@@ -75,4 +75,9 @@ public class KhachHang {
     @OneToMany(mappedBy = "khachhang" , fetch = FetchType.LAZY)
     @JsonManagedReference
     List<GioHang> giohang;
+
+    // TODO 1 - N //
+    @OneToMany(mappedBy = "khachhang", fetch = FetchType.LAZY)
+    @JsonManagedReference
+    List<RefeshToken> refeshtoken;
 }

@@ -1,5 +1,6 @@
 package com.example.be_duantn.entity;
 
+import com.example.be_duantn.enums.QuyenEnum;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,7 +24,8 @@ public class ChucVu {
     private Integer id;
 
     @Column(name = "tenchucvu")
-    private String tenchucvu;
+    @Enumerated(EnumType.STRING)
+    private QuyenEnum tenchucvu;
 
     @Column(name = "loaichucvu")
     private Integer loaichucvu;

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -24,12 +25,16 @@ public class RefeshToken {
     @Column(name = "token")
     private String token;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "thoigianhethan")
-    private Date thoigianhethan;
+    private LocalDate thoigianhethan;
 
     @ManyToOne
     @JoinColumn(name = "idnv")
     @JsonBackReference
     NhanVien nhanvien;
+
+    @ManyToOne
+    @JoinColumn(name = "idkh")
+    @JsonBackReference
+    KhachHang khachhang;
 }
