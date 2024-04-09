@@ -1,6 +1,6 @@
 package com.example.be_duantn.enums;
 
-public enum StatusOrderEnums {
+public enum TrangThaiDonHangEnums {
     CHO_XAC_NHAN(1),
 
     XAC_NHAN(2),
@@ -13,11 +13,11 @@ public enum StatusOrderEnums {
 
     DA_HUY(6),
 
-    TRA_HANG(7);
+    TRAN_HANG(7);
 
     private final int value;
 
-    StatusOrderEnums(int value) {
+    TrangThaiDonHangEnums(int value) {
         this.value = value;
     }
 

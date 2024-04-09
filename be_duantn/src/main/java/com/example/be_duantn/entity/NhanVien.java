@@ -26,8 +26,8 @@ public class NhanVien {
     @Column(name = "manv")
     private String manv;
 
-    @Column(name = "hotennv")
-    private String hotennv;
+    @Column(name = "hovatennv")
+    private String hovatennv;
 
     @Column(name = "gioitinh")
     private Boolean gioitinh;
