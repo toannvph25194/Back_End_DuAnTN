@@ -19,6 +19,7 @@ public class KhachHangRegisterRequest {
     private String taikhoan;
 
     @NotBlank(message = "Vui lòng điền password")
+    @Size(min = 6, max = 15, message = "Độ dài password phải từ 7 đến 15 ký tự")
     private String matkhau;
 
     @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$", message = "Địa chỉ email không hợp lệ")
