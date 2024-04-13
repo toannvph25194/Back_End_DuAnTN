@@ -76,8 +76,8 @@ public class KhachHang {
     @JsonManagedReference
     List<GioHang> giohang;
 
-    // TODO 1 - N //
-    @OneToMany(mappedBy = "khachhang", fetch = FetchType.LAZY)
-    @JsonManagedReference
-    List<RefeshToken> refeshtoken;
+//    // TODO 1 - N //
+//    @OneToMany(mappedBy = "khachhang", fetch = FetchType.LAZY)
+//    @JsonManagedReference
+//    List<RefeshToken> refeshtoken;
 }

@@ -32,6 +32,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/khachhang/**").permitAll()
                         .requestMatchers("/api/auth/nhanvien/**").permitAll()
+                        .requestMatchers("/api/san-pham/**").permitAll()
                         .anyRequest()
                         .authenticated())
                 .sessionManagement(

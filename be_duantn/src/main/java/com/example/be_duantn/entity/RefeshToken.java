@@ -33,8 +33,8 @@ public class RefeshToken {
     @JsonBackReference
     NhanVien nhanvien;
 
-    @ManyToOne
-    @JoinColumn(name = "idkh")
-    @JsonBackReference
-    KhachHang khachhang;
+//    @ManyToOne
+//    @JoinColumn(name = "idkh")
+//    @JsonBackReference
+//    KhachHang khachhang;
 }
