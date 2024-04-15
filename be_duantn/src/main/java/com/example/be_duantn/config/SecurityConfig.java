@@ -33,6 +33,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/khachhang/**").permitAll()
                         .requestMatchers("/api/auth/nhanvien/**").permitAll()
                         .requestMatchers("/api/san-pham/**").permitAll()
+                        .requestMatchers("/api/san-pham-shop/**").permitAll()
                         .anyRequest()
                         .authenticated())
                 .sessionManagement(
