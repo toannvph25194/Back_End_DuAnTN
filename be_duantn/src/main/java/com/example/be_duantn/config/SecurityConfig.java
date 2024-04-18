@@ -34,6 +34,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/nhanvien/**").permitAll()
                         .requestMatchers("/api/san-pham/**").permitAll()
                         .requestMatchers("/api/san-pham-shop/**").permitAll()
+                        .requestMatchers("/api/san-pham-chi-tiet/**").permitAll()
                         .anyRequest()
                         .authenticated())
                 .sessionManagement(
