@@ -44,7 +44,7 @@ public class SanPham {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ngaythem")
-    private Date ngaythem;
+    private Date ngaythem = new Date();
 
     @Column(name = "mota")
     private String mota;

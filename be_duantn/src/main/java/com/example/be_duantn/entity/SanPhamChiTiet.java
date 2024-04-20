@@ -38,7 +38,7 @@ public class SanPhamChiTiet {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ngaytao")
-    private Date ngaytao;
+    private Date ngaytao = new Date();
 
     // TODO N - 1 //
     @ManyToOne

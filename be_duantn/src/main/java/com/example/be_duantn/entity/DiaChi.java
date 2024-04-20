@@ -39,7 +39,7 @@ public class DiaChi {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ngaytao")
-    private Date ngaytao;
+    private Date ngaytao = new Date();
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ngaycapnhat")

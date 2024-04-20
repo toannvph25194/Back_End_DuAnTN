@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,11 +26,11 @@ public class GioHang {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ngaytao")
-    private String ngaytao;
+    private Date ngaytao = new Date();
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ngaycaphat")
-    private String ngaycaphat;
+    private Date ngaycaphat;
 
     @Column(name = "ghichu")
     private String ghichu;
