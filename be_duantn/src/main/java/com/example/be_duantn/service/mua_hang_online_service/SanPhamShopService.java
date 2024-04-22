@@ -22,6 +22,9 @@ public interface SanPhamShopService {
     // Lọc sp shop theo khoanggia
     Page<SanPhamShopRespon> locKhongGiaSPShop(Integer pageNumber, Integer pageSize, Double key1, Double key2);
 
-    // Lọc theo nhiều tiêu chí . tensp, tendanhmuc, tenmausac, tensize
-    Page<SanPhamShopRespon> locSPShop(Integer pageNumber, Integer pageSize, String tensp, String tendanhmuc,  String tenmausac, String tensize);
+    // Lọctheo tensp
+    Page<SanPhamShopRespon> locTenSPShop(Integer pageNumber, Integer pageSize, String tendanhmuc);
+
+    // Lọc theo nhiều tiêu chí. tendanhmuc, tenmausac, tensize
+    Page<SanPhamShopRespon> locSPShopNTC(Integer pageNumber, Integer pageSize, String tendanhmuc,  String tenmausac, String tensize);
 }

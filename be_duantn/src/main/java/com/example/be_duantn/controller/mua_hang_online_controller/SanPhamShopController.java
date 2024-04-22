@@ -47,12 +47,20 @@ public class SanPhamShopController {
         return ResponseEntity.ok(sanPhamShopService.locKhongGiaSPShop(pageNumber, pageSize, key1, key2));
     }
 
-    // TODO Lọc theo nhiều tiêu chí . tensp, tendanhmuc, tenmausac, tensize
+    // TODO Lọc theo tensp
+    @GetMapping("/loc/ten-san-pham")
+    public ResponseEntity<?> locTenSPShop(@RequestParam(name = "pageNumber", defaultValue = "0") Integer pageNumber,
+                                       @RequestParam(name = "pageSize", defaultValue = "9") Integer pageSize,
+                                       @RequestParam("tensp") String tensp){
+        return ResponseEntity.ok(sanPhamShopService.locTenSPShop(pageNumber, pageSize, tensp));
+    }
+
+    // TODO Lọc theo nhiều tiêu chí. tendanhmuc, tenmausac, tensize
     @GetMapping("/loc/san-pham")
     public ResponseEntity<?> locSPShop(@RequestParam(name = "pageNumber", defaultValue = "0") Integer pageNumber,
-                                       @RequestParam(name = "pageSize", defaultValue = "9") Integer pageSize, @RequestParam("tensp") String tensp,
+                                       @RequestParam(name = "pageSize", defaultValue = "9") Integer pageSize,
                                        @RequestParam("tendanhmuc") String tendanhmuc, @RequestParam("tenmausac") String tenmausac,
                                        @RequestParam("tensize") String tensize){
-        return ResponseEntity.ok(sanPhamShopService.locSPShop(pageNumber, pageSize, tensp, tendanhmuc, tenmausac, tensize));
+        return ResponseEntity.ok(sanPhamShopService.locSPShopNTC(pageNumber, pageSize, tendanhmuc, tenmausac, tensize));
     }
 }

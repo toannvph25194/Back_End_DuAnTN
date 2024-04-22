@@ -11,8 +11,11 @@ public interface SanPhamHomeService {
     // getALl sp home phân trang
     Page<SanPhamRespon> getAllSPHome(Integer page);
 
-    // getALl sp nam nữ home phân trang
-    Page<SanPhamRespon> getAllSPNamNuHome(Integer page, Integer theloai);
+    // getALl sp nam home phân trang
+    Page<SanPhamRespon> getAllSPNamHome(Integer page);
+
+    // getALl sp nữ home phân trang
+    Page<SanPhamRespon> getAllSPNuHome(Integer page);
 
     // getALl sp new home
     List<SanPhamRespon> getAllSPNewHome();

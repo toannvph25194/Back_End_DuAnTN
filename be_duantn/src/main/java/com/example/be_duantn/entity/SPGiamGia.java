@@ -45,6 +45,9 @@ public class SPGiamGia {
     @Column(name = "trangthai")
     private Integer trangthai;
 
+    @Column(name = "soluongban")
+    private Integer soluongban;
+
     @ManyToOne
     @JoinColumn(name = "idsp")
     @JsonBackReference

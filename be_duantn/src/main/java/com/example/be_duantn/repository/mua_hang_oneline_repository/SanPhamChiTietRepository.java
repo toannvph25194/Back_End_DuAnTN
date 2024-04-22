@@ -25,11 +25,12 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet ,
     List<SanPhamRespon> loadSPCTNew();
 
     // detail sản phẩm bằng id sp
-    @Query(value = "SELECT DISTINCT sp.Id , sp.TenSP, sp.TheLoai, sp.ImageDefaul, sp.GiaBan, xx.TenXuatXu, th.TenThuongHieu, cl.TenChatLieu FROM SanPhamChiTiet spct \n" +
+    @Query(value = "SELECT DISTINCT sp.Id , sp.TenSP, sp.TheLoai, sp.ImageDefaul, sp.GiaBan, spgg.DonGiaKhiGiam, xx.TenXuatXu, th.TenThuongHieu, cl.TenChatLieu FROM SanPhamChiTiet spct \n" +
             "JOIN SanPham sp on sp.Id = spct.IdSP\n" +
             "JOIN XuatXu xx on xx.Id = sp.IdXX\n" +
             "JOIN ThuongHieu th on th.Id = sp.IdTH\n" +
             "JOIN ChatLieu cl on cl.Id = sp.IdCL\n" +
+            "LEFT JOIN SPGiamGia spgg on spgg.IdSP = sp.Id\n" +
             "Where sp.TrangThai = 1 AND spct.SoLuongTon > 0\n" +
             "AND sp.id = ?1", nativeQuery = true)
     SanPhamChiTietRespon finByidSP(UUID idsp);

@@ -22,10 +22,16 @@ public class SanPhamHomeController {
         return ResponseEntity.ok(sanPhamHomeService.getAllSPHome(page));
     }
 
-    // ToDo getAll SPNamNuHome phân trang
-    @GetMapping("/show-nam-nu")
-    public ResponseEntity<?> getAllSPNamNuHome(@RequestParam(defaultValue = "0", value = "page") Integer page , @RequestParam("theloai") Integer theloai){
-        return ResponseEntity.ok(sanPhamHomeService.getAllSPNamNuHome(page,theloai));
+    // ToDo getAll SPNamHome phân trang
+    @GetMapping("/show-nam")
+    public ResponseEntity<?> getAllSPNamNuHome(@RequestParam(defaultValue = "0", value = "page") Integer page){
+        return ResponseEntity.ok(sanPhamHomeService.getAllSPNamHome(page));
+    }
+
+    // ToDo getAll SPNuHome phân trang
+    @GetMapping("/show-nu")
+    public ResponseEntity<?> getAllSPNuHome(@RequestParam(defaultValue = "0", value = "page") Integer page){
+        return ResponseEntity.ok(sanPhamHomeService.getAllSPNuHome(page));
     }
 
     // ToDo getAll SPNewHome

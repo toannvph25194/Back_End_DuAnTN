@@ -8,6 +8,7 @@ public interface SanPhamChiTietRespon {
     Integer gettheloai();
     String getimagedefaul();
     Double getgiaban();
+    Double getdongiakhigiam();
     String gettenxuatxu();
     String gettenthuonghieu();
     String gettenchatlieu();

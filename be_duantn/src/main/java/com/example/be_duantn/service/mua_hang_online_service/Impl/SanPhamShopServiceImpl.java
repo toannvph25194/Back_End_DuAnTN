@@ -45,8 +45,14 @@ public class SanPhamShopServiceImpl implements SanPhamShopService {
     }
 
     @Override
-    public Page<SanPhamShopRespon> locSPShop(Integer pageNumber, Integer pageSize, String tensp, String tendanhmuc, String tenmausac, String tensize) {
+    public Page<SanPhamShopRespon> locTenSPShop(Integer pageNumber, Integer pageSize, String tensp) {
         Pageable pageable = PageRequest.of(pageNumber , pageSize);
-        return sanPhamShopRepository.locSPShop(pageable, tensp, tendanhmuc, tenmausac, tensize);
+        return sanPhamShopRepository.locTenSPShop(pageable, tensp);
+    }
+
+    @Override
+    public Page<SanPhamShopRespon> locSPShopNTC(Integer pageNumber, Integer pageSize, String tendanhmuc, String tenmausac, String tensize) {
+        Pageable pageable = PageRequest.of(pageNumber , pageSize);
+        return sanPhamShopRepository.locSPShopNTC(pageable, tendanhmuc, tenmausac, tensize);
     }
 }

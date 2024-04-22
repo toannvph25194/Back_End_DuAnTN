@@ -25,9 +25,15 @@ public class SanPhamHomeServiceImpl implements SanPhamHomeService {
     }
 
     @Override
-    public Page<SanPhamRespon> getAllSPNamNuHome(Integer page, Integer theloai) {
+    public Page<SanPhamRespon> getAllSPNamHome(Integer page) {
         Pageable pageable = PageRequest.of(page , 12);
-        return sanPhamHomeRepository.getALlSPNamNuHome(pageable,theloai);
+        return sanPhamHomeRepository.getALlSPNamHome(pageable);
+    }
+
+    @Override
+    public Page<SanPhamRespon> getAllSPNuHome(Integer page) {
+        Pageable pageable = PageRequest.of(page , 12);
+        return sanPhamHomeRepository.getALlSPNuHome(pageable);
     }
 
     @Override
