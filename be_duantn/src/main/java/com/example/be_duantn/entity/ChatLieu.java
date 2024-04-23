@@ -19,7 +19,7 @@ public class ChatLieu {
     @GeneratedValue(strategy = GenerationType.UUID)
 
     @Column(name = "id")
-    private UUID id;
+    private UUID idchatlieu;
 
     @Column(name = "tenchatlieu")
     private String tenchatlieu;

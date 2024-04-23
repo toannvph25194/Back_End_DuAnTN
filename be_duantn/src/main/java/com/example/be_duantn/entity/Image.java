@@ -19,7 +19,7 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.UUID)
 
     @Column(name = "id")
-    private UUID id;
+    private UUID idimage;
 
     @Column(name = "tenimage")
     private String tenimage;

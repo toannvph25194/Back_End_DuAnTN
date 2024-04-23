@@ -20,7 +20,7 @@ public class MauSac {
     @GeneratedValue(strategy = GenerationType.UUID)
 
     @Column(name = "id")
-    private UUID id;
+    private UUID idmausac;
 
     @Column(name = "tenmausac")
     private String tenmausac;

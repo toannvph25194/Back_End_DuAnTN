@@ -21,7 +21,7 @@ public class VouCher {
     @GeneratedValue(strategy = GenerationType.UUID)
 
     @Column(name = "id")
-    private UUID id;
+    private UUID idvoucher;
 
     @Column(name = "mavoucher")
     private String mavoucher;

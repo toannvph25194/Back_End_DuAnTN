@@ -20,7 +20,7 @@ public class SPGiamGia {
     @GeneratedValue(strategy = GenerationType.UUID)
 
     @Column(name = "id")
-    private UUID id;
+    private UUID idspgg;
 
     @Column(name = "dongia")
     private Double dongia;

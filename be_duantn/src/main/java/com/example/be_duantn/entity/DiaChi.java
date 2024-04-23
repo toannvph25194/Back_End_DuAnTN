@@ -20,7 +20,7 @@ public class DiaChi {
     @GeneratedValue(strategy = GenerationType.UUID)
 
     @Column(name = "id")
-    private UUID id;
+    private UUID iddiachi;
 
     @Column(name = "diachichitiet")
     private String diachichitiet;

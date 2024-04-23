@@ -61,7 +61,7 @@ public class NhanVienServiceImpl implements NhanVienService {
                     .accessToken(jwtToken)
                     .token(refreshToken.getToken())
                     .role(optionalPhatTu.get().getChucvu().getTenchucvu().name())
-                    .idtk(optionalPhatTu.get().getId())
+                    .idtk(optionalPhatTu.get().getIdnv())
                     .username(optionalPhatTu.get().getTaikhoan())
                     .message("Login thành công")
                     .build();
@@ -87,7 +87,7 @@ public class NhanVienServiceImpl implements NhanVienService {
         }
 
         NhanVien user = NhanVien.builder()
-                .id(UUID.randomUUID())
+                .idnv(UUID.randomUUID())
                 .taikhoan(nhanVienRegisterRequest.getTaikhoan())
                 .matkhau(passwordEncoder.encode(nhanVienRegisterRequest.getMatkhau()))
                 .email(nhanVienRegisterRequest.getEmail())

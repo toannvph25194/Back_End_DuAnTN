@@ -22,7 +22,7 @@ public class HoaDon {
     @GeneratedValue(strategy = GenerationType.UUID)
 
     @Column(name = "id")
-    private UUID id;
+    private UUID idhoadon;
 
     @Column(name = "mahoadon")
     private String mahoadon;

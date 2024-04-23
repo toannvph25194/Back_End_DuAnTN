@@ -22,7 +22,7 @@ public class SanPhamChiTiet {
     @GeneratedValue(strategy = GenerationType.UUID)
 
     @Column(name = "id")
-    private UUID id;
+    private UUID idspct;
 
     @Column(name = "soluongton")
     private Integer soluongton;

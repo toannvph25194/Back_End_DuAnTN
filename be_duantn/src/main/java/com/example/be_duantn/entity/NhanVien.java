@@ -21,7 +21,7 @@ public class NhanVien {
     @GeneratedValue(strategy = GenerationType.UUID)
 
     @Column(name = "id")
-    private UUID id;
+    private UUID idnv;
 
     @Column(name = "manv")
     private String manv;

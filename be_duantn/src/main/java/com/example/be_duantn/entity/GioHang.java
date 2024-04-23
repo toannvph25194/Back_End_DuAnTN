@@ -22,15 +22,15 @@ public class GioHang {
     @GeneratedValue(strategy = GenerationType.UUID)
 
     @Column(name = "id")
-    private UUID id;
+    private UUID idgh;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ngaytao")
     private Date ngaytao = new Date();
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "ngaycaphat")
-    private Date ngaycaphat;
+    @Column(name = "ngaycapnhat")
+    private Date ngaycapnhat;
 
     @Column(name = "ghichu")
     private String ghichu;

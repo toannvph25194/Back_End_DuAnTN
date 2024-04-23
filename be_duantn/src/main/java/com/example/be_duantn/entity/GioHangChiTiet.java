@@ -20,7 +20,7 @@ public class GioHangChiTiet {
     @GeneratedValue(strategy = GenerationType.UUID)
 
     @Column(name = "id")
-    private UUID id;
+    private UUID idghct;
 
     @Column(name = "soluong")
     private Integer soluong;

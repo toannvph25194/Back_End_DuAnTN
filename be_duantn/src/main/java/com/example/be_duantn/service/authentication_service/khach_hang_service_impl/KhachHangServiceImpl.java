@@ -30,7 +30,7 @@ public class KhachHangServiceImpl implements KhachHangService {
 
             return KhachHangResponse.builder()
 
-                    .idtk(otkh.get().getId())
+                    .idtk(otkh.get().getIdkh())
                     .username(otkh.get().getTaikhoan())
                     .message("Login thành công")
                     .build();
@@ -49,7 +49,7 @@ public class KhachHangServiceImpl implements KhachHangService {
             return KhachHangMessageResponse.builder().message("Tài khoản đã tồn tại").build();
         }
         KhachHang kh = KhachHang.builder()
-                .id(UUID.randomUUID())
+                .idkh(UUID.randomUUID())
                 .taikhoan(khachhangRegisterRequest.getTaikhoan())
                 .matkhau(passwordEncoder.encode(khachhangRegisterRequest.getMatkhau()))
                 .email(khachhangRegisterRequest.getEmail())

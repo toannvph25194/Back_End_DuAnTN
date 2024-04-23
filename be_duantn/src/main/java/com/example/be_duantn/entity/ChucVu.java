@@ -21,7 +21,7 @@ public class ChucVu {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @Column(name = "id")
-    private Integer id;
+    private Integer idchucvu;
 
     @Column(name = "tenchucvu")
     @Enumerated(EnumType.STRING)
