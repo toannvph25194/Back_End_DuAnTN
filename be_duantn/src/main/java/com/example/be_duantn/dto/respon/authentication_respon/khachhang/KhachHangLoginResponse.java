@@ -14,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class KhachHangResponse {
+public class KhachHangLoginResponse {
 
     private String message;
 

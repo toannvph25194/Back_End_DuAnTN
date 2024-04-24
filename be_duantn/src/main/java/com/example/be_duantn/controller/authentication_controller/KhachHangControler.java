@@ -3,16 +3,13 @@ package com.example.be_duantn.controller.authentication_controller;
 import com.example.be_duantn.dto.request.authentication_request.khachhang.KhachHangLoginRequest;
 import com.example.be_duantn.dto.respon.authentication_respon.khachhang.KhachHangMessageResponse;
 import com.example.be_duantn.dto.request.authentication_request.khachhang.KhachHangRegisterRequest;
-import com.example.be_duantn.dto.respon.authentication_respon.khachhang.KhachHangResponse;
+import com.example.be_duantn.dto.respon.authentication_respon.khachhang.KhachHangLoginResponse;
 import com.example.be_duantn.service.authentication_service.khach_hang_service_impl.KhachHangServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 
@@ -24,7 +21,7 @@ public class KhachHangControler {
 
 
     @PostMapping("dangnhapkhachhang")
-    public ResponseEntity<KhachHangResponse> login(@Valid @RequestBody KhachHangLoginRequest khachHnagLoginRequest) {
+    public ResponseEntity<KhachHangLoginResponse> login(@Valid @RequestBody KhachHangLoginRequest khachHnagLoginRequest) {
         return new ResponseEntity<>(userService.login(khachHnagLoginRequest), HttpStatus.OK);
     }
 
@@ -33,5 +30,8 @@ public class KhachHangControler {
         return new ResponseEntity<>(userService.register(khachHnagLoginRequest), HttpStatus.CREATED);
     }
 
-
+    @PostMapping("quenmatkhaukhachhang")
+    public ResponseEntity<KhachHangMessageResponse> forgotPassword(@RequestParam(name = "email") String email) {
+        return new ResponseEntity<>(userService.forgotPassword(email), HttpStatus.OK);
+    }
 }

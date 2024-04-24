@@ -8,5 +8,6 @@ import java.util.UUID;
 
 public interface KhachHangRepository extends JpaRepository<KhachHang, UUID> {
     Optional<KhachHang> findByTaikhoan(String taikhoan);
+    Optional<KhachHang> findByEmail(String email);
 
 }
