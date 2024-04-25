@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/san-pham")
+@RequestMapping("/api/ol/san-pham")
 public class SanPhamHomeController {
 
     @Autowired

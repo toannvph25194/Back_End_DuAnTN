@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/san-pham-shop")
+@RequestMapping("/api/ol/san-pham-shop")
 public class SanPhamShopController {
     @Autowired
     SanPhamShopServiceImpl sanPhamShopService;

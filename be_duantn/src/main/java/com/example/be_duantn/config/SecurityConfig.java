@@ -32,9 +32,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/khachhang/**").permitAll()
                         .requestMatchers("/api/auth/nhanvien/**").permitAll()
-                        .requestMatchers("/api/san-pham/**").permitAll()
-                        .requestMatchers("/api/san-pham-shop/**").permitAll()
-                        .requestMatchers("/api/san-pham-chi-tiet/**").permitAll()
+                        .requestMatchers("/api/ol/san-pham/**").permitAll()
+                        .requestMatchers("/api/ol/san-pham-shop/**").permitAll()
+                        .requestMatchers("/api/ol/san-pham-chi-tiet/**").permitAll()
+                        .requestMatchers("/api/ol/gio-hang-chi-tiet/**").permitAll()
+                        .requestMatchers("/api/ol/gio-hang/**").permitAll()
                         .anyRequest()
                         .authenticated())
                 .sessionManagement(

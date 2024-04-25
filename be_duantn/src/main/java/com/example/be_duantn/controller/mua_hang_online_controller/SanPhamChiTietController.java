@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/san-pham-chi-tiet")
+@RequestMapping("/api/ol/san-pham-chi-tiet")
 public class SanPhamChiTietController {
 
     @Autowired
