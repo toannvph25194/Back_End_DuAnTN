@@ -37,6 +37,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/ol/san-pham-chi-tiet/**").permitAll()
                         .requestMatchers("/api/ol/gio-hang-chi-tiet/**").permitAll()
                         .requestMatchers("/api/ol/gio-hang/**").permitAll()
+                        .requestMatchers("/api/admin/thong-ke/**").hasAnyAuthority("ADMIN")
                         .anyRequest()
                         .authenticated())
                 .sessionManagement(
