@@ -50,7 +50,7 @@ public interface ThongKeRepository extends JpaRepository<HoaDon, UUID> {
             "FROM dbo.hoadon WHERE CONVERT(date, hoadon.ngaycapnhat) = CONVERT(DATE, GETDATE())", nativeQuery = true)
     Integer soDonHomNay();
 
-    //Lấy số hóa tuần này
+    //Lấy số hóa đơn tuần này
     @Query(value = "SELECT COUNT(*) AS TongSoDonHang\n" +
             "FROM dbo.hoadon \n" +
             "WHERE DATEPART(WEEK, hoadon.ngaycapnhat) = DATEPART(WEEK, GETDATE()) \n" +
@@ -99,22 +99,22 @@ public interface ThongKeRepository extends JpaRepository<HoaDon, UUID> {
     //Lấy số sản phẩm hôm nay
     @Query(value = "SELECT SUM(dbo.hoadonchitiet.soluong) FROM \n" +
             "dbo.hoadon INNER JOIN dbo.hoadonchitiet \n" +
-            "ON dbo.hoadon.id = dbo.hoadonchitiet.idhd WHERE CONVERT(date, hoadon.ngaycapnhat) = CONVERT(DATE, GETDATE())", nativeQuery = true)
+            "ON dbo.hoadon.id = dbo.hoadonchitiet.idhd WHERE dbo.hoadon.trangthai = 5 AND CONVERT(date, hoadon.ngaycapnhat) = CONVERT(DATE, GETDATE())", nativeQuery = true)
     Integer soSanPhamBanRaHomNay();
 
     //Lấy số sản phẩm tuần này
     @Query(value = "SELECT SUM(dbo.hoadonchitiet.soluong) \n" +
             "FROM dbo.hoadon \n" +
             "INNER JOIN dbo.hoadonchitiet ON dbo.hoadon.id = dbo.hoadonchitiet.idhd \n" +
-            "WHERE DATEPART(WEEK, hoadon.ngaycapnhat) = DATEPART(WEEK, GETDATE()) \n" +
-            "  AND YEAR(hoadon.ngaycapnhat) = YEAR(GETDATE());\n", nativeQuery = true)
+            "WHERE dbo.hoadon.trangthai = 5 AND DATEPART(WEEK, hoadon.ngaycapnhat) = DATEPART(WEEK, GETDATE()) \n" +
+            "AND YEAR(hoadon.ngaycapnhat) = YEAR(GETDATE());\n", nativeQuery = true)
     Integer soSanPhamBanRaTuanNay();
 
     //Lấy số sản phẩm tháng này
     @Query(value = "SELECT SUM(dbo.hoadonchitiet.soluong) \n" +
             "FROM dbo.hoadon \n" +
             "INNER JOIN dbo.hoadonchitiet ON dbo.hoadon.id = dbo.hoadonchitiet.idhd \n" +
-            "WHERE MONTH(hoadon.ngaycapnhat) = MONTH(GETDATE()) \n" +
+            "WHERE dbo.hoadon.trangthai = 5 AND MONTH(hoadon.ngaycapnhat) = MONTH(GETDATE()) \n" +
             "AND YEAR(hoadon.ngaycapnhat) = YEAR(GETDATE());", nativeQuery = true)
     Integer soSanPhamBanRaThangNay();
 
@@ -122,7 +122,7 @@ public interface ThongKeRepository extends JpaRepository<HoaDon, UUID> {
     @Query(value = "SELECT SUM(dbo.hoadonchitiet.soluong) \n" +
             "FROM dbo.hoadon \n" +
             "INNER JOIN dbo.hoadonchitiet ON dbo.hoadon.id = dbo.hoadonchitiet.idhd \n" +
-            "WHERE YEAR(hoadon.ngaycapnhat) = YEAR(GETDATE());\n", nativeQuery = true)
+            "WHERE dbo.hoadon.trangthai = 5 AND YEAR(hoadon.ngaycapnhat) = YEAR(GETDATE());\n", nativeQuery = true)
     Integer soSanPhamBanRaNamNay();
 
 
