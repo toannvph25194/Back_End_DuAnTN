@@ -68,4 +68,14 @@ public class GioHangChiTietController {
             return ResponseEntity.badRequest().body(new MessageGioHangCTRespon ("Lỗi k thể xóa tất cả sp trong ghct !"));
         }
     }
+
+    // ToDo load tổng tất cả số tiền của sp theo igh
+    @GetMapping("/tong-so-tien-san-pham")
+    public ResponseEntity<?> loadTongSoTienSP(@RequestParam("idgh") UUID idgh){
+        try {
+            return ResponseEntity.ok(gioHangChiTietService.loadTongSoTienSP(idgh));
+        }catch (Exception ex){
+            return ResponseEntity.badRequest().body(new MessageGioHangCTRespon ("Lỗi load tổng tất cả số tiền sp theo idgh !"));
+        }
+    }
 }

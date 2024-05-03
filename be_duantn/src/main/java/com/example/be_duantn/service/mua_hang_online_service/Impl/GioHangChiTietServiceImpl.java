@@ -2,6 +2,7 @@ package com.example.be_duantn.service.mua_hang_online_service.Impl;
 
 import com.example.be_duantn.dto.respon.mua_hang_online_respon.GioHangChiTietRespon;
 import com.example.be_duantn.dto.respon.mua_hang_online_respon.MessageGioHangCTRespon;
+import com.example.be_duantn.dto.respon.mua_hang_online_respon.TongSoTienRespon;
 import com.example.be_duantn.entity.*;
 import com.example.be_duantn.repository.mua_hang_oneline_repository.GioHangChiTietRepository;
 import com.example.be_duantn.repository.mua_hang_oneline_repository.GioHangRepository;
@@ -157,5 +158,10 @@ public class GioHangChiTietServiceImpl implements GioHangChiTietService {
         }else {
             return MessageGioHangCTRespon.builder().message("K tìm thấy idgh !").build();
         }
+    }
+
+    @Override
+    public TongSoTienRespon loadTongSoTienSP(UUID idgh) {
+        return gioHangChiTietRepository.loadTongSoTienSP(idgh);
     }
 }
