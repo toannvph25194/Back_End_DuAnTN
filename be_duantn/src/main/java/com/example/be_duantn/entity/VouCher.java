@@ -34,8 +34,8 @@ public class VouCher {
     private Date ngaytao = new Date();
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "ngaytbatdau")
-    private Date ngaytbatdau;
+    @Column(name = "ngaybatdau")
+    private Date ngaybatdau;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ngaycapnhat")
@@ -57,8 +57,8 @@ public class VouCher {
     @Column(name = "dieukientoithieuhoadon")
     private Double dieukientoithieuhoadon;
 
-    @Column(name = "hinhthucgian")
-    private Integer hinhthucgian;
+    @Column(name = "hinhthucgiam")
+    private Integer hinhthucgiam;
 
     @Column(name = "loaivoucher")
     private Integer loaivoucher;

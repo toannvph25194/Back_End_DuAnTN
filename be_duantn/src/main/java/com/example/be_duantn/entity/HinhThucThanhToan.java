@@ -27,7 +27,7 @@ public class HinhThucThanhToan {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ngaythanhtoan")
-    private Date ngaythanhtoan = new Date();
+    private Date ngaythanhtoan;
 
     @Column(name = "sotientra")
     private Double sotientra;
