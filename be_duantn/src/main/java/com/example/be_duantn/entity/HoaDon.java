@@ -33,7 +33,7 @@ public class HoaDon {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ngaythanhtoan")
-    private Date ngaythanhtoan = new Date();
+    private Date ngaythanhtoan;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ngaycapnhat")

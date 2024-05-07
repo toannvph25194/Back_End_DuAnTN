@@ -40,6 +40,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/ol/check-out/dia-chi-nguoi-dung/**").permitAll()
                         .requestMatchers("/api/ol/check-out/thong-tin-nguoi-dung/**").permitAll()
                         .requestMatchers("/api/ol/voucher/**").permitAll()
+                        .requestMatchers("/api/ol/hoa-don/**").permitAll()
+                        .requestMatchers("/api/ol/vnpay/**").permitAll()
                         .requestMatchers("/api/admin/thong-ke/**").hasAnyAuthority("ADMIN")
                         .requestMatchers("/api/admin-chatlieu/**").hasAnyAuthority("ADMIN", "NHANVIEN")
                         .requestMatchers("/api/admin-danhmuc/**").hasAnyAuthority("ADMIN", "NHANVIEN")
