@@ -12,4 +12,5 @@ import java.util.UUID;
 public class MessageTTHoaDonNotLoginRespon {
     String message;
     UUID idhoadon;
+    UUID idkhdataoandkhmoi;
 }
