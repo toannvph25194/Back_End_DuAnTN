@@ -1,5 +1,6 @@
 package com.example.be_duantn.service.mua_hang_online_service.Impl.hoa_don_service_impl;
 
+import com.example.be_duantn.dto.request.mua_hang_online_request.hoa_don_request.ThongTinHTTTRequest;
 import com.example.be_duantn.dto.request.mua_hang_online_request.hoa_don_request.ThongTinThanhToanRequest;
 import com.example.be_duantn.dto.respon.mua_hang_online_respon.hoa_don_respon.MessageTTHoaDonLoginRespon;
 import com.example.be_duantn.dto.respon.mua_hang_online_respon.hoa_don_respon.MessageTTHoaDonNotLoginRespon;
@@ -78,7 +79,9 @@ public class HoaDonServiceImpl implements HoaDonService {
             hoadon.setSdtnguoinhan(ttttrequest.getSodienthoai());
             hoadon.setEmailnguoinhan(ttttrequest.getEmail());
             hoadon.setGiatrigiam(ttttrequest.getGiatrigiam());
-            hoadon.setTienkhachtra(ttttrequest.getTienkhachtra());
+            if(ttttrequest.getPhuongthucthanhtoan() == 2){
+                hoadon.setTienkhachtra(ttttrequest.getTienkhachtra());
+            }
             hoadon.setThanhtien(ttttrequest.getThanhtien());
             hoadon.setLoaihoadon(1);
             hoadon.setTrangthai(TrangThaiDonHangEnums.CHO_XAC_NHAN.getValue());
@@ -93,6 +96,7 @@ public class HoaDonServiceImpl implements HoaDonService {
                 httt.setSotientra(ttttrequest.getThanhtien());
                 httt.setNgaytao(new Date(System.currentTimeMillis()));
                 httt.setHinhthucthanhtoan(ttttrequest.getPhuongthucthanhtoan());
+                httt.setGhichu("Khách hàng chưa thanh toán");
                 httt.setTrangthai(1);
                 hinhThucThanhToanRepository.save(httt);
             }
@@ -149,7 +153,8 @@ public class HoaDonServiceImpl implements HoaDonService {
             }
 
             // B6. Sen mail hóa đơn cho khách hàng đã đặt hàng
-            Double sotienphaitra = hoadon.getThanhtien() - hoadon.getGiatrigiam();
+            Double tongtienhang = hoadon.getThanhtien() + hoadon.getGiatrigiam();
+            Double sotienphaitra = tongtienhang - hoadon.getGiatrigiam();
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
             try {
@@ -202,7 +207,7 @@ public class HoaDonServiceImpl implements HoaDonService {
                         "    <ul>\n" +
                         "       <li><p>Tiền Ship : Sẽ được nhân viên gọi điện xác nhận</p></li>\n" +
                         "       <li><p>Tiền Giảm Giá Voucher : " + hoadon.getGiatrigiam() + " đ" + "</p></li>\n" +
-                        "       <li><p>Tổng Tiền Hàng : " + hoadon.getThanhtien() + " đ" + "</p></li>\n" +
+                        "       <li><p>Tổng Tiền Hàng : " + tongtienhang + " đ" + "</p></li>\n" +
                         "       <li><p>Số Tiền Phải Trả : " + sotienphaitra + " đ" + "</p></li>\n" +
                         "       <li><p>Ngày Thanh Toán: " + ((hoadon.getNgaythanhtoan()) != null ? hoadon.getNgaythanhtoan() : "Chưa Thanh Toán") + "</p></li>\n" +
                         "       <li><p>Phương Thức Thanh Toán : " + ((ttttrequest.getPhuongthucthanhtoan()) == 1 ? "Thanh Toán Khi Nhận Hàng" : "Thanh Toán Chuyển Khoản") + "</p></li>\n" +
@@ -294,7 +299,9 @@ public class HoaDonServiceImpl implements HoaDonService {
         hoadon.setSdtnguoinhan(ttttrequest.getSodienthoai());
         hoadon.setEmailnguoinhan(ttttrequest.getEmail());
         hoadon.setGiatrigiam(ttttrequest.getGiatrigiam());
-        hoadon.setTienkhachtra(ttttrequest.getTienkhachtra());
+        if(ttttrequest.getPhuongthucthanhtoan() == 2){
+            hoadon.setTienkhachtra(ttttrequest.getTienkhachtra());
+        }
         hoadon.setThanhtien(ttttrequest.getThanhtien());
         hoadon.setLoaihoadon(1);
         hoadon.setTrangthai(TrangThaiDonHangEnums.CHO_XAC_NHAN.getValue());
@@ -309,6 +316,7 @@ public class HoaDonServiceImpl implements HoaDonService {
             httt.setSotientra(ttttrequest.getThanhtien());
             httt.setNgaytao(new Date(System.currentTimeMillis()));
             httt.setHinhthucthanhtoan(ttttrequest.getPhuongthucthanhtoan());
+            httt.setGhichu("Khách hàng chưa thanh toán");
             httt.setTrangthai(1);
             hinhThucThanhToanRepository.save(httt);
         }
@@ -366,7 +374,8 @@ public class HoaDonServiceImpl implements HoaDonService {
 
         // B6. Sen mail hóa đơn cho khách hàng đã đặt hàng
 
-        Double sotienphaitra = hoadon.getThanhtien() - hoadon.getGiatrigiam();
+        Double tongtienhang = hoadon.getThanhtien() + hoadon.getGiatrigiam();
+        Double sotienphaitra = tongtienhang - hoadon.getGiatrigiam();
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
         try {
@@ -419,7 +428,7 @@ public class HoaDonServiceImpl implements HoaDonService {
                     "    <ul>\n" +
                     "       <li><p>Tiền Ship : Sẽ được nhân viên gọi điện xác nhận</p></li>\n" +
                     "       <li><p>Tiền Giảm Giá Voucher : " + hoadon.getGiatrigiam() + " đ" + "</p></li>\n" +
-                    "       <li><p>Tổng Tiền Hàng : " + hoadon.getThanhtien() + " đ" + "</p></li>\n" +
+                    "       <li><p>Tổng Tiền Hàng : " + tongtienhang + " đ" + "</p></li>\n" +
                     "       <li><p>Số Tiền Phải Trả : " + sotienphaitra + " đ" + "</p></li>\n" +
                     "       <li><p>Ngày Thanh Toán: " + ((hoadon.getNgaythanhtoan()) != null ? hoadon.getNgaythanhtoan() : "Chưa Thanh Toán") + "</p></li>\n" +
                     "       <li><p>Phương Thức Thanh Toán : " + ((ttttrequest.getPhuongthucthanhtoan()) == 1 ? "Thanh Toán Khi Nhận Hàng" : "Thanh Toán Chuyển Khoản") + "</p></li>\n" +
@@ -443,12 +452,13 @@ public class HoaDonServiceImpl implements HoaDonService {
             // Xử lý ngoại lệ nếu gửi email thất bại
             e.printStackTrace();
         }
-        return MessageTTHoaDonNotLoginRespon.builder().message("Thanh toán thành công !").idhoadon(hoadon.getIdhoadon()).build();
+        return MessageTTHoaDonNotLoginRespon.builder().message("Thanh toán thành công !").idhoadon(hoadon.getIdhoadon()).idkhdataoandkhmoi(khachhang.getIdkh()).build();
     }
 
     @Override
-    public HinhThucThanhToan hinhThucTT(UUID idhoadon, Double sotientra, String magiaodinh) {
+    public HinhThucThanhToan hinhThucTT(UUID idhoadon, Double sotientra, String magiaodinh, UUID idkh) {
         HoaDon hoaDon = hoaDonThanhToanRepository.findById(idhoadon).get();
+        KhachHang kh = khachHangThanhToanRepository.findById(idkh).orElse(null);
 
         HinhThucThanhToan hinhThucThanhToan = new HinhThucThanhToan();
         hinhThucThanhToan.setIdhttt(UUID.randomUUID());
@@ -457,6 +467,8 @@ public class HoaDonServiceImpl implements HoaDonService {
         hinhThucThanhToan.setHinhthucthanhtoan(2);
         hinhThucThanhToan.setMagiaodich(magiaodinh);
         hinhThucThanhToan.setHoadon(hoaDon);
+        hinhThucThanhToan.setKhachhang(kh);
+        hinhThucThanhToan.setGhichu("Khách hàng đã thanh toán");
         hinhThucThanhToan.setTrangthai(1);
         hinhThucThanhToanRepository.save(hinhThucThanhToan);
         return hinhThucThanhToan;
