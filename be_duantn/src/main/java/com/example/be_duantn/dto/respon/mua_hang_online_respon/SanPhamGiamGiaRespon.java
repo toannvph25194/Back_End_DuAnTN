@@ -6,7 +6,7 @@ public interface SanPhamGiamGiaRespon {
     String gettensp();
     String getimagedefaul();
     Integer gettheloai();
-    Double getdongia();
+    Double getgiaban();
     Double getdongiakhigiam();
     Integer getsoluongban();
 }
