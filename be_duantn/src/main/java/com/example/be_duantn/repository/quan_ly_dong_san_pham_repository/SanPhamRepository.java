@@ -89,4 +89,89 @@ public interface SanPhamRepository extends JpaRepository<SanPham, UUID> {
 
 
     );
+
+    @Query(value = "SELECT \n" +
+            "    COUNT(DISTINCT sp.Id) AS TotalProducts,\n" +
+            "    sp.Id,\n" +
+            "    sp.MaSP,\n" +
+            "    sp.TenSP,\n" +
+            "    sp.ImageDefaul,\n" +
+            "    sp.TheLoai,\n" +
+            "    sp.GiaBan\n" +
+            "FROM \n" +
+            "    SanPham sp\n" +
+            "JOIN \n" +
+            "    DanhMuc dm ON dm.Id = sp.IdDM\n" +
+            "JOIN \n" +
+            "    XuatXu xx ON xx.Id = sp.IdXX\n" +
+            "JOIN \n" +
+            "    ThuongHieu th ON th.Id = sp.IdTH\n" +
+            "JOIN \n" +
+            "    ChatLieu cl ON cl.Id = sp.IdCL\n" +
+            "JOIN \n" +
+            "    SanPhamChiTiet spct ON spct.IdSP = sp.Id\n" +
+            "JOIN \n" +
+            "    MauSac ms ON ms.Id = spct.IdMS\n" +
+            "JOIN \n" +
+            "    Size s ON s.Id = spct.IdSize\n" +
+            "WHERE \n" +
+            "    sp.TrangThai = 1 \n" +
+            "    AND spct.SoLuongTon > 0 \n" +
+            "    AND dm.TrangThai = 1 \n" +
+            "    AND xx.TrangThai = 1 \n" +
+            "    AND th.TrangThai = 1\n" +
+            "    AND cl.TrangThai = 1 \n" +
+            "    AND ms.TrangThai = 1 \n" +
+            "    AND s.TrangThai = 1\n" +
+            "GROUP BY \n" +
+            "    sp.Id, \n" +
+            "    sp.MaSP, \n" +
+            "    sp.TenSP, \n" +
+            "    sp.ImageDefaul, \n" +
+            "    sp.TheLoai, \n" +
+            "    sp.GiaBan;", nativeQuery = true)
+    Page<SanPhamAdminRespon> ShowSanPhamThemHoaDon(Pageable pageable);
+
+    // Lọc theo tenspThemhd
+    @Query(value = "SELECT COUNT(DISTINCT sp.Id), sp.Id, sp.MaSP, sp.TenSP, sp.TheLoai, sp.ImageDefaul, sp.GiaBan \n" +
+            "FROM SanPham sp\n" +
+            "JOIN DanhMuc dm ON dm.Id = sp.IdDM\n" +
+            "JOIN XuatXu xx ON xx.Id = sp.IdXX\n" +
+            "JOIN ThuongHieu th ON th.Id = sp.IdTH\n" +
+            "JOIN ChatLieu cl ON cl.Id = sp.IdCL\n" +
+            "JOIN SanPhamChiTiet spct ON spct.IdSP = sp.Id\n" +
+            "JOIN MauSac ms ON ms.Id = spct.IdMS\n" +
+            "JOIN Size s ON s.Id = spct.IdSize\n" +
+            "WHERE spct.SoLuongTon > 0 AND sp.TrangThai = 1 AND dm.TrangThai = 1\n" +
+            "AND xx.TrangThai = 1 AND th.TrangThai = 1 AND cl.TrangThai = 1\n" +
+            "AND ms.TrangThai = 1 AND s.TrangThai = 1\n" +
+            "AND sp.TenSP LIKE CONCAT('%', :tensp, '%')\n" +
+            "GROUP BY sp.Id, sp.MaSP, sp.TenSP, sp.TheLoai, sp.ImageDefaul, sp.GiaBan;", nativeQuery = true)
+    Page<SanPhamAdminRespon> locTenSPThemHD(Pageable pageable, @Param("tensp") String tensp);
+
+    // Lọc theo nhiều tiêu chí. tendanhmuc, tenmausac, tensize thêm hoá đơn
+    @Query(value = "SELECT COUNT(DISTINCT sp.Id), sp.Id, sp.MaSP, sp.TenSP, sp.TheLoai, sp.ImageDefaul, sp.GiaBan \n" +
+            "FROM SanPham sp\n" +
+            "JOIN DanhMuc dm ON dm.Id = sp.IdDM\n" +
+            "JOIN XuatXu xx ON xx.Id = sp.IdXX\n" +
+            "JOIN ThuongHieu th ON th.Id = sp.IdTH\n" +
+            "JOIN ChatLieu cl ON cl.Id = sp.IdCL\n" +
+            "JOIN SanPhamChiTiet spct ON spct.IdSP = sp.Id\n" +
+            "JOIN MauSac ms ON ms.Id = spct.IdMS\n" +
+            "JOIN Size s ON s.Id = spct.IdSize\n" +
+            "WHERE spct.SoLuongTon > 0 AND sp.TrangThai = 1 AND dm.TrangThai = 1\n" +
+            "AND xx.TrangThai = 1 AND th.TrangThai = 1 AND cl.TrangThai = 1\n" +
+            "AND ms.TrangThai = 1 AND s.TrangThai = 1\n" +
+            "AND (dm.TenDanhMuc LIKE :tendanhmuc OR ms.TenMauSac LIKE :tenmausac\n" +
+            "OR s.TenSize LIKE :tensize OR cl.TenChatLieu LIKE :tenchatlieu OR xx.TenXuatXu LIKE :tenxuatxu OR th.TenThuongHieu LIKE :tenthuonghieu )\n" +
+            "GROUP BY sp.Id, sp.MaSP, sp.TenSP, sp.TheLoai, sp.ImageDefaul, sp.GiaBan;\n", nativeQuery = true)
+    Page<SanPhamAdminRespon> locSPShopNTCThemHoaDon(Pageable pageable, @Param("tendanhmuc") String tendanhmuc,
+                                                    @Param("tenmausac") String tenmausac,
+                                                    @Param("tensize") String tensize,
+                                                    @Param("tenchatlieu") String tenchatlieu,
+                                                    @Param("tenxuatxu") String tenxuatxu,
+                                                    @Param("tenthuonghieu") String tenthuonghieu
+
+
+    );
 }

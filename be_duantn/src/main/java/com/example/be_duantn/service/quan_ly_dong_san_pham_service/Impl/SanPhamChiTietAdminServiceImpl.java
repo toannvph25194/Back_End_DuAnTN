@@ -2,6 +2,7 @@ package com.example.be_duantn.service.quan_ly_dong_san_pham_service.Impl;
 
 import com.example.be_duantn.dto.request.quan_ly_dong_san_pham_request.SanPhamChiTietAdminRequest;
 import com.example.be_duantn.dto.respon.quan_ly_dong_san_pham_respon.SanPhamChiTietAdminRespon;
+import com.example.be_duantn.dto.respon.quan_ly_dong_san_pham_respon.SanPhamChiTietManThemHoaDonRespon;
 import com.example.be_duantn.entity.MauSac;
 import com.example.be_duantn.entity.SanPham;
 import com.example.be_duantn.entity.SanPhamChiTiet;
@@ -97,6 +98,19 @@ public class SanPhamChiTietAdminServiceImpl implements SanPhamChiTietAdminServic
                     .orElseThrow(() -> new EntityNotFoundException("Sản phẩm chi tiết không tồn tại!"));
             ctSP.setSoluongton(soluongton);
             return sanPhamChiTietAdminRepository.save(ctSP);
+        } else {
+            // Người dùng không có quyền, xử lý tùy ý (ví dụ: ném lỗi hoặc trả về null)
+            throw new AccessDeniedException("Truy cập bị từ chối");
+        }
+    }
+
+    @Override
+    public SanPhamChiTietManThemHoaDonRespon finByIdSP(UUID IdSP) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // Kiểm tra quyền của người dùng và thực hiện xử lý tùy thuộc vào quyền
+        if (hasPermission(authentication.getAuthorities(), "ADMIN", "NHANVIEN")) {
+            return sanPhamChiTietAdminRepository.finByidSP(IdSP);
         } else {
             // Người dùng không có quyền, xử lý tùy ý (ví dụ: ném lỗi hoặc trả về null)
             throw new AccessDeniedException("Truy cập bị từ chối");
