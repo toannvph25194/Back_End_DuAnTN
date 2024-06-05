@@ -28,6 +28,19 @@ public interface SanPhamService {
     Page<SanPhamAdminRespon> locSPShopNTC(Integer pageNumber, Integer pageSize, String tendanhmuc, String tenmausac, String tensize, String tenchatlieu, String tenxuatxu, String tenthuonghieu);
 
     MessageRequest udatesanpham(SanPhamRequest sanpham, UUID IdSp);
+
     //updatetrangthai
     SanPham updatesp(UUID idsp, Integer trangthai);
+
+    //hiển thị sản phẩm thêm hoá đơn
+
+    Page<SanPhamAdminRespon> HienThiSanPhamPhanTrangThemHD(Integer page);
+
+    // Lọctheo tenspthemhoadon
+    Page<SanPhamAdminRespon> locTenSPShopThemHD(Integer pageNumber, Integer pageSize, String tensp);
+
+    // Lọc theo nhiều tiêu chí. tendanhmuc, tenmausac, tensize thêm hoá đơn
+    Page<SanPhamAdminRespon> locSPShopNTCThemHD(Integer pageNumber, Integer pageSize, String tendanhmuc, String tenmausac, String tensize, String tenchatlieu, String tenxuatxu, String tenthuonghieu);
+
+
 }

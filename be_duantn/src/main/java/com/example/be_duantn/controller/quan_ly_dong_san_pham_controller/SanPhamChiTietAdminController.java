@@ -66,4 +66,18 @@ public class SanPhamChiTietAdminController {
         }
     }
 
+    // ToDo finBySP theo idsp
+    @GetMapping("/findbyid/san-pham")
+    public ResponseEntity<?> finByIdSP(@RequestParam("IdSP") UUID IdSP){
+        try {
+            return ResponseEntity.ok(sanPhamChiTietService.finByIdSP(IdSP));
+        }catch (Exception ex){
+            return ResponseEntity.badRequest().body(("Lỗi finById SP !"));
+        }
+    }
+
+
+
+
+
 }

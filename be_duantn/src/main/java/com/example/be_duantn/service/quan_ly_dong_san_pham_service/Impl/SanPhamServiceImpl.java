@@ -202,6 +202,51 @@ public class SanPhamServiceImpl implements SanPhamService {
         }
     }
 
+    @Override
+    public Page<SanPhamAdminRespon> HienThiSanPhamPhanTrangThemHD(Integer page) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // Kiểm tra quyền của người dùng và thực hiện xử lý tùy thuộc vào quyền
+        if (hasPermission(authentication.getAuthorities(), "ADMIN", "NHANVIEN")) {
+            Pageable pageable = PageRequest.of(page, 8);
+            // Thực hiện xử lý cho người dùng có quyền "ADMIN" hoặc "NHANVIEN"
+            return sanPhamRepository.ShowSanPhamThemHoaDon(pageable);
+        } else {
+            // Người dùng không có quyền, xử lý theo ý của bạn
+            throw new AccessDeniedException("Bạn không có quyền");
+        }
+    }
+
+    @Override
+    public Page<SanPhamAdminRespon> locTenSPShopThemHD(Integer pageNumber, Integer pageSize, String tensp) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // Kiểm tra quyền của người dùng và thực hiện xử lý tùy thuộc vào quyền
+        if (hasPermission(authentication.getAuthorities(), "ADMIN", "NHANVIEN")) {
+            // Thực hiện xử lý cho người dùng có quyền "ADMIN" hoặc "NHANVIEN"
+            Pageable pageable = PageRequest.of(pageNumber, pageSize);
+            return sanPhamRepository.locTenSPThemHD(pageable, tensp);
+        } else {
+            // Người dùng không có quyền, xử lý theo ý của bạn
+            throw new AccessDeniedException("Bạn không có quyền");
+        }
+    }
+
+    @Override
+    public Page<SanPhamAdminRespon> locSPShopNTCThemHD(Integer pageNumber, Integer pageSize, String tendanhmuc, String tenmausac, String tensize, String tenchatlieu, String tenxuatxu, String tenthuonghieu) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // Kiểm tra quyền của người dùng và thực hiện xử lý tùy thuộc vào quyền
+        if (hasPermission(authentication.getAuthorities(), "ADMIN", "NHANVIEN")) {
+            // Thực hiện xử lý cho người dùng có quyền "ADMIN" hoặc "NHANVIEN"
+            Pageable pageable = PageRequest.of(pageNumber, pageSize);
+            return sanPhamRepository.locSPShopNTCThemHoaDon(pageable, tendanhmuc, tenmausac, tensize, tenchatlieu,tenxuatxu, tenthuonghieu );
+        } else {
+            // Người dùng không có quyền, xử lý theo ý của bạn
+            throw new AccessDeniedException("Bạn không có quyền");
+        }
+    }
+
 
     private boolean hasPermission(Collection<? extends GrantedAuthority> authorities, String... requiredRoles) {
         // Kiểm tra xem người dùng có ít nhất một trong các quyền cần thiết hay không
