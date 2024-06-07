@@ -2,24 +2,16 @@ package com.example.be_duantn.service.ban_hang_tai_quay_service.Impl;
 
 import com.example.be_duantn.dto.request.ban_hang_tai_quay_request.HoaDonTaiQuayRequest;
 import com.example.be_duantn.dto.respon.ban_tai_quay_respon.LoadHoaDonRespon;
-import com.example.be_duantn.entity.GioHang;
-import com.example.be_duantn.entity.HoaDon;
-import com.example.be_duantn.entity.KhachHang;
-import com.example.be_duantn.entity.NhanVien;
+import com.example.be_duantn.dto.respon.ban_tai_quay_respon.MessageHuyHoaDon;
+import com.example.be_duantn.entity.*;
 import com.example.be_duantn.enums.TrangThaiDonHangEnums;
-import com.example.be_duantn.repository.ban_hang_tai_quay_repository.GioHangBanTaiQuayRepository;
-import com.example.be_duantn.repository.ban_hang_tai_quay_repository.HoaDonBanTaiQuayRepository;
-import com.example.be_duantn.repository.ban_hang_tai_quay_repository.KhachHangBanTaiQuayRepository;
-import com.example.be_duantn.repository.ban_hang_tai_quay_repository.NhanVienBanTaiQuayRepository;
+import com.example.be_duantn.repository.ban_hang_tai_quay_repository.*;
 import com.example.be_duantn.service.ban_hang_tai_quay_service.HoaDonBanTaiQuayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
@@ -35,6 +27,12 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
 
     @Autowired
     GioHangBanTaiQuayRepository gioHangBanTaiQuayRepository;
+
+    @Autowired
+    GiohangChiTietBanTaiQuayRepository giohangChiTietBanTaiQuayRepository;
+
+    @Autowired
+    SanPhamCTBanTaiQuayRepository sanPhamCTBanTaiQuayRepository;
 
     @Override
     public List<LoadHoaDonRespon> LoadHoaDonTaiQuay() {
@@ -80,12 +78,57 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
             gh.setGhichu("Nhân viên tạo giỏ hàng trống cho khách");
             gh.setTrangthai(1);
             gioHangBanTaiQuayRepository.save(gh);
-
             return HoaDonTaiQuayRequest.builder().idhoadon(hd.getIdhoadon()).idkh(khachle.getIdkh()).message("Tạo hóa đơn bán tại quầy thành công !").build();
         }else {
             return HoaDonTaiQuayRequest.builder().message("Tạo hóa đơn bán tại quầy thất bại. K tìm thấy nhân viên !").build();
         }
+    }
 
+    @Override
+    public MessageHuyHoaDon HuyHoaDonTaiQuay(UUID idhoadon, UUID idkh, Principal principal) {
+        // Lấy thông tin hóa đơn
+        HoaDon finhoadon = hoaDonBanTaiQuayRepository.findById(idhoadon).orElse(null);
+        // Tìm id giỏ hàng của khách hàng
+        UUID fingiohang = gioHangBanTaiQuayRepository.TimKiemIdGioHang(idkh);
+        if(fingiohang != null){
+            // Nếu giỏ hàng k null thì sẽ cập nhật giỏ hàng
+            GioHang gh = gioHangBanTaiQuayRepository.findById(fingiohang).orElse(null);
+            gh.setTrangthai(3);
+            gh.setNgaycapnhat(new Date(System.currentTimeMillis()));
+            gh.setGhichu("Giỏ hàng của khách không còn sử dụng");
+            gioHangBanTaiQuayRepository.save(gh);
 
+            // Nếu ghct k null thì sẽ cập nhật
+            List<GioHangChiTiet> listghct = giohangChiTietBanTaiQuayRepository.findByGiohang_Idgh(gh.getIdgh());
+            for (GioHangChiTiet ghct : listghct){
+                if (ghct != null) {
+                    // Cộng lại số lượng tồn spct
+                    SanPhamChiTiet spct = sanPhamCTBanTaiQuayRepository.findById(ghct.getSanphamchitiet().getIdspct()).get();
+                    spct.setSoluongton(spct.getSoluongton() + ghct.getSoluong());
+                    sanPhamCTBanTaiQuayRepository.save(spct);
+
+                    // Cập nhật lại ghct
+                    ghct.setSoluong(0);
+                    ghct.setTrangthai(3);
+                    ghct.setNgaycapnhat(new Date(System.currentTimeMillis()));
+                    ghct.setGhichu("Giỏ hàng chi tiết không còn sử dụng");
+                    giohangChiTietBanTaiQuayRepository.save(ghct);
+                }
+            }
+        } else {
+            return MessageHuyHoaDon.builder().message("Không tìm thấy giỏ hảng của khách !").build();
+        }
+
+        // Cập nhật lại trạng thái hóa đơn thành hủy hóa đơn
+        finhoadon.setNgaycapnhat(new Date(System.currentTimeMillis()));
+        finhoadon.setGhichu("Hóa đơn tại quầy đã bị hủy");
+        finhoadon.setTrangthai(TrangThaiDonHangEnums.DA_HUY.getValue());
+        hoaDonBanTaiQuayRepository.save(finhoadon);
+        return  MessageHuyHoaDon.builder().message("Hủy hóa đơn thành công").build();
+    }
+
+    @Override
+    public List<LoadHoaDonRespon> TimKiemHoaDonTaiQuay(String mahoadon) {
+        return hoaDonBanTaiQuayRepository.TimKiemHoaDonTaiQuay(mahoadon);
     }
 }

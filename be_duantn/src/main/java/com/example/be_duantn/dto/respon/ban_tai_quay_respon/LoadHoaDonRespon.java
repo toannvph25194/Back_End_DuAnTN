@@ -5,6 +5,7 @@ import java.util.UUID;
 
 public interface LoadHoaDonRespon {
     UUID getId();
+    UUID getIdkh();
     String getmahoadon();
     String gethovatennv();
     String gettennguoinhan();
