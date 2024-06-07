@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,7 +34,7 @@ public class KhachHang {
 
     @Temporal(TemporalType.DATE)
     @Column(name = "ngaysinh")
-    private String ngaysinh;
+    private Date ngaysinh;
 
     @Column(name = "taikhoan")
     private String taikhoan;
