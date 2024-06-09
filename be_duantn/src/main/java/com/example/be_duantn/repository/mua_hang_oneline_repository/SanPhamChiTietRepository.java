@@ -34,6 +34,8 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet ,
             "JOIN ChatLieu cl ON cl.Id = sp.IdCL\n" +
             "LEFT JOIN (\n" +
             "    SELECT spgg.IdSP, SUM(spgg.DonGia - spgg.DonGiaKhiGiam) AS sotiengiamcuoicung FROM SPGiamGia spgg\n" +
+            "    JOIN GiamGia gg ON spgg.IdGG = gg.Id\n" +
+            "    WHERE GETDATE() >= gg.NgayBatDau AND GETDATE() <= gg.NgayKetThuc\n" +
             "    GROUP BY spgg.IdSP\n" +
             ") tgg ON sp.Id = tgg.IdSP\n" +
             "WHERE sp.TrangThai = 1 AND spct.SoLuongTon > 0 AND sp.Id = ?1", nativeQuery = true)
