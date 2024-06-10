@@ -1,6 +1,7 @@
 package com.example.be_duantn.service.ban_hang_tai_quay_service.Impl;
 
 import com.example.be_duantn.dto.request.ban_hang_tai_quay_request.HoaDonTaiQuayRequest;
+import com.example.be_duantn.dto.respon.ban_tai_quay_respon.FinGioHangBanTaiQuay;
 import com.example.be_duantn.dto.respon.ban_tai_quay_respon.LoadHoaDonRespon;
 import com.example.be_duantn.dto.respon.ban_tai_quay_respon.MessageHuyHoaDon;
 import com.example.be_duantn.entity.*;
@@ -64,7 +65,7 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
             hd.setMahoadon(maHĐ);
             hd.setNgaytao(new Date(System.currentTimeMillis()));
             hd.setTennguoinhan("Khách Lẻ");
-            hd.setGhichu("Nhân viên tạo hóa đơn cho khác");
+            hd.setGhichu("Nhân viên tạo hóa đơn cho khách");
             hd.setLoaihoadon(2);
             hd.setTrangthai(TrangThaiDonHangEnums.CHO_XAC_NHAN.getValue());
             hoaDonBanTaiQuayRepository.save(hd);
@@ -89,10 +90,10 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
         // Lấy thông tin hóa đơn
         HoaDon finhoadon = hoaDonBanTaiQuayRepository.findById(idhoadon).orElse(null);
         // Tìm id giỏ hàng của khách hàng
-        UUID fingiohang = gioHangBanTaiQuayRepository.TimKiemIdGioHang(idkh);
+        FinGioHangBanTaiQuay fingiohang = gioHangBanTaiQuayRepository.TimKiemGioHangBanTaiQuay(idkh);
         if(fingiohang != null){
             // Nếu giỏ hàng k null thì sẽ cập nhật giỏ hàng
-            GioHang gh = gioHangBanTaiQuayRepository.findById(fingiohang).orElse(null);
+            GioHang gh = gioHangBanTaiQuayRepository.findById(fingiohang.getId()).orElse(null);
             gh.setTrangthai(3);
             gh.setNgaycapnhat(new Date(System.currentTimeMillis()));
             gh.setGhichu("Giỏ hàng của khách không còn sử dụng");
