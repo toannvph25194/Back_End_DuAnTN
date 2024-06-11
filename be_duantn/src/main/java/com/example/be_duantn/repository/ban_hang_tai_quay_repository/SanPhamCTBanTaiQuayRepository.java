@@ -14,7 +14,7 @@ import java.util.UUID;
 public interface SanPhamCTBanTaiQuayRepository extends JpaRepository<SanPhamChiTiet, UUID> {
 
     // Load sản phẩm phân trang lên bán hàng tại quầy
-    @Query(value = "SELECT COUNT(spct.Id), spct.id, sp.TenSP, ms.TenMauSac, s.TenSize, cl.TenChatLieu, sp.ImageDefaul, sp.TheLoai, spct.SoLuongTon, sp.GiaBan, \n" +
+    @Query(value = "SELECT COUNT(spct.Id), spct.id, sp.TenSP, ms.TenMauSac, s.TenSize, cl.TenChatLieu, sp.ImageDefaul, sp.TheLoai, spct.SoLuongTon, sp.TrangThai, sp.GiaBan, \n" +
             "                    ISNULL(sp.GiaBan - tgg.sotiengiamcuoicung, NULL) AS DonGiaKhiGiam\n" +
             "              FROM SanPham sp\n" +
             "              LEFT JOIN(SELECT spgg.IdSP, SUM(spgg.DonGia - spgg.DonGiaKhiGiam) AS sotiengiamcuoicung, SUM(spgg.SoLuongBan) AS SoLuongBan\n" +
@@ -32,7 +32,7 @@ public interface SanPhamCTBanTaiQuayRepository extends JpaRepository<SanPhamChiT
             "              JOIN ThuongHieu th on th.Id = sp.IdTH\n" +
             "      WHERE spct.SoLuongTon > 0 AND sp.TrangThai = 1 AND ms.TrangThai = 1 AND s.TrangThai = 1\n" +
             "      AND cl.TrangThai = 1 AND dm.TrangThai = 1 AND th.TrangThai = 1 AND xx.TrangThai = 1\n" +
-            "      GROUP BY spct.Id, sp.TenSP, ms.TenMauSac, s.TenSize, cl.TenChatLieu, sp.ImageDefaul, sp.TheLoai, spct.SoLuongTon, sp.GiaBan, tgg.sotiengiamcuoicung\n", nativeQuery = true)
+            "      GROUP BY spct.Id, sp.TenSP, ms.TenMauSac, s.TenSize, cl.TenChatLieu, sp.ImageDefaul, sp.TheLoai, spct.SoLuongTon, sp.TrangThai, sp.GiaBan, tgg.sotiengiamcuoicung\n", nativeQuery = true)
     Page<LoadSPTaiQuayRespon> LoadSPBanTaiQuay(Pageable pageable);
 
     // Load màu săc lên bán hàng tại quầy
@@ -60,7 +60,7 @@ public interface SanPhamCTBanTaiQuayRepository extends JpaRepository<SanPhamChiT
     List<LoadXuatXuTaiQuayRespon> LoadXuatXuBanTaiQuay();
 
     // Lọc sản phẩm phân trang theo tên sản phẩm bán hàng tạ quầy
-    @Query(value = "SELECT COUNT(spct.Id), spct.id, sp.TenSP, ms.TenMauSac, s.TenSize, cl.TenChatLieu, sp.ImageDefaul, sp.TheLoai, spct.SoLuongTon, sp.GiaBan, \n" +
+    @Query(value = "SELECT COUNT(spct.Id), spct.id, sp.TenSP, ms.TenMauSac, s.TenSize, cl.TenChatLieu, sp.ImageDefaul, sp.TheLoai, spct.SoLuongTon, sp.TrangThai, sp.GiaBan, \n" +
             "                    ISNULL(sp.GiaBan - tgg.sotiengiamcuoicung, NULL) AS DonGiaKhiGiam\n" +
             "              FROM SanPham sp\n" +
             "              LEFT JOIN(SELECT spgg.IdSP, SUM(spgg.DonGia - spgg.DonGiaKhiGiam) AS sotiengiamcuoicung, SUM(spgg.SoLuongBan) AS SoLuongBan\n" +
@@ -79,11 +79,11 @@ public interface SanPhamCTBanTaiQuayRepository extends JpaRepository<SanPhamChiT
             "      WHERE spct.SoLuongTon > 0 AND sp.TrangThai = 1 AND ms.TrangThai = 1\n" +
             "      AND s.TrangThai = 1 AND cl.TrangThai = 1 AND xx.TrangThai = 1\n" +
             "      AND dm.TrangThai = 1 AND th.TrangThai = 1 AND sp.TenSP LIKE %:tensp%\n" +
-            "      GROUP BY spct.Id, sp.TenSP, ms.TenMauSac, s.TenSize, cl.TenChatLieu, sp.ImageDefaul, sp.TheLoai, spct.SoLuongTon, sp.GiaBan, tgg.sotiengiamcuoicung\n", nativeQuery = true)
+            "      GROUP BY spct.Id, sp.TenSP, ms.TenMauSac, s.TenSize, cl.TenChatLieu, sp.ImageDefaul, sp.TheLoai, spct.SoLuongTon, sp.TrangThai, sp.GiaBan, tgg.sotiengiamcuoicung\n", nativeQuery = true)
     Page<LoadSPTaiQuayRespon> LocTenSPBanTaiQuay(Pageable pageable, @Param("tensp") String tensp);
 
     // Lọc sản phẩm phân trang nhiều tiêu chí bán hàng tạ quầy
-    @Query(value = "SELECT COUNT(spct.Id), spct.id, sp.TenSP, ms.TenMauSac, s.TenSize, cl.TenChatLieu, sp.ImageDefaul, sp.TheLoai, spct.SoLuongTon, sp.GiaBan, \n" +
+    @Query(value = "SELECT COUNT(spct.Id), spct.id, sp.TenSP, ms.TenMauSac, s.TenSize, cl.TenChatLieu, sp.ImageDefaul, sp.TheLoai, spct.SoLuongTon, sp.TrangThai, sp.GiaBan, \n" +
             "                    ISNULL(sp.GiaBan - tgg.sotiengiamcuoicung, NULL) AS DonGiaKhiGiam\n" +
             "              FROM SanPham sp\n" +
             "              LEFT JOIN(SELECT spgg.IdSP, SUM(spgg.DonGia - spgg.DonGiaKhiGiam) AS sotiengiamcuoicung, SUM(spgg.SoLuongBan) AS SoLuongBan\n" +
@@ -103,7 +103,7 @@ public interface SanPhamCTBanTaiQuayRepository extends JpaRepository<SanPhamChiT
             "       AND cl.TrangThai = 1 AND dm.TrangThai = 1 AND th.TrangThai = 1 AND xx.TrangThai = 1\n" +
             "       AND(ms.TenMauSac LIKE :tenmausac OR s.TenSize LIKE :tensize OR cl.TenChatLieu LIKE :tenchatlieu \n" +
             "       OR dm.TenDanhMuc LIKE :tendanhmuc OR th.TenThuongHieu LIKE :tenthuonghieu OR xx.TenXuatXu LIKE :tenxuatxu)\n" +
-            "       GROUP BY spct.Id, sp.TenSP, ms.TenMauSac, s.TenSize, cl.TenChatLieu, sp.ImageDefaul, sp.TheLoai, spct.SoLuongTon, sp.GiaBan, tgg.sotiengiamcuoicung\n", nativeQuery = true)
+            "       GROUP BY spct.Id, sp.TenSP, ms.TenMauSac, s.TenSize, cl.TenChatLieu, sp.ImageDefaul, sp.TheLoai, spct.SoLuongTon, sp.TrangThai, sp.GiaBan, tgg.sotiengiamcuoicung\n", nativeQuery = true)
     Page<LoadSPTaiQuayRespon> LocSPNhieuTieuChiBanTaiQuay(Pageable pageable, @Param("tenmausac") String tenmausac, @Param("tensize") String tensize,
                                                           @Param("tenchatlieu") String tenchatlieu, @Param("tendanhmuc") String tendanhmuc,
                                                           @Param("tenthuonghieu") String tenthuonghieu, @Param("tenxuatxu") String tenxuatxu);

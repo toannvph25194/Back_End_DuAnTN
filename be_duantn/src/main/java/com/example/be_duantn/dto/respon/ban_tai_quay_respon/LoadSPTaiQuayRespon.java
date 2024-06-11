@@ -13,4 +13,5 @@ public interface LoadSPTaiQuayRespon {
     Integer getsoluongton();
     Double getgiaban();
     Double getdongiakhigiam();
+    Integer gettrangthai();
 }
