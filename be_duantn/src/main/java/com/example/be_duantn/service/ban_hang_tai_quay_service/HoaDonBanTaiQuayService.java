@@ -17,7 +17,7 @@ public interface HoaDonBanTaiQuayService {
     HoaDonTaiQuayRequest TaoHoaDonTaiQuay(Principal principal);
 
     // Hủy hóa đơn bán hàng tại quầy
-    MessageHuyHoaDon HuyHoaDonTaiQuay(UUID idhoadon, UUID idkh, Principal principal);
+    MessageHuyHoaDon HuyHoaDonTaiQuay(UUID idhoadon, Principal principal);
 
     // Tìm kiếm hóa đơn bán tại quầy
     List<LoadHoaDonRespon> TimKiemHoaDonTaiQuay(String mahoadon);

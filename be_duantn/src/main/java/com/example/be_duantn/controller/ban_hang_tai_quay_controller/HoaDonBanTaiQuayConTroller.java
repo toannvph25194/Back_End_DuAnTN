@@ -51,10 +51,10 @@ public class HoaDonBanTaiQuayConTroller {
 
     // ToDo hủy hóa đơn bán tại quầy
     @PutMapping("/huy-hoa-don")
-    public ResponseEntity<?> HuyHoaDonTaiQuay(@RequestParam("idhoadon") UUID idhoadon, @RequestParam("idkh") UUID idkh, Principal principal){
+    public ResponseEntity<?> HuyHoaDonTaiQuay(@RequestParam("idhoadon") UUID idhoadon, Principal principal){
         try {
             if(principal != null){
-                return ResponseEntity.ok(hoaDonBanTaiQuayService.HuyHoaDonTaiQuay(idhoadon, idkh, principal));
+                return ResponseEntity.ok(hoaDonBanTaiQuayService.HuyHoaDonTaiQuay(idhoadon, principal));
             }else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy thông tin nhân viên tạo hóa đơn bán tại quầy !");
             }
