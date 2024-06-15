@@ -41,6 +41,10 @@ public class HoaDonChiTiet {
     @Column(name = "trangthai")
     private Integer trangthai;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "ngaycapnhat")
+    private Date ngaycapnhat;
+
     @ManyToOne
     @JoinColumn(name = "idhd")
     @JsonBackReference
