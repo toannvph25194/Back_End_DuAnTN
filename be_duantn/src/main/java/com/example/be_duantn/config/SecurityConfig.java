@@ -56,6 +56,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/admin/hoadonchitiet/**").hasAnyAuthority("ADMIN", "NHANVIEN")
                         .requestMatchers("/api/admin/hinhthucthanhtoan/**").hasAnyAuthority("ADMIN", "NHANVIEN")
                         .requestMatchers("/api/admin/hoa-don/ban-tai-quay/**").hasAnyAuthority("ADMIN", "NHANVIEN")
+                        .requestMatchers("/api/admin/hoa-don-chi-tiet/ban-tai-quay/**").hasAnyAuthority("ADMIN", "NHANVIEN")
                         .requestMatchers("/api/admin/san-pham-chi-tiet-tai-quay/**").hasAnyAuthority("ADMIN", "NHANVIEN")
                         .requestMatchers("/api/admin/gio-hang/ban-tai-quay/**").hasAnyAuthority("ADMIN", "NHANVIEN")
                         .requestMatchers("/api/admin/ghct/ban-tai-quay/**").hasAnyAuthority("ADMIN", "NHANVIEN")

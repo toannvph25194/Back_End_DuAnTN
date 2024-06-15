@@ -7,6 +7,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MessageGHCTBanTaiQuay {
+public class MessageHDCTBanTaiQuay {
     private String message;
 }

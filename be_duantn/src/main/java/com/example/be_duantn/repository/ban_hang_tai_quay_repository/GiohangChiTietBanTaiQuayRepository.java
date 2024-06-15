@@ -1,6 +1,6 @@
 package com.example.be_duantn.repository.ban_hang_tai_quay_repository;
 
-import com.example.be_duantn.dto.respon.ban_tai_quay_respon.LoadGHCTTaiQuay;
+import com.example.be_duantn.dto.respon.ban_tai_quay_respon.LoadHDCTTaiQuay;
 import com.example.be_duantn.entity.GioHangChiTiet;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,7 +22,7 @@ public interface GiohangChiTietBanTaiQuayRepository extends JpaRepository<GioHan
             "       JOIN ChatLieu cl on cl.Id = sp.IdCL\n" +
             "       Where ghct.SoLuong > 0 AND gh.TrangThai = 1\n" +
             "       AND gh.Id = ?",nativeQuery = true)
-    List<LoadGHCTTaiQuay> loadGHCTBanTaiQuay(UUID idgh);
+    List<LoadHDCTTaiQuay> loadGHCTBanTaiQuay(UUID idgh);
 
     // finBy ghct theo idgh và idspct bán hàng tại quầy
     GioHangChiTiet findByGiohang_IdghAndSanphamchitiet_Idspct(UUID idgh, UUID idspct);
