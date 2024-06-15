@@ -71,8 +71,7 @@ public class HoaDonCTBanTaiQuayServiceImpl implements HoaDonCTBanTaiQuayService 
                 hdctMoi.setDongiakhigiam(dongiakhigiam);
                 hdctMoi.setNgaytao(hdctMoi.getNgaytao());
                 hdctMoi.setGhichu("Nhân viên thêm sản phẩm vào hoá đơn chi tiết cho khách");
-                hdctMoi.setTrangthai(2);
-                hdctMoi.setLoaihoadonchitiet(2);
+                hdctMoi.setTrangthai(1);
                 hoaDonCTBanTaiQuayRepository.save(hdctMoi);
 
                 // update số lượng tồn trong spct

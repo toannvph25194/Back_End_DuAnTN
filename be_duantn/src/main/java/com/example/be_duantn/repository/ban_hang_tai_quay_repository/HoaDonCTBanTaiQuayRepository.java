@@ -20,7 +20,7 @@ public interface HoaDonCTBanTaiQuayRepository extends JpaRepository<HoaDonChiTie
             "                   JOIN Size s on s.Id = spct.IdSize\n" +
             "                   JOIN SanPham sp on sp.Id = spct.IdSP\n" +
             "                   JOIN ChatLieu cl on cl.Id = sp.IdCL\n" +
-            "                   Where hdct.LoaiHoaDonChiTiet = 2 AND hdct.SoLuong > 0 AND hd.TrangThai = 1 \n" +
+            "                   Where hdct.TrangThai = 1 AND hdct.SoLuong > 0 AND hd.TrangThai = 1 \n" +
             "                   AND hd.Id = ?",nativeQuery = true)
     List<LoadHDCTTaiQuay> loadHDCTBanTaiQuay(UUID idhd);
 
