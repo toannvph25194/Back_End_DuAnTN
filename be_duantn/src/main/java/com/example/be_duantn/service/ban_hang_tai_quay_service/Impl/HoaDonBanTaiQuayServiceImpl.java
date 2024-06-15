@@ -101,7 +101,7 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
 
                     // Cập nhật lại ghct
                     hdct.setSoluong(0);
-                    hdct.setTrangthai(4);
+                    hdct.setTrangthai(3);
                     hdct.setNgaycapnhat(new Date(System.currentTimeMillis()));
                     hdct.setGhichu("Hóa hàng chi tiết tại quầy đã bị hủy");
                     hoaDonCTBanTaiQuayRepository.save(hdct);

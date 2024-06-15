@@ -1,6 +1,6 @@
 package com.example.be_duantn.service.ban_hang_tai_quay_service.Impl;
-import com.example.be_duantn.dto.respon.ban_tai_quay_respon.LoadGHCTTaiQuay;
-import com.example.be_duantn.dto.respon.ban_tai_quay_respon.MessageGHCTBanTaiQuay;
+import com.example.be_duantn.dto.respon.ban_tai_quay_respon.LoadHDCTTaiQuay;
+import com.example.be_duantn.dto.respon.ban_tai_quay_respon.MessageHDCTBanTaiQuay;
 import com.example.be_duantn.entity.GioHang;
 import com.example.be_duantn.entity.GioHangChiTiet;
 import com.example.be_duantn.entity.SanPhamChiTiet;
@@ -29,12 +29,12 @@ public class GioHangCTBanTaiQuayServiceImpl implements GioHangCTBanTaiQuayServic
     SanPhamCTBanTaiQuayRepository sanPhamCTBanTaiQuayRepository;
 
     @Override
-    public List<LoadGHCTTaiQuay> loadGHCTBanTaiQuay(UUID idgh) {
+    public List<LoadHDCTTaiQuay> loadGHCTBanTaiQuay(UUID idgh) {
         return giohangChiTietBanTaiQuayRepository.loadGHCTBanTaiQuay(idgh);
     }
 
     @Override
-    public MessageGHCTBanTaiQuay ThemSPVaoGHCTBanTaiQuay(Principal principal, UUID idgh, UUID idspct, int soluong, Double dongiakhigiam) {
+    public MessageHDCTBanTaiQuay ThemSPVaoGHCTBanTaiQuay(Principal principal, UUID idgh, UUID idspct, int soluong, Double dongiakhigiam) {
         // Lấy taikhoan nhân viên khi đăng nhập
         String taikhoan = principal.getName();
         // Tìm thông tin gh và spct
@@ -45,7 +45,7 @@ public class GioHangCTBanTaiQuayServiceImpl implements GioHangCTBanTaiQuayServic
         if(taikhoan != null){
             // Thông báo nếu không tìm thấy giỏ hàng
             if(gh == null){
-                return MessageGHCTBanTaiQuay.builder().message("Không tìm thấy giỏ hàng !").build();
+                return MessageHDCTBanTaiQuay.builder().message("Không tìm thấy giỏ hàng !").build();
             }
             // Xử lý giỏ hàng chi tiết
             GioHangChiTiet ghct = giohangChiTietBanTaiQuayRepository.findByGiohang_IdghAndSanphamchitiet_Idspct(idgh, idspct);
@@ -60,7 +60,7 @@ public class GioHangCTBanTaiQuayServiceImpl implements GioHangCTBanTaiQuayServic
                     spct.setSoluongton(spct.getSoluongton() - soluong);
                     sanPhamCTBanTaiQuayRepository.save(spct);
                 }
-                return MessageGHCTBanTaiQuay.builder().message("Cập nhật ghct thành công !").build();
+                return MessageHDCTBanTaiQuay.builder().message("Cập nhật ghct thành công !").build();
             } else {
                 // Nếu chưa có ghct thì tạo ghct
                 GioHangChiTiet ghctMoi = new GioHangChiTiet();
@@ -84,16 +84,16 @@ public class GioHangCTBanTaiQuayServiceImpl implements GioHangCTBanTaiQuayServic
                 // update số lượng tồn trong spct
                 spct.setSoluongton(spct.getSoluongton() - soluong);
                 sanPhamCTBanTaiQuayRepository.save(spct);
-                return MessageGHCTBanTaiQuay.builder().message("Thêm sản phẩm vào ghct thành công !").build();
+                return MessageHDCTBanTaiQuay.builder().message("Thêm sản phẩm vào ghct thành công !").build();
             }
         }else {
-            return MessageGHCTBanTaiQuay.builder().message("Không tìm thấy thông tin nhân viên !").build();
+            return MessageHDCTBanTaiQuay.builder().message("Không tìm thấy thông tin nhân viên !").build();
         }
     }
 
 
     @Override
-     public MessageGHCTBanTaiQuay UpdateGioHangCTBanTaiQuay(Principal principal, UUID idghct, Integer soluong){
+     public MessageHDCTBanTaiQuay UpdateGioHangCTBanTaiQuay(Principal principal, UUID idghct, Integer soluong){
         String taikhoan = principal.getName();
         if(taikhoan != null){
             GioHangChiTiet ghct = giohangChiTietBanTaiQuayRepository.findById(idghct).orElse(null);
@@ -114,16 +114,16 @@ public class GioHangCTBanTaiQuayServiceImpl implements GioHangCTBanTaiQuayServic
                 ghct.setGhichu("Nhân viên cập nhật sản phẩm cho khách hàng");
                 giohangChiTietBanTaiQuayRepository.save(ghct);
             }else {
-                return MessageGHCTBanTaiQuay.builder().message("K tìm thấy idghct bán hàng tại quầy!").build();
+                return MessageHDCTBanTaiQuay.builder().message("K tìm thấy idghct bán hàng tại quầy!").build();
             }
-            return MessageGHCTBanTaiQuay.builder().message("Cập nhật số lượng ghct thành công bán hàng tại quầy!").build();
+            return MessageHDCTBanTaiQuay.builder().message("Cập nhật số lượng ghct thành công bán hàng tại quầy!").build();
         } else {
-            return MessageGHCTBanTaiQuay.builder().message("Không tìm thấy thông tin nhân viên !").build();
+            return MessageHDCTBanTaiQuay.builder().message("Không tìm thấy thông tin nhân viên !").build();
         }
     }
 
     @Override
-    public MessageGHCTBanTaiQuay DeleteGioHangCTBanTaiQuay(Principal principal, UUID idghct){
+    public MessageHDCTBanTaiQuay DeleteGioHangCTBanTaiQuay(Principal principal, UUID idghct){
         String taikhoan = principal.getName();
         if (taikhoan != null){
             GioHangChiTiet ghct = giohangChiTietBanTaiQuayRepository.findById(idghct).orElse(null);
@@ -135,14 +135,14 @@ public class GioHangCTBanTaiQuayServiceImpl implements GioHangCTBanTaiQuayServic
                     spct.setSoluongton(ghct.getSoluong() + spct.getSoluongton());
                     sanPhamCTBanTaiQuayRepository.save(spct);
                 }else {
-                    return MessageGHCTBanTaiQuay.builder().message("Không tìm thất idspct trong ghct bán hàng tại quầy").build();
+                    return MessageHDCTBanTaiQuay.builder().message("Không tìm thất idspct trong ghct bán hàng tại quầy").build();
                 }
-                return MessageGHCTBanTaiQuay.builder().message("Xóa ghct bán hàng tại quầy thành công !").build();
+                return MessageHDCTBanTaiQuay.builder().message("Xóa ghct bán hàng tại quầy thành công !").build();
             }else {
-                return MessageGHCTBanTaiQuay.builder().message("Không tìm thấy idghct bán hàng tại quầy !").build();
+                return MessageHDCTBanTaiQuay.builder().message("Không tìm thấy idghct bán hàng tại quầy !").build();
             }
         }else {
-            return MessageGHCTBanTaiQuay.builder().message("Không tìm thấy thông tin nhân viên !").build();
+            return MessageHDCTBanTaiQuay.builder().message("Không tìm thấy thông tin nhân viên !").build();
         }
     }
 }

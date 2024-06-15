@@ -2,8 +2,8 @@ package com.example.be_duantn.dto.respon.ban_tai_quay_respon;
 
 import java.util.UUID;
 
-public interface LoadGHCTTaiQuay {
-    UUID getIdghct();
+public interface LoadHDCTTaiQuay {
+    UUID getIdhdct();
     UUID getIdsp();
     String gettensp();
     String gettenmausac();
