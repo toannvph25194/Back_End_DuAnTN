@@ -45,9 +45,6 @@ public class HoaDonChiTiet {
     @Column(name = "ngaycapnhat")
     private Date ngaycapnhat;
 
-    @Column(name = "loaihoadonchitiet")
-    private Integer loaihoadonchitiet;
-
     @ManyToOne
     @JoinColumn(name = "idhd")
     @JsonBackReference
