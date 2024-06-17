@@ -60,6 +60,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/admin/san-pham-chi-tiet-tai-quay/**").hasAnyAuthority("ADMIN", "NHANVIEN")
                         .requestMatchers("/api/admin/gio-hang/ban-tai-quay/**").hasAnyAuthority("ADMIN", "NHANVIEN")
                         .requestMatchers("/api/admin/ghct/ban-tai-quay/**").hasAnyAuthority("ADMIN", "NHANVIEN")
+                        .requestMatchers("/api/auth/khachhangbantaiquay/**").permitAll()
                         .anyRequest()
                         .authenticated())
                 .sessionManagement(

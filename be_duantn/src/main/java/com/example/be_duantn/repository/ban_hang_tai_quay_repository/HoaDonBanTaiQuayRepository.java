@@ -3,6 +3,7 @@ package com.example.be_duantn.repository.ban_hang_tai_quay_repository;
 import com.example.be_duantn.dto.respon.ban_tai_quay_respon.LoadHoaDonRespon;
 import com.example.be_duantn.entity.HoaDon;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -23,4 +24,10 @@ public interface HoaDonBanTaiQuayRepository extends JpaRepository<HoaDon, UUID> 
             "Where hd.LoaiHoaDon = 2 AND hd.TrangThai = 1 AND hd.MaHoaDon LIKE %:mahoadon%\n" +
             "ORDER BY hd.NgayTao DESC" , nativeQuery = true)
     List<LoadHoaDonRespon> TimKiemHoaDonTaiQuay(@Param("mahoadon") String mahoadon);
+
+
+    //Hùng Làm Update khách hàng ở hóa đơn
+    @Modifying
+    @Query("UPDATE HoaDon h SET h.khachhang.idkh = :idkh, h.tennguoinhan = :hovatenkh WHERE h.idhoadon = :idhoadon")
+    int updateKhachHangByIdHoaDon(@Param("idkh") UUID idkh, @Param("idhoadon") UUID idhoadon, @Param("hovatenkh") String hovatenkh);
 }

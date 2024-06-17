@@ -21,4 +21,7 @@ public interface HoaDonBanTaiQuayService {
 
     // Tìm kiếm hóa đơn bán tại quầy
     List<LoadHoaDonRespon> TimKiemHoaDonTaiQuay(String mahoadon);
+
+    //Hùng làm Update khách hàng ở hóa đơn
+    int updateKhachHang(UUID idhoadon, UUID idkh, String hovatenkh);
 }

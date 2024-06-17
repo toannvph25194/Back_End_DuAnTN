@@ -1,13 +1,14 @@
 package com.example.be_duantn.service.ban_hang_tai_quay_service.Impl;
 
 import com.example.be_duantn.dto.request.ban_hang_tai_quay_request.HoaDonTaiQuayRequest;
-import com.example.be_duantn.dto.respon.ban_tai_quay_respon.FinGioHangBanTaiQuay;
+
 import com.example.be_duantn.dto.respon.ban_tai_quay_respon.LoadHoaDonRespon;
 import com.example.be_duantn.dto.respon.ban_tai_quay_respon.MessageHuyHoaDon;
 import com.example.be_duantn.entity.*;
 import com.example.be_duantn.enums.TrangThaiDonHangEnums;
 import com.example.be_duantn.repository.ban_hang_tai_quay_repository.*;
 import com.example.be_duantn.service.ban_hang_tai_quay_service.HoaDonBanTaiQuayService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -121,5 +122,13 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
     @Override
     public List<LoadHoaDonRespon> TimKiemHoaDonTaiQuay(String mahoadon) {
         return hoaDonBanTaiQuayRepository.TimKiemHoaDonTaiQuay(mahoadon);
+    }
+
+
+
+    ////Hùng làm update khách hàng ở hóa đơn
+    @Transactional
+    public int updateKhachHang(UUID idhoadon, UUID idkh, String hovatenkh) {
+        return hoaDonBanTaiQuayRepository.updateKhachHangByIdHoaDon(idkh, idhoadon, hovatenkh);
     }
 }
