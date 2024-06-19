@@ -1,5 +1,6 @@
 package com.example.be_duantn.repository.ban_hang_tai_quay_repository;
 
+import com.example.be_duantn.dto.respon.ban_tai_quay_respon.LayTienKhachTraRespon;
 import com.example.be_duantn.dto.respon.ban_tai_quay_respon.LoadHoaDonRespon;
 import com.example.be_duantn.entity.HoaDon;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -30,4 +31,12 @@ public interface HoaDonBanTaiQuayRepository extends JpaRepository<HoaDon, UUID> 
     @Modifying
     @Query("UPDATE HoaDon h SET h.khachhang.idkh = :idkh, h.tennguoinhan = :hovatenkh WHERE h.idhoadon = :idhoadon")
     int updateKhachHangByIdHoaDon(@Param("idkh") UUID idkh, @Param("idhoadon") UUID idhoadon, @Param("hovatenkh") String hovatenkh);
+
+    //lấy tiền khách trả
+    @Query(value = "SELECT [TienKhachTra]\n" +
+            "      ,[TienThua]\n" +
+            "\n" +
+            "  FROM [dbo].[HoaDon]\n" +
+            "  where id = ?", nativeQuery = true)
+    LayTienKhachTraRespon LayTienKhachTra(UUID id);
 }

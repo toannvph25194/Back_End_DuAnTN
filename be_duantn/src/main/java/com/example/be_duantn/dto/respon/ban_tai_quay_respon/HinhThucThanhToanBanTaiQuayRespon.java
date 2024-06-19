@@ -1,13 +1,9 @@
-package com.example.be_duantn.dto.respon.quan_ly_hoa_don_respon;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+package com.example.be_duantn.dto.respon.ban_tai_quay_respon;
 
 import java.util.Date;
 import java.util.UUID;
 
-public interface HinhThucThanhToanRespon {
+public interface HinhThucThanhToanBanTaiQuayRespon {
 
     UUID getid();
 

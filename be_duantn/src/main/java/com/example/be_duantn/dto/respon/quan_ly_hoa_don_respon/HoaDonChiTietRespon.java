@@ -27,6 +27,13 @@ public interface HoaDonChiTietRespon {
 
     String gettensp();
 
+    String getimagedefaul();
+
+    String gettensize();
+
+    String gettenmausac();
+
     Integer gettrangthai();
+
 
 }
