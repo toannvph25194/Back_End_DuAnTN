@@ -62,7 +62,9 @@ public interface HoaDonAdminRepository extends JpaRepository<HoaDon, UUID> {
             "FROM     \n" +
             "    dbo.HoaDon \n" +
             "INNER JOIN\n" +
-            "    dbo.HoaDonChiTiet ON dbo.HoaDon.Id = dbo.HoaDonChiTiet.IdHD\n" +
+            "    dbo.HoaDonChiTiet ON dbo.HoaDon.Id = dbo.HoaDonChiTiet.IdHD\n"
+            + "INNER JOIN\n" +
+            "      dbo.HinhThucThanhToan ON dbo.HoaDon.Id = dbo.HinhThucThanhToan.IdHD\n" +
             "\tGROUP BY\n" +
             "\tdbo.HoaDon.Id, \n" +
             "    dbo.HoaDon.MaHoaDon, \n" +
@@ -87,7 +89,9 @@ public interface HoaDonAdminRepository extends JpaRepository<HoaDon, UUID> {
             "FROM\n" +
             "    dbo.HoaDon\n" +
             "INNER JOIN\n" +
-            "    dbo.HoaDonChiTiet ON dbo.HoaDon.Id = dbo.HoaDonChiTiet.IdHD\n" +
+            "    dbo.HoaDonChiTiet ON dbo.HoaDon.Id = dbo.HoaDonChiTiet.IdHD\n"
+            + "INNER JOIN\n" +
+            "      dbo.HinhThucThanhToan ON dbo.HoaDon.Id = dbo.HinhThucThanhToan.IdHD\n" +
             "WHERE\n" +
             "    dbo.HoaDon.TrangThai = ?\n" +
             "GROUP BY\n" +
@@ -114,7 +118,9 @@ public interface HoaDonAdminRepository extends JpaRepository<HoaDon, UUID> {
             "FROM\n" +
             "    dbo.HoaDon\n" +
             "INNER JOIN\n" +
-            "    dbo.HoaDonChiTiet ON dbo.HoaDon.Id = dbo.HoaDonChiTiet.IdHD\n" +
+            "    dbo.HoaDonChiTiet ON dbo.HoaDon.Id = dbo.HoaDonChiTiet.IdHD\n"
+            + "INNER JOIN\n" +
+            "      dbo.HinhThucThanhToan ON dbo.HoaDon.Id = dbo.HinhThucThanhToan.IdHD\n" +
             "WHERE\n" +
             "    dbo.HoaDon.MaHoaDon LIKE '%' + :mahoadon + '%'\n" +
             "GROUP BY\n" +
@@ -141,7 +147,9 @@ public interface HoaDonAdminRepository extends JpaRepository<HoaDon, UUID> {
             "FROM\n" +
             "    dbo.HoaDon\n" +
             "INNER JOIN\n" +
-            "    dbo.HoaDonChiTiet ON dbo.HoaDon.Id = dbo.HoaDonChiTiet.IdHD\n" +
+            "    dbo.HoaDonChiTiet ON dbo.HoaDon.Id = dbo.HoaDonChiTiet.IdHD\n"
+            + "INNER JOIN\n" +
+            "      dbo.HinhThucThanhToan ON dbo.HoaDon.Id = dbo.HinhThucThanhToan.IdHD\n" +
             "WHERE\n" +
             "    dbo.HoaDon.LoaiHoaDon = ?\n" +
             "GROUP BY\n" +

@@ -61,6 +61,10 @@ public class SecurityConfig {
                         .requestMatchers("/api/admin/gio-hang/ban-tai-quay/**").hasAnyAuthority("ADMIN", "NHANVIEN")
                         .requestMatchers("/api/admin/ghct/ban-tai-quay/**").hasAnyAuthority("ADMIN", "NHANVIEN")
                         .requestMatchers("/api/auth/khachhangbantaiquay/**").permitAll()
+                        .requestMatchers("/api/Admin/voucher/**").hasAnyAuthority("ADMIN", "NHANVIEN")
+                        .requestMatchers("/api/Admin/tongtien/**").hasAnyAuthority("ADMIN", "NHANVIEN")
+                        .requestMatchers("/api/admin/bantaiquay/hinhthucthanhtoan/**").hasAnyAuthority("ADMIN", "NHANVIEN")
+                        .requestMatchers("/api/Admin/BanTaiQuay/vnpay/**").hasAnyAuthority("ADMIN", "NHANVIEN")
                         .anyRequest()
                         .authenticated())
                 .sessionManagement(

@@ -3,6 +3,7 @@ package com.example.be_duantn.controller.quan_ly_hoa_don_controller;
 
 import com.example.be_duantn.dto.request.quan_ly_dong_san_pham_request.MessageRequest;
 import com.example.be_duantn.dto.request.quan_ly_dong_san_pham_request.SanPhamRequest;
+import com.example.be_duantn.dto.request.quan_ly_hoa_don_request.HinhThucThanhToanAdminRequest;
 import com.example.be_duantn.dto.request.quan_ly_hoa_don_request.HoaDonTrangThaiAdminRequest;
 import com.example.be_duantn.entity.HoaDon;
 import com.example.be_duantn.service.quan_ly_hoa_don_service.Impl.HoaDonAdminServiceImpl;
@@ -137,5 +138,26 @@ public class HoaDonAdminController {
     ) {
         String username = principal.getName();
         return new ResponseEntity<>(hoaDonService.updatehoanthanh(IDHD, hoaDonTrangThaiAdminRequest, username), HttpStatus.OK);
+    }
+
+
+    @PutMapping("/updatehuyhoadon/{idhoadon}")
+    public ResponseEntity<HoaDon> updatehuyhoadon(
+            @PathVariable("idhoadon") UUID IDHD,
+            @Valid @RequestBody HoaDonTrangThaiAdminRequest hoaDonTrangThaiAdminRequest
+
+            ,
+            Principal principal
+    ) {
+        String username = principal.getName();
+        return new ResponseEntity<>(hoaDonService.updatehuyhoadon(IDHD, hoaDonTrangThaiAdminRequest, username), HttpStatus.OK);
+    }
+
+    @PutMapping("/updatehanhtien")
+    public ResponseEntity<HoaDon> updatethanhtien(
+            @RequestParam("idhoadon") UUID IDHD
+
+    ) {
+        return new ResponseEntity<>(hoaDonService.updateThanhTien(IDHD), HttpStatus.OK);
     }
 }

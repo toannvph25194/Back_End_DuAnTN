@@ -16,13 +16,9 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class HinhThucThanhToanAdminRequest {
-
-
     private UUID id;
 
-
     private String magiaodich;
-
 
     private Date ngaythanhtoan;
 
@@ -37,4 +33,8 @@ public class HinhThucThanhToanAdminRequest {
     private Integer trangthai;
 
     private Integer hinhthucthanhtoan;
+
+    private UUID hoadon;
+
+    private UUID khachhang;
 }
