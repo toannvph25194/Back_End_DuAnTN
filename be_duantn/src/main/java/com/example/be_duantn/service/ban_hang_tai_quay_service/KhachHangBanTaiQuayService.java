@@ -15,11 +15,13 @@ public interface KhachHangBanTaiQuayService {
 
     Page<LoadDiaChiTaiQuayRespon> getKhachHangByTrangThai(int page, int size);
 
-
     LoadDiaChiTaiQuayRespon finByIdKh(UUID Idkh);
 
     Page<LoadDiaChiTaiQuayRespon> LocTenKHBanTaiQuay( String keyword, int page, int size);
 
     KhachHang addKhachHang(KhachHang khachHang, DiaChi diaChi);
 
+    boolean emailExists(String email);
+
+    boolean phoneExists(String phone);
 }
