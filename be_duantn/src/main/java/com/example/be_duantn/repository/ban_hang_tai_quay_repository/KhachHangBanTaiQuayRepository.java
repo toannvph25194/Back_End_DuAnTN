@@ -40,8 +40,10 @@ public interface KhachHangBanTaiQuayRepository extends JpaRepository<KhachHang, 
             " kh.id = dc.idKH\n" +
             "WHERE \n" +
             " kh.trangthai IN (1, 2) \n" +
+            "AND (dc.trangthai = 1 OR dc.trangthai IS NULL) \n" +
             "ORDER BY \n" +
-            " CASE WHEN kh.trangthai = 2 THEN 0 ELSE 1 END", nativeQuery = true)
+            " CASE WHEN kh.trangthai = 2 THEN 0 ELSE 1 END",
+            nativeQuery = true)
     Page<LoadDiaChiTaiQuayRespon> findAllWithTrangThai(Pageable pageable);
 
 
@@ -90,6 +92,9 @@ public interface KhachHangBanTaiQuayRepository extends JpaRepository<KhachHang, 
             nativeQuery = true)
     Page<LoadDiaChiTaiQuayRespon> LocTenKHBanTaiQuay(@Param("keyword") String keyword, Pageable pageable);
 
+
+    boolean existsByEmail(String email);
+    boolean existsBySodienthoai(String sodienthoai);
 
 
 }
