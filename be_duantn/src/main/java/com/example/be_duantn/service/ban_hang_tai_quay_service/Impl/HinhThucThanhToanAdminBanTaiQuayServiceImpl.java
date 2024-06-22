@@ -152,7 +152,7 @@ public class HinhThucThanhToanAdminBanTaiQuayServiceImpl implements HinhThucThan
             HTTT.setNgaythanhtoan(timestamp);
 
             Double tienkhachtra = hoaDon.getTienkhachtra() != null ? hoaDon.getTienkhachtra() : 0.0;
-            Double tiencantra = TienCuoiCung - tienkhachtra;
+            Double tiencantra = TienCuoiCung;
 
             HTTT.setSotientra(tiencantra);
 
