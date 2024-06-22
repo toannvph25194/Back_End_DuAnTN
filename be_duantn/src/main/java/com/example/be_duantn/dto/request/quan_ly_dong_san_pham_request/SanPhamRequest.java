@@ -36,8 +36,8 @@ public class SanPhamRequest {
 
     private Date ngaythemsp = new Date();
 
-    @NotNull(message = "Giá nhập không được để trống")
-    @Positive(message = "Giá nhập phải là số dương")
+//    @NotNull(message = "Giá nhập không được để trống")
+//    @Positive(message = "Giá nhập phải là số dương")
     private Double gianhap;
 
     @NotNull(message = "Giá bán không được để trống")
