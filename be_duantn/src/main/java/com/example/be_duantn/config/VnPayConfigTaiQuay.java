@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class VnPayConfigTaiQuay {
 
-    public static String vnp_Returnurl = "http://127.0.0.1:5001/src/admin/index_admin.html#/vnpaydone";
+    public static String vnp_Returnurl = "http://127.0.0.1:5000/src/admin/index_admin.html#/vnpaydone";
 
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
 
