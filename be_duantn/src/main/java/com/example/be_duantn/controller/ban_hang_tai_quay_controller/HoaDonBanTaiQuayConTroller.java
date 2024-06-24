@@ -61,7 +61,7 @@ public class HoaDonBanTaiQuayConTroller {
             if (principal != null) {
                 return ResponseEntity.ok(hoaDonBanTaiQuayService.HuyHoaDonTaiQuay(idhoadon, principal));
             } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy thông tin nhân viên tạo hóa đơn bán tại quầy !");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy thông tin nhân viên hủy hóa đơn bán tại quầy !");
             }
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Lỗi hủy hóa đơn bán tại quầy !");
