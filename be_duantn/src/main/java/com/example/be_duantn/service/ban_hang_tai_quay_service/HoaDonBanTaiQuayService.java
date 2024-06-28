@@ -37,4 +37,6 @@ public interface HoaDonBanTaiQuayService {
     // update hoá đơn xác nhận
     HoaDon updateXacNhan(UUID IDHD, UUID Idgg, Double TienCuoiCung, Double TienDuocGiam, HoaDonXacNhanRequest hoaDonXacNhanRequest);
 
+    //lấy tiền khách đã trả
+    HoaDon layhoadontheoid(UUID id);
 }

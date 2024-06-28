@@ -122,5 +122,17 @@ public class HoaDonBanTaiQuayConTroller {
         }
     }
 
+    // ToDo load hóa đơn bán tại quầy
+    @GetMapping("/loadtheoid")
+    public ResponseEntity<?> Loadtheoid(
+            @RequestParam("id") UUID id
+    ) {
+        try {
+            return ResponseEntity.ok(hoaDonBanTaiQuayService.layhoadontheoid(id));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Lỗi load hóa đơn bán tại quầy !");
+        }
+    }
+
 
 }

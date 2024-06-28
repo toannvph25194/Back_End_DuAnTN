@@ -16,14 +16,14 @@ public interface HoaDonBanTaiQuayRepository extends JpaRepository<HoaDon, UUID> 
     // load thông tin hóa đơn bán tại quầy
     @Query(value = "SELECT hd.Id, hd.IdKH, hd.MaHoaDon, nv.HoVaTenNV, hd.TenNguoiNhan, hd.NgayTao, hd.LoaiHoaDon, hd.TrangThai FROM HoaDon hd \n" +
             "JOIN NhanVien nv on nv.Id = hd.IdNV\n" +
-            "Where hd.LoaiHoaDon = 2 AND hd.TrangThai = 1",nativeQuery = true)
+            "Where hd.LoaiHoaDon = 2 AND hd.TrangThai = 1", nativeQuery = true)
     List<LoadHoaDonRespon> LoadHoaDonTaiQuay();
 
     // Tìm kiếm hóa đơn bán tại quầy
     @Query(value = "SELECT hd.Id, hd.IdKH, hd.MaHoaDon, nv.HoVaTenNV, hd.TenNguoiNhan, hd.NgayTao, hd.LoaiHoaDon, hd.TrangThai FROM HoaDon hd \n" +
             "JOIN NhanVien nv on nv.Id = hd.IdNV\n" +
             "Where hd.LoaiHoaDon = 2 AND hd.TrangThai = 1 AND hd.MaHoaDon LIKE %:mahoadon%\n" +
-            "ORDER BY hd.NgayTao DESC" , nativeQuery = true)
+            "ORDER BY hd.NgayTao DESC", nativeQuery = true)
     List<LoadHoaDonRespon> TimKiemHoaDonTaiQuay(@Param("mahoadon") String mahoadon);
 
 
@@ -39,4 +39,8 @@ public interface HoaDonBanTaiQuayRepository extends JpaRepository<HoaDon, UUID> 
             "  FROM [dbo].[HoaDon]\n" +
             "  where id = ?", nativeQuery = true)
     LayTienKhachTraRespon LayTienKhachTra(UUID id);
+
+    // lấy hoá đơn theo id
+    HoaDon findHoaDonByIdhoadon(UUID id);
+
 }
