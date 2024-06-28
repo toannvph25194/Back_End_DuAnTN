@@ -316,6 +316,11 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
         }
     }
 
+    @Override
+    public HoaDon layhoadontheoid(UUID id) {
+        return hoaDonBanTaiQuayRepository.findHoaDonByIdhoadon(id);
+    }
+
     private String HinhThucThanhToan(List<HinhThucThanhToan> hoaDonChiTiets) {
         StringBuilder hinhthucthanhtoan = new StringBuilder();
         int STT = 1;

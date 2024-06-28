@@ -83,7 +83,7 @@ public class HinhThucThanhToanAdminBanTaiQuayServiceImpl implements HinhThucThan
 
             if (TienKhachDua > tiencantra) {
                 HTTT.setSotientra(tiencantra);
-                tienthua = TienKhachDua - TienCuoiCung;
+                tienthua = TienKhachDua - tiencantra;
             } else {
                 HTTT.setSotientra(TienKhachDua);
             }
