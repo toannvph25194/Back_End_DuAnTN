@@ -98,7 +98,7 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
             hd.setLoaihoadon(2);
             hd.setTrangthai(TrangThaiDonHangEnums.CHO_XAC_NHAN.getValue());
             hoaDonBanTaiQuayRepository.save(hd);
-            return HoaDonTaiQuayRequest.builder().idhoadon(hd.getIdhoadon()).idkh(khachle.getIdkh()).message("Tạo hóa đơn bán tại quầy thành công !").build();
+            return HoaDonTaiQuayRequest.builder().idhoadon(hd.getIdhoadon()).idkh(khachle.getIdkh()).mahoadon(hd.getMahoadon()).message("Tạo hóa đơn bán tại quầy thành công !").build();
         } else {
             return HoaDonTaiQuayRequest.builder().message("Tạo hóa đơn bán tại quầy thất bại. K tìm thấy nhân viên !").build();
         }
