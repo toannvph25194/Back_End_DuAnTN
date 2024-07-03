@@ -118,4 +118,8 @@ public class HoaDon {
     @JsonManagedReference
     List<HinhThucThanhToan> hinhthucthanhtoan;
 
+    @OneToMany(mappedBy = "hoadon" , fetch = FetchType.LAZY)
+    @JsonManagedReference
+    List<LichSuTaoTac> lichsuthaotac;
+
 }
