@@ -10,6 +10,7 @@ import com.example.be_duantn.dto.respon.quan_ly_hoa_don_respon.Hoadonrespon;
 import com.example.be_duantn.entity.HoaDon;
 import org.springframework.data.domain.Page;
 
+import java.security.Principal;
 import java.util.UUID;
 
 public interface HoaDonAdminService {
@@ -41,19 +42,19 @@ public interface HoaDonAdminService {
     Hoadonrespon finByIdHD(UUID IdHD);
 
     // update thông tin hoá đơn
-    HoaDon updateThongTinHoaDon(UUID IDHD, HoaDonTrangThaiAdminRequest hoaDonTrangThaiAdminRequest,String taikhoan);
+    HoaDon updateThongTinHoaDon(UUID IDHD, HoaDonTrangThaiAdminRequest hoaDonTrangThaiAdminRequest,String taikhoan, Principal principal);
 
     // update Trạng thái hoá đơn
-    HoaDon updateTrangThaiHoaDon(UUID IDHD, HoaDonTrangThaiAdminRequest hoaDonTrangThaiAdminRequest,String taikhoan);
+    HoaDon updateTrangThaiHoaDon(UUID IDHD, HoaDonTrangThaiAdminRequest hoaDonTrangThaiAdminRequest,String taikhoan, Principal principal);
 
     // update thông tin người giao
-    HoaDon updateThongTinNguoiGiao(UUID IDHD, HoaDonTrangThaiAdminRequest hoaDonTrangThaiAdminRequest,String taikhoan);
+    HoaDon updateThongTinNguoiGiao(UUID IDHD, HoaDonTrangThaiAdminRequest hoaDonTrangThaiAdminRequest,String taikhoan, Principal principal);
 
     // update hoá đơn hoàn thành
-    HoaDon updatehoanthanh(UUID IDHD, HoaDonTrangThaiAdminRequest hoaDonTrangThaiAdminRequest,String taikhoan);
+    HoaDon updatehoanthanh(UUID IDHD, HoaDonTrangThaiAdminRequest hoaDonTrangThaiAdminRequest,String taikhoan, Principal principal);
 
     // update hoá đơn hoàn thành
-    HoaDon updatehuyhoadon(UUID IDHD, HoaDonTrangThaiAdminRequest hoaDonTrangThaiAdminRequest, String taikhoan);
+    HoaDon updatehuyhoadon(UUID IDHD, HoaDonTrangThaiAdminRequest hoaDonTrangThaiAdminRequest, String taikhoan, Principal principal);
 
     //cập nhật lại thành tiền và giá trị giảm
     HoaDon updateThanhTien(UUID IDHD);

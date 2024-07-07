@@ -85,10 +85,11 @@ public class HoaDonBanTaiQuayConTroller {
             @RequestParam("IDHD") UUID IDHD,
             @RequestParam(value = "Idgg", required = false) UUID Idgg,
             @RequestParam(value = "TienCuoiCung") Double TienCuoiCung,
-            @RequestParam(value = "TienDuocGiam", required = false) Double TienDuocGiam
+            @RequestParam(value = "TienDuocGiam", required = false) Double TienDuocGiam,
+            Principal principal
     ) {
         try {
-            HoaDon updatedHoaDon = hoaDonBanTaiQuayService.updatehoanthanh(IDHD, Idgg, TienCuoiCung, TienDuocGiam);
+            HoaDon updatedHoaDon = hoaDonBanTaiQuayService.updatehoanthanh(IDHD, Idgg, TienCuoiCung, TienDuocGiam,principal);
             return ResponseEntity.ok(updatedHoaDon);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -106,12 +107,13 @@ public class HoaDonBanTaiQuayConTroller {
             @RequestParam("TienCuoiCung") Double TienCuoiCung,
             @RequestParam(value = "TienDuocGiam", required = false) Double TienDuocGiam,
             @RequestBody HoaDonXacNhanRequest hoaDonXacNhanRequest
+            ,Principal principal
     ) {
         try {
             // Validate input parameters if necessary
             // For example, check if IDHD is valid UUID, check if TienCuoiCung is non-negative, etc.
 
-            HoaDon updatedHoaDon = hoaDonBanTaiQuayService.updateXacNhan(IDHD, Idgg, TienCuoiCung, TienDuocGiam, hoaDonXacNhanRequest);
+            HoaDon updatedHoaDon = hoaDonBanTaiQuayService.updateXacNhan(IDHD, Idgg, TienCuoiCung, TienDuocGiam, hoaDonXacNhanRequest,principal);
             return ResponseEntity.ok(updatedHoaDon);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());

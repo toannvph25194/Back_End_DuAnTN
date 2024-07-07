@@ -101,10 +101,11 @@ public class HoaDonAdminController {
             @PathVariable("idhoadon") UUID IDHD,
             @Valid @RequestBody HoaDonTrangThaiAdminRequest hoaDonTrangThaiAdminRequest
             ,
-            Principal principal
+            Principal principal,
+            Principal principal01
     ) {
         String username = principal.getName();
-        return new ResponseEntity<>(hoaDonService.updateThongTinHoaDon(IDHD, hoaDonTrangThaiAdminRequest, username), HttpStatus.OK);
+        return new ResponseEntity<>(hoaDonService.updateThongTinHoaDon(IDHD, hoaDonTrangThaiAdminRequest, username,principal01), HttpStatus.OK);
     }
 
     @PutMapping("/updatetrangthaihoadon/{idhoadon}")
@@ -112,10 +113,11 @@ public class HoaDonAdminController {
             @PathVariable("idhoadon") UUID IDHD,
             @Valid @RequestBody HoaDonTrangThaiAdminRequest hoaDonTrangThaiAdminRequest
             ,
-            Principal principal
+            Principal principal   ,
+            Principal principal01
     ) {
         String username = principal.getName();
-        return new ResponseEntity<>(hoaDonService.updateTrangThaiHoaDon(IDHD, hoaDonTrangThaiAdminRequest, username), HttpStatus.OK);
+        return new ResponseEntity<>(hoaDonService.updateTrangThaiHoaDon(IDHD, hoaDonTrangThaiAdminRequest, username,principal01), HttpStatus.OK);
     }
 
     @PutMapping("/updatethongtinnguoigiao/{idhoadon}")
@@ -123,10 +125,11 @@ public class HoaDonAdminController {
             @PathVariable("idhoadon") UUID IDHD,
             @Valid @RequestBody HoaDonTrangThaiAdminRequest hoaDonTrangThaiAdminRequest
             ,
-            Principal principal
+            Principal principal,
+            Principal principal01
     ) {
         String username = principal.getName();
-        return new ResponseEntity<>(hoaDonService.updateThongTinNguoiGiao(IDHD, hoaDonTrangThaiAdminRequest, username), HttpStatus.OK);
+        return new ResponseEntity<>(hoaDonService.updateThongTinNguoiGiao(IDHD, hoaDonTrangThaiAdminRequest, username,principal01), HttpStatus.OK);
     }
 
     @PutMapping("/updatehoadonhoanthanh/{idhoadon}")
@@ -134,10 +137,11 @@ public class HoaDonAdminController {
             @PathVariable("idhoadon") UUID IDHD,
             @Valid @RequestBody HoaDonTrangThaiAdminRequest hoaDonTrangThaiAdminRequest
             ,
-            Principal principal
+            Principal principal,
+            Principal principal01
     ) {
         String username = principal.getName();
-        return new ResponseEntity<>(hoaDonService.updatehoanthanh(IDHD, hoaDonTrangThaiAdminRequest, username), HttpStatus.OK);
+        return new ResponseEntity<>(hoaDonService.updatehoanthanh(IDHD, hoaDonTrangThaiAdminRequest, username,principal01), HttpStatus.OK);
     }
 
 
@@ -145,12 +149,11 @@ public class HoaDonAdminController {
     public ResponseEntity<HoaDon> updatehuyhoadon(
             @PathVariable("idhoadon") UUID IDHD,
             @Valid @RequestBody HoaDonTrangThaiAdminRequest hoaDonTrangThaiAdminRequest
-
             ,
-            Principal principal
+            Principal principal,Principal principal01
     ) {
         String username = principal.getName();
-        return new ResponseEntity<>(hoaDonService.updatehuyhoadon(IDHD, hoaDonTrangThaiAdminRequest, username), HttpStatus.OK);
+        return new ResponseEntity<>(hoaDonService.updatehuyhoadon(IDHD, hoaDonTrangThaiAdminRequest, username,principal01), HttpStatus.OK);
     }
 
     @PutMapping("/updatehanhtien")
@@ -160,4 +163,5 @@ public class HoaDonAdminController {
     ) {
         return new ResponseEntity<>(hoaDonService.updateThanhTien(IDHD), HttpStatus.OK);
     }
+
 }

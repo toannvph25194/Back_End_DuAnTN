@@ -1,21 +1,8 @@
 package com.example.be_duantn.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.Date;
 import java.util.UUID;
@@ -28,11 +15,14 @@ import java.util.UUID;
 @Builder
 @Table(name = "lichsuthaotac")
 public class LichSuTaoTac {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-
     @Column(name = "id")
-    private UUID idhdct;
+    private UUID id;
+
+    @Column(name = "idhd")
+    private UUID idhd;
 
     @Column(name = "nguoithaotac")
     private String nguoithaotac;
@@ -42,13 +32,18 @@ public class LichSuTaoTac {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ngaytao")
-    private Date ngaytao = new Date();
+    private Date ngaytao;
 
     @Column(name = "trangthai")
     private Integer trangthai;
 
     @ManyToOne
-    @JoinColumn(name = "idhd")
+    @JoinColumn(name = "idhd", insertable = false, updatable = false)
     @JsonBackReference
-    HoaDon hoadon;
+    private HoaDon hoadon;
+
+    @PrePersist
+    protected void onCreate() {
+        ngaytao = new Date();
+    }
 }

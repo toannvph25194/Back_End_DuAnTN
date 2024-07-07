@@ -7,6 +7,7 @@ import com.example.be_duantn.entity.HinhThucThanhToan;
 import com.example.be_duantn.entity.HoaDon;
 import com.example.be_duantn.entity.HoaDonChiTiet;
 import com.example.be_duantn.entity.KhachHang;
+import com.example.be_duantn.entity.LichSuTaoTac;
 import com.example.be_duantn.entity.NhanVien;
 import com.example.be_duantn.entity.SanPhamChiTiet;
 import com.example.be_duantn.repository.authentication_repository.NhanVienRepository;
@@ -14,6 +15,7 @@ import com.example.be_duantn.repository.quan_ly_dong_san_pham_repository.SanPham
 import com.example.be_duantn.repository.quan_ly_hoa_don_repository.HinhThucThanhToanAdminRepository;
 import com.example.be_duantn.repository.quan_ly_hoa_don_repository.HoaDonAdminRepository;
 import com.example.be_duantn.repository.quan_ly_hoa_don_repository.HoaDonChiTietAdminRepository;
+import com.example.be_duantn.repository.quan_ly_hoa_don_repository.LichSuThaoTacRepository;
 import com.example.be_duantn.repository.quan_ly_hoa_don_repository.NhanVienAdminQuanLyHoaDonRepository;
 import com.example.be_duantn.service.quan_ly_hoa_don_service.HinhThucThanhToanAdminService;
 import jakarta.mail.MessagingException;
@@ -28,6 +30,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
@@ -49,6 +52,9 @@ public class HinhThucThanhToanAdminAdminServiceImpl implements HinhThucThanhToan
 
     @Autowired
     SanPhamRepository sanPhamRepository;
+
+    @Autowired
+    LichSuThaoTacRepository lichSuThaoTacRepository;
 
     @Autowired
     NhanVienAdminQuanLyHoaDonRepository nhanVienRepository;
@@ -266,7 +272,7 @@ public class HinhThucThanhToanAdminAdminServiceImpl implements HinhThucThanhToan
     }
 
     @Override
-    public List<HinhThucThanhToan> updateNguoiXacNhan(UUID IDHD, UUID idnhanvien) {
+    public List<HinhThucThanhToan> updateNguoiXacNhan(UUID IDHD, UUID idnhanvien, Principal principal) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         // Kiểm tra quyền của người dùng và thực hiện xử lý tùy thuộc vào quyền
@@ -285,6 +291,16 @@ public class HinhThucThanhToanAdminAdminServiceImpl implements HinhThucThanhToan
                     throw new IllegalArgumentException("Không tìm thấy hình thức thanh toán trong hóa đơn!");
                 }
             }
+            String taikhoan = principal.getName();
+            KhachHang khachHang = new KhachHang();
+            khachHang.setIdkh(hoaDon.getKhachhang().getIdkh());
+
+            LichSuTaoTac lichSuTaoTac = new LichSuTaoTac();
+            lichSuTaoTac.setIdhd(hoaDon.getIdhoadon());
+            lichSuTaoTac.setNguoithaotac(taikhoan);
+            lichSuTaoTac.setGhichu("Chọn nhân viên xác nhận giao dịch");
+            lichSuTaoTac.setTrangthai(1);
+            lichSuThaoTacRepository.save(lichSuTaoTac);
 
             // Lưu danh sách các hình thức thanh toán đã cập nhật và trả về
             return hinhThucThanhToanAdminRepository.saveAll(htttList);

@@ -8,7 +8,9 @@ import com.example.be_duantn.dto.respon.ban_tai_quay_respon.LoadHoaDonRespon;
 import com.example.be_duantn.dto.respon.ban_tai_quay_respon.MessageHuyHoaDon;
 import com.example.be_duantn.entity.*;
 import com.example.be_duantn.enums.TrangThaiDonHangEnums;
+import com.example.be_duantn.repository.authentication_repository.NhanVienRepository;
 import com.example.be_duantn.repository.ban_hang_tai_quay_repository.*;
+import com.example.be_duantn.repository.quan_ly_hoa_don_repository.LichSuThaoTacRepository;
 import com.example.be_duantn.service.ban_hang_tai_quay_service.HoaDonBanTaiQuayService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -51,6 +53,12 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
 
     @Autowired
     SanPhamCTBanTaiQuayRepository sanPhamCTBanTaiQuayRepository;
+
+    @Autowired
+    LichSuThaoTacRepository lichSuThaoTacRepository;
+    @Autowired
+    NhanVienRepository nhanVienRepository;
+
 
     @Autowired
     HinhThucThanhToanAdminBanTaiQuayRepository hinhThucThanhToanAdminBanTaiQuayRepository;
@@ -98,6 +106,14 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
             hd.setLoaihoadon(2);
             hd.setTrangthai(TrangThaiDonHangEnums.CHO_XAC_NHAN.getValue());
             hoaDonBanTaiQuayRepository.save(hd);
+
+            LichSuTaoTac lichSuTaoTac = new LichSuTaoTac();
+            lichSuTaoTac.setIdhd(hd.getIdhoadon());
+            lichSuTaoTac.setNguoithaotac(taikhoan);
+            lichSuTaoTac.setGhichu("Tạo hoá đơn");
+            lichSuTaoTac.setTrangthai(1);
+            lichSuThaoTacRepository.save(lichSuTaoTac);
+
             return HoaDonTaiQuayRequest.builder().idhoadon(hd.getIdhoadon()).idkh(khachle.getIdkh()).mahoadon(hd.getMahoadon()).message("Tạo hóa đơn bán tại quầy thành công !").build();
         } else {
             return HoaDonTaiQuayRequest.builder().message("Tạo hóa đơn bán tại quầy thất bại. K tìm thấy nhân viên !").build();
@@ -107,6 +123,7 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
     @Override
     public MessageHuyHoaDon HuyHoaDonTaiQuay(UUID idhoadon, Principal principal) {
         // Lấy thông tin hóa đơn
+        String taikhoan = principal.getName();
         HoaDon finhoadon = hoaDonBanTaiQuayRepository.findById(idhoadon).orElse(null);
         if (finhoadon != null) {
             // Nếu ghct k null thì sẽ cập nhật
@@ -134,6 +151,38 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
         finhoadon.setGhichu("Hóa đơn tại quầy đã bị hủy");
         finhoadon.setTrangthai(TrangThaiDonHangEnums.DA_HUY.getValue());
         hoaDonBanTaiQuayRepository.save(finhoadon);
+        if (finhoadon.getTienkhachtra() != null && finhoadon.getTienkhachtra() > 0) {
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            HinhThucThanhToan HTTT = new HinhThucThanhToan();
+            HTTT.setMagiaodich(generateRandomTransactionId()); // Generate a random transaction ID
+            HTTT.setNgaytao(timestamp);
+            HTTT.setNgaythanhtoan(timestamp);
+            HTTT.setSotientra(finhoadon.getTienkhachtra());
+            HTTT.setHinhthucthanhtoan(3); // Payment method code for cancelled payment
+            HTTT.setGhichu("Hoàn tiền thừa cho khách");
+            HTTT.setTrangthai(1);
+
+            KhachHang khachHang = new KhachHang();
+            khachHang.setIdkh(finhoadon.getKhachhang().getIdkh());
+            HTTT.setKhachhang(khachHang);
+            HTTT.setHoadon(finhoadon);
+            Optional<NhanVien> taiKhoanOptional = nhanVienRepository.findByTaikhoan(taikhoan);
+            if (taiKhoanOptional.isPresent()) {
+                NhanVien taiKhoan = taiKhoanOptional.get();
+                HTTT.setNhanvien(taiKhoan);
+            } else {
+                throw new IllegalArgumentException("Không tìm thấy nhân viên với tài khoản: " + taikhoan);
+            }
+            LichSuTaoTac lichSuTaoTac = new LichSuTaoTac();
+            lichSuTaoTac.setIdhd(finhoadon.getIdhoadon());
+            lichSuTaoTac.setNguoithaotac(taikhoan);
+            lichSuTaoTac.setGhichu("Huỷ hoá đơn");
+            lichSuTaoTac.setTrangthai(1);
+            lichSuThaoTacRepository.save(lichSuTaoTac);
+
+            HinhThucThanhToan savedHTTT = hinhThucThanhToanAdminBanTaiQuayRepository.save(HTTT);
+        }
+
         return MessageHuyHoaDon.builder().message("Hủy hóa đơn thành công").build();
     }
 
@@ -156,11 +205,12 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
     }
 
     @Override
-    public HoaDon updatehoanthanh(UUID IDHD, UUID Idgg, Double TienCuoiCung, Double TienDuocGiam) {
+    public HoaDon updatehoanthanh(UUID IDHD, UUID Idgg, Double TienCuoiCung, Double TienDuocGiam, Principal principal) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         // Kiểm tra quyền của người dùng và thực hiện xử lý tùy thuộc vào quyền
         if (hasPermission(authentication.getAuthorities(), "ADMIN", "NHANVIEN")) {
+            String taikhoan = principal.getName();
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
             // Kiểm tra và gán các giá trị từ Optional vào đối tượng SanPham
@@ -182,7 +232,14 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
                 KhachHang khachHang = new KhachHang();
                 khachHang.setIdkh(hoaDon.getKhachhang().getIdkh());
                 HTTT.setKhachhang(khachHang);
-                HTTT.setHoadon(hoaDon); // Gán trực tiếp đối tượng hoaDon vào HTTT
+                HTTT.setHoadon(hoaDon);
+                Optional<NhanVien> taiKhoanOptional = nhanVienRepository.findByTaikhoan(taikhoan);
+                if (taiKhoanOptional.isPresent()) {
+                    NhanVien taiKhoan = taiKhoanOptional.get();
+                    HTTT.setNhanvien(taiKhoan);
+                } else {
+                    throw new IllegalArgumentException("Không tìm thấy nhân viên với tài khoản: " + taikhoan);
+                }// Gán trực tiếp đối tượng hoaDon vào HTTT
 
                 HinhThucThanhToan savedHTTT = hinhThucThanhToanAdminBanTaiQuayRepository.save(HTTT);
                 // Log thông tin sau khi lưu
@@ -221,6 +278,13 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
             // Log trạng thái sau khi lưu
             System.out.println("Sau khi lưu: " + savedHoaDon);
 
+            LichSuTaoTac lichSuTaoTac = new LichSuTaoTac();
+            lichSuTaoTac.setIdhd(IDHD);
+            lichSuTaoTac.setNguoithaotac(taikhoan);
+            lichSuTaoTac.setGhichu("Xác nhận hoàn thành hoá đơn");
+            lichSuTaoTac.setTrangthai(1);
+            lichSuThaoTacRepository.save(lichSuTaoTac);
+
             return savedHoaDon;
 
         } else {
@@ -230,11 +294,12 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
     }
 
     @Override
-    public HoaDon updateXacNhan(UUID IDHD, UUID Idgg, Double TienCuoiCung, Double TienDuocGiam, HoaDonXacNhanRequest hoaDonXacNhanRequest) {
+    public HoaDon updateXacNhan(UUID IDHD, UUID Idgg, Double TienCuoiCung, Double TienDuocGiam, HoaDonXacNhanRequest hoaDonXacNhanRequest, Principal principal) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         // Check user permissions
         if (hasPermission(authentication.getAuthorities(), "ADMIN", "NHANVIEN")) {
+            String taikhoan = principal.getName();
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
             // Fetch and validate the HoaDon entity
@@ -254,6 +319,13 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
                 HTTT.setHinhthucthanhtoan(3); // Payment method code for cancelled payment
                 HTTT.setGhichu("Hoàn tiền thừa cho khách");
                 HTTT.setTrangthai(1);
+                Optional<NhanVien> taiKhoanOptional = nhanVienRepository.findByTaikhoan(taikhoan);
+                if (taiKhoanOptional.isPresent()) {
+                    NhanVien taiKhoan = taiKhoanOptional.get();
+                    HTTT.setNhanvien(taiKhoan);
+                } else {
+                    throw new IllegalArgumentException("Không tìm thấy nhân viên với tài khoản: " + taikhoan);
+                }
 
                 KhachHang khachHang = new KhachHang();
                 khachHang.setIdkh(hoaDon.getKhachhang().getIdkh());
@@ -294,6 +366,7 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
 
             HoaDon savedHoaDon = hoaDonBanTaiQuayRepository.save(hoaDon);
 
+
             // Log the state after saving
             System.out.println("Sau khi lưu: " + savedHoaDon);
 
@@ -307,7 +380,15 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
             Double tongtienhang = hoaDon.getThanhtien() + hoaDon.getGiatrigiam();
             Double sotienphaitra = tongtienhang - hoaDon.getGiatrigiam();
 
-            sendInvoiceEmail(hoaDon,hinhthucthanhtoan, productList, tongtienhang, sotienphaitra);
+            sendInvoiceEmail(hoaDon, hinhthucthanhtoan, productList, tongtienhang, sotienphaitra);
+            // Log trạng thái sau khi lưu
+            System.out.println("Sau khi lưu: " + savedHoaDon);
+            LichSuTaoTac lichSuTaoTac = new LichSuTaoTac();
+            lichSuTaoTac.setIdhd(IDHD);
+            lichSuTaoTac.setNguoithaotac(taikhoan);
+            lichSuTaoTac.setGhichu("Xác nhận hoá đơn");
+            lichSuTaoTac.setTrangthai(1);
+            lichSuThaoTacRepository.save(lichSuTaoTac);
 
             return savedHoaDon;
 
@@ -369,7 +450,7 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
         return productList.toString();
     }
 
-    private void sendInvoiceEmail(HoaDon hoaDon, String hinhthucthanhtoan,String productList, Double tongtienhang, Double sotienphaitra) {
+    private void sendInvoiceEmail(HoaDon hoaDon, String hinhthucthanhtoan, String productList, Double tongtienhang, Double sotienphaitra) {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
@@ -416,7 +497,7 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
                     "            </tr>\n" +
                     "        </thead>\n" +
                     "        <tbody>\n" +
-                     productList+
+                    productList +
                     "        </tbody>\n" +
                     "    </table>\n" +
                     "    <br>\n" +
