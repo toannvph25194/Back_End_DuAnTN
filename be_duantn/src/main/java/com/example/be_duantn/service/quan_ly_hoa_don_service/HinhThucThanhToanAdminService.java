@@ -9,6 +9,7 @@ import com.example.be_duantn.entity.HinhThucThanhToan;
 import com.example.be_duantn.entity.HoaDon;
 import com.example.be_duantn.entity.NhanVien;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,7 +28,7 @@ public interface HinhThucThanhToanAdminService {
     HinhThucThanhToan AddHTTTMoiKhiHoanThanh( UUID idhd,HinhThucThanhToanAdminRequest hinhThucThanhToanAdminRequest);
 
   // update hình thức thanh toán
-  List<HinhThucThanhToan> updateNguoiXacNhan(UUID IDHD, UUID idnhanvien);
+  List<HinhThucThanhToan> updateNguoiXacNhan(UUID IDHD, UUID idnhanvien, Principal principal);
 
   public List <NhanVienAdminRespon> loadtatcanhanvienTT1();
 

@@ -6,10 +6,13 @@ import com.example.be_duantn.dto.respon.quan_ly_hoa_don_respon.HoaDonChiTietResp
 import com.example.be_duantn.entity.GioHangChiTiet;
 import com.example.be_duantn.entity.HoaDon;
 import com.example.be_duantn.entity.HoaDonChiTiet;
+import com.example.be_duantn.entity.KhachHang;
+import com.example.be_duantn.entity.LichSuTaoTac;
 import com.example.be_duantn.entity.SanPhamChiTiet;
 import com.example.be_duantn.repository.mua_hang_oneline_repository.SanPhamChiTietRepository;
 import com.example.be_duantn.repository.quan_ly_hoa_don_repository.HoaDonAdminRepository;
 import com.example.be_duantn.repository.quan_ly_hoa_don_repository.HoaDonChiTietAdminRepository;
+import com.example.be_duantn.repository.quan_ly_hoa_don_repository.LichSuThaoTacRepository;
 import com.example.be_duantn.service.quan_ly_hoa_don_service.HoaDonChiTietAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +26,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.http.HttpStatus;
 
+import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -36,6 +40,9 @@ public class HoaDonChiTietAdminServiceImpl implements HoaDonChiTietAdminService 
     SanPhamChiTietRepository sanPhamChiTietRepository;
     @Autowired
     HoaDonAdminRepository hoaDonAdminRepository;
+
+    @Autowired
+    LichSuThaoTacRepository lichSuThaoTacRepository;
 
     @Override
     public List<HoaDonChiTietRespon> finByIdHDCT(UUID IdHD) {
@@ -96,11 +103,13 @@ public class HoaDonChiTietAdminServiceImpl implements HoaDonChiTietAdminService 
     }
 
     @Override
-    public MessageGioHangCTRespon addSPHDCT(UUID idhd, UUID idspct, Integer soluong, Double dongiakhigiam) {
+    public MessageGioHangCTRespon addSPHDCT(UUID idhd, UUID idspct, Integer soluong, Double dongiakhigiam, Principal principal) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         // Kiểm tra quyền của người dùng và thực hiện xử lý tùy thuộc vào quyền
         if (hasPermission(authentication.getAuthorities(), "ADMIN", "NHANVIEN")) {
+            HoaDon hoaDon = hoaDonAdminRepository.findById(idhd)
+                    .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy hóa đơn với ID: " + idhd));
             HoaDonChiTiet ghct = hoaDonChiTietAdminRepository.findByHoadonIdhoadonAndSanphamchitietIdspct(idhd, idspct);
             SanPhamChiTiet spct = sanPhamChiTietRepository.findById(idspct).orElse(null);
             if (ghct != null) {
@@ -144,10 +153,18 @@ public class HoaDonChiTietAdminServiceImpl implements HoaDonChiTietAdminService 
 
                 // add hdct mới
                 hoaDonChiTietAdminRepository.save(ghctMoi);
-
+                String taikhoan = principal.getName();
                 // update số lượng tồn trong spct
                 spct.setSoluongton(spct.getSoluongton() - soluong);
                 sanPhamChiTietRepository.save(spct);
+                KhachHang khachHang = new KhachHang();
+                khachHang.setIdkh(hoaDon.getKhachhang().getIdkh());
+                LichSuTaoTac lichSuTaoTac = new LichSuTaoTac();
+                lichSuTaoTac.setIdhd(hoaDon.getIdhoadon());
+                lichSuTaoTac.setNguoithaotac(taikhoan);
+                lichSuTaoTac.setGhichu("Thêm mới sản phẩm vào hoá đơn");
+                lichSuTaoTac.setTrangthai(1);
+                lichSuThaoTacRepository.save(lichSuTaoTac);
                 return MessageGioHangCTRespon.builder().message("Thêm mới thành công hdct !").build();
             }
         } else {
@@ -157,11 +174,14 @@ public class HoaDonChiTietAdminServiceImpl implements HoaDonChiTietAdminService 
     }
 
     @Override
-    public MessageGioHangCTRespon updateHDCT(UUID idHDCT, Integer soluong) {
+    public MessageGioHangCTRespon updateHDCT(UUID idHDCT, Integer soluong,UUID idhd, Principal principal) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         // Kiểm tra quyền của người dùng và thực hiện xử lý tùy thuộc vào quyền
         if (hasPermission(authentication.getAuthorities(), "ADMIN", "NHANVIEN")) {
+            HoaDon hoaDon = hoaDonAdminRepository.findById(idhd)
+                    .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy hóa đơn với ID: " + idhd));
+
             HoaDonChiTiet HDCT = hoaDonChiTietAdminRepository.findById(idHDCT).orElse(null);
             if (HDCT != null) {
                 Integer soluongton01 = HDCT.getSanphamchitiet().getSoluongton();
@@ -185,7 +205,15 @@ public class HoaDonChiTietAdminServiceImpl implements HoaDonChiTietAdminService 
                 Integer soluongtonmoi = soluongton - soluongthaydoi;
                 HDCT.getSanphamchitiet().setSoluongton(soluongtonmoi);
                 hoaDonChiTietAdminRepository.save(HDCT);
-
+                String taikhoan = principal.getName();
+                KhachHang khachHang = new KhachHang();
+                khachHang.setIdkh(hoaDon.getKhachhang().getIdkh());
+                LichSuTaoTac lichSuTaoTac = new LichSuTaoTac();
+                lichSuTaoTac.setIdhd(hoaDon.getIdhoadon());
+                lichSuTaoTac.setNguoithaotac(taikhoan);
+                lichSuTaoTac.setGhichu("Sửa số lượng sản phẩm");
+                lichSuTaoTac.setTrangthai(1);
+                lichSuThaoTacRepository.save(lichSuTaoTac);
                 return new MessageGioHangCTRespon("Cập nhật số lượng hdct thành công!");
             } else {
                 throw new AccessDeniedException("Không tìm thấy idhdct!");
@@ -197,11 +225,13 @@ public class HoaDonChiTietAdminServiceImpl implements HoaDonChiTietAdminService 
     }
 
     @Override
-    public MessageGioHangCTRespon deleteHoaDonCT(UUID idghct) {
+    public MessageGioHangCTRespon deleteHoaDonCT(UUID idghct,UUID idhd, Principal principal) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         // Kiểm tra quyền của người dùng và thực hiện xử lý tùy thuộc vào quyền
         if (hasPermission(authentication.getAuthorities(), "ADMIN", "NHANVIEN")) {
+            HoaDon hoaDon = hoaDonAdminRepository.findById(idhd)
+                    .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy hóa đơn với ID: " + idhd));
             HoaDonChiTiet hdct = hoaDonChiTietAdminRepository.findById(idghct).orElse(null);
             if (hdct != null) {
                 hoaDonChiTietAdminRepository.delete(hdct);
@@ -214,6 +244,15 @@ public class HoaDonChiTietAdminServiceImpl implements HoaDonChiTietAdminService 
                 } else {
                     return MessageGioHangCTRespon.builder().message("K tìm thấy idspct trong hdct !").build();
                 }
+                String taikhoan = principal.getName();
+                KhachHang khachHang = new KhachHang();
+                khachHang.setIdkh(hoaDon.getKhachhang().getIdkh());
+                LichSuTaoTac lichSuTaoTac = new LichSuTaoTac();
+                lichSuTaoTac.setIdhd(hoaDon.getIdhoadon());
+                lichSuTaoTac.setNguoithaotac(taikhoan);
+                lichSuTaoTac.setGhichu("Xoá sản phẩm khỏi hoá đơn");
+                lichSuTaoTac.setTrangthai(1);
+                lichSuThaoTacRepository.save(lichSuTaoTac);
 
                 return MessageGioHangCTRespon.builder().message("Xóa hdct thành công !").build();
             } else {

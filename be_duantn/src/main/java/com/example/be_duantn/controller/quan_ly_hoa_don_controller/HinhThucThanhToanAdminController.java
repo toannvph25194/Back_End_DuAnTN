@@ -64,11 +64,11 @@ public class HinhThucThanhToanAdminController {
     @PutMapping("/updatenguoixacnhan")
     public ResponseEntity<List<HinhThucThanhToan>> updatenguoixacnhan(
             @RequestParam("idhoadon") UUID IDHD,
-            @RequestParam("idnv") UUID idnv
+            @RequestParam("idnv") UUID idnv, Principal principal
 
     ) {
 
-        List<HinhThucThanhToan> updatedHTTTList = hinhThucThanhToanService.updateNguoiXacNhan(IDHD, idnv);
+        List<HinhThucThanhToan> updatedHTTTList = hinhThucThanhToanService.updateNguoiXacNhan(IDHD, idnv,principal);
         return ResponseEntity.ok(updatedHTTTList);
     }
     //api Load nhân viên

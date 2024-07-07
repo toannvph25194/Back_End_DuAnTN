@@ -76,20 +76,42 @@ public class PDFGeneratorServiceImpl implements PDFGeneratorService {
             document.add(title);
 
             // Invoice information
-            Paragraph invoiceDetails = new Paragraph();
-            invoiceDetails.setFont(fontParagraph);
-            invoiceDetails.add(new Phrase("Mã hóa đơn: " + hoaDon.getMahoadon() + "\n", fontParagraph));
-            invoiceDetails.add(new Phrase("Ngày mua: " + hoaDon.getNgaytao() + "\n", fontParagraph));
-            invoiceDetails.add(new Phrase("Khách hàng: " + hoaDon.getTennguoinhan() + "\n", fontParagraph));
+            PdfPTable table = new PdfPTable(2); // 2 columns
+            table.setWidthPercentage(100); // Full width
+
+            PdfPCell leftCell = new PdfPCell();
+            PdfPCell rightCell = new PdfPCell();
+            leftCell.setBorder(Rectangle.NO_BORDER);
+            rightCell.setBorder(Rectangle.NO_BORDER);
+
+            Paragraph leftParagraph = new Paragraph();
+            leftParagraph.setFont(fontParagraph);
+            leftParagraph.add(new Phrase("Mã hóa đơn: " + hoaDon.getMahoadon() + "\n", fontParagraph));
+            leftParagraph.add(new Phrase("Ngày mua: " + hoaDon.getNgaytao() + "\n", fontParagraph));
+            leftParagraph.add(new Phrase("Khách hàng: " + hoaDon.getTennguoinhan() + "\n", fontParagraph));
             if (hoaDon.getDiachinhanhang() != null) {
-                invoiceDetails.add(new Phrase("Địa chỉ: " + hoaDon.getDiachinhanhang() + "\n", fontParagraph));
+                leftParagraph.add(new Phrase("Địa chỉ: " + hoaDon.getDiachinhanhang() + "\n", fontParagraph));
             }
             if (hoaDon.getSdtnguoinhan() != null) {
-                invoiceDetails.add(new Phrase("Số điện thoại: " + hoaDon.getSdtnguoinhan() + "\n", fontParagraph));
+                leftParagraph.add(new Phrase("Số điện thoại: " + hoaDon.getSdtnguoinhan() + "\n", fontParagraph));
             }
-            if (hoaDon.getNhanvien() != null) {
-                invoiceDetails.add(new Phrase("Nhân viên bán hàng: " + hoaDon.getNhanvien().getHovatennv() + "\n", fontParagraph));
-            }
+            leftCell.addElement(leftParagraph);
+
+            Paragraph rightParagraph = new Paragraph();
+            rightParagraph.setFont(fontParagraph);
+            String nhanVien = (hoaDon.getNhanvien() != null) ? hoaDon.getNhanvien().getHovatennv() : "đơn online";
+            rightParagraph.add(new Phrase("Nhân viên bán hàng: " + nhanVien + "\n", fontParagraph));
+
+            Paragraph rightParagraph1 = new Paragraph();
+            rightParagraph1.setFont(fontParagraph);
+            String ngayThanhToan = (hoaDon.getNgaythanhtoan() == null) ? "Khách hàng chưa thanh toán" : hoaDon.getNgaythanhtoan().toString();
+            rightParagraph1.add(new Phrase("Ngày thanh toán: " + ngayThanhToan + "\n", fontParagraph));
+
+            Paragraph rightParagraph9 = new Paragraph();
+            rightParagraph9.setFont(fontParagraph);
+            String hoadon = (hoaDon.getLoaihoadon() == 1) ? "Đơn hàng online" : "Đơn hàng tại quầy";
+            rightParagraph9.add(new Phrase("Loại hoá đơn: " + hoadon + "\n", fontParagraph));
+
             String trangThai;
             switch (hoaDon.getTrangthai()) {
                 case 1:
@@ -113,9 +135,17 @@ public class PDFGeneratorServiceImpl implements PDFGeneratorService {
                 default:
                     trangThai = "Không xác định"; // Trạng thái mặc định nếu không khớp với bất kỳ giá trị nào
             }
+            rightParagraph.add(new Phrase("Trạng thái: " + trangThai + "\n", fontParagraph));
+            rightCell.addElement(rightParagraph1);
+            rightCell.addElement(rightParagraph9);
+            rightCell.addElement(rightParagraph);
 
-            invoiceDetails.add(new Phrase("Trạng thái: " + trangThai + "\n", fontParagraph));
-            document.add(invoiceDetails);
+
+            table.addCell(leftCell);
+            table.addCell(rightCell);
+
+            document.add(table);
+
 
             // Thêm một dòng trống
 
@@ -135,7 +165,7 @@ public class PDFGeneratorServiceImpl implements PDFGeneratorService {
             BigDecimal tongTienSanPham = BigDecimal.ZERO;
             for (HoaDonChiTiet hoaDonChiTiet : hoaDonChiTietList) {
                 productTable.addCell(Integer.toString(stt)); // STT
-                productTable.addCell(new Phrase(hoaDonChiTiet.getSanphamchitiet().getSanpham().getTensp()+"-"+hoaDonChiTiet.getSanphamchitiet().getMausac().getTenmausac()+"-"+ hoaDonChiTiet.getSanphamchitiet().getSize().getTensize(), fontParagraph)); // Tên sản phẩm// Tên sản phẩm
+                productTable.addCell(new Phrase(hoaDonChiTiet.getSanphamchitiet().getSanpham().getTensp() + "-" + hoaDonChiTiet.getSanphamchitiet().getMausac().getTenmausac() + "-" + hoaDonChiTiet.getSanphamchitiet().getSize().getTensize(), fontParagraph)); // Tên sản phẩm// Tên sản phẩm
                 productTable.addCell(Integer.toString(hoaDonChiTiet.getSoluong())); // Số lượng
 
                 // Assuming these are initialized correctly
@@ -195,7 +225,7 @@ public class PDFGeneratorServiceImpl implements PDFGeneratorService {
 
             // Add tables to document
             document.add(productTable);
-             // Thêm một dòng trống
+            // Thêm một dòng trống
             // Hình thức thanh toán
             PdfPTable productTable1 = new PdfPTable(5);
             productTable1.setWidthPercentage(100);
@@ -213,7 +243,11 @@ public class PDFGeneratorServiceImpl implements PDFGeneratorService {
             int stt1 = 1;
             for (HinhThucThanhToan hinhThucThanhToan : hinhThucThanhToans) {
                 productTable1.addCell(Integer.toString(stt1)); // STT
-                productTable1.addCell(hinhThucThanhToan.getMagiaodich()); // Tên sản phẩm// Tên sản phẩm
+                String maGiaoDich = (hinhThucThanhToan.getMagiaodich() != null) ? hinhThucThanhToan.getMagiaodich() : "khách chưa thanh toán";
+                PdfPCell cell = new PdfPCell(new Phrase(maGiaoDich, fontParagraph));
+                productTable1.addCell(cell);
+
+                // Tên sản phẩm// Tên sản phẩm
                 productTable1.addCell(Double.toString(hinhThucThanhToan.getSotientra()) + " VND"); // Số lượng
 
                 if (hinhThucThanhToan.getHinhthucthanhtoan() == 1) {
@@ -254,6 +288,40 @@ public class PDFGeneratorServiceImpl implements PDFGeneratorService {
             Paragraph paragraph18 = new Paragraph("Tổng tiền phải thanh toán: " + tongTienPhaiThanhToan.toString() + " VND", fontParagraph);
             paragraph18.setAlignment(Element.ALIGN_LEFT);
             document.add(paragraph18);
+            if (hoaDon.getLoaihoadon() == 2) {
+                BigDecimal totalAmountPaid01 = BigDecimal.ZERO;
+
+                for (HinhThucThanhToan hinhThucThanhToan : hinhThucThanhToans) {
+                    if (hinhThucThanhToan.getHinhthucthanhtoan() == 1 || hinhThucThanhToan.getHinhthucthanhtoan() == 2) {
+                        totalAmountPaid01 = totalAmountPaid01.add(BigDecimal.valueOf(hinhThucThanhToan.getSotientra()));
+                    }
+                }
+
+// Chuyển hoaDon.getTienthua() sang BigDecimal trước khi cộng
+                BigDecimal tienThua = BigDecimal.valueOf(hoaDon.getTienthua());
+                BigDecimal soTienKhachTra = totalAmountPaid01.add(tienThua);
+
+                Paragraph paragraph1 = new Paragraph("Tiền khách đưa: " + soTienKhachTra.toString() + " VND", fontParagraph);
+                paragraph1.setAlignment(Element.ALIGN_LEFT);
+                document.add(paragraph1);
+
+
+                BigDecimal tìenthua = BigDecimal.valueOf(hoaDon.getTienthua());
+                Paragraph paragraph2 = new Paragraph("Tiền thừa: " + tìenthua.toString() + " VND", fontParagraph);
+                paragraph2.setAlignment(Element.ALIGN_LEFT);
+                document.add(paragraph2);
+            }
+            BigDecimal totalAmountPaid = BigDecimal.ZERO;
+
+            for (HinhThucThanhToan hinhThucThanhToan : hinhThucThanhToans) {
+                if (hinhThucThanhToan.getHinhthucthanhtoan() == 3) {
+                    totalAmountPaid = totalAmountPaid.add(BigDecimal.valueOf(hinhThucThanhToan.getSotientra()));
+                }
+            }
+
+            Paragraph paragraph3 = new Paragraph("Tiền hoàn khách: " + totalAmountPaid.toString() + " VND", fontParagraph);
+            paragraph3.setAlignment(Element.ALIGN_LEFT);
+            document.add(paragraph3);
 
 
         } catch (DocumentException e) {

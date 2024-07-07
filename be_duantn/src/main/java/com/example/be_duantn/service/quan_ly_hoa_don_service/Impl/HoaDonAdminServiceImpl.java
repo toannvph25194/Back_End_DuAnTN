@@ -9,6 +9,7 @@ import com.example.be_duantn.entity.HinhThucThanhToan;
 import com.example.be_duantn.entity.HoaDon;
 import com.example.be_duantn.entity.HoaDonChiTiet;
 import com.example.be_duantn.entity.KhachHang;
+import com.example.be_duantn.entity.LichSuTaoTac;
 import com.example.be_duantn.entity.NhanVien;
 import com.example.be_duantn.entity.SanPhamChiTiet;
 import com.example.be_duantn.entity.VouCher;
@@ -18,6 +19,7 @@ import com.example.be_duantn.repository.mua_hang_oneline_repository.VouCherRepos
 import com.example.be_duantn.repository.quan_ly_hoa_don_repository.HinhThucThanhToanAdminRepository;
 import com.example.be_duantn.repository.quan_ly_hoa_don_repository.HoaDonAdminRepository;
 import com.example.be_duantn.repository.quan_ly_hoa_don_repository.HoaDonChiTietAdminRepository;
+import com.example.be_duantn.repository.quan_ly_hoa_don_repository.LichSuThaoTacRepository;
 import com.example.be_duantn.repository.quan_ly_hoa_don_repository.VouCherAdminQuanLyHoaDonRepository;
 import com.example.be_duantn.service.quan_ly_hoa_don_service.HoaDonAdminService;
 import jakarta.mail.MessagingException;
@@ -36,6 +38,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 
+import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
@@ -62,6 +65,9 @@ public class HoaDonAdminServiceImpl implements HoaDonAdminService {
 
     @Autowired
     VouCherAdminQuanLyHoaDonRepository vouCherRepository;
+    @Autowired
+    LichSuThaoTacRepository lichSuThaoTacRepository;
+
     @Autowired
 
     HinhThucThanhToanAdminRepository hinhThucThanhToanAdminRepository;
@@ -229,7 +235,7 @@ public class HoaDonAdminServiceImpl implements HoaDonAdminService {
     }
 
     @Override
-    public HoaDon updateThongTinHoaDon(UUID IDHD, HoaDonTrangThaiAdminRequest hoaDonTrangThaiAdminRequest, String taikhoan) {
+    public HoaDon updateThongTinHoaDon(UUID IDHD, HoaDonTrangThaiAdminRequest hoaDonTrangThaiAdminRequest, String taikhoan, Principal principal) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         // Kiểm tra quyền của người dùng và thực hiện xử lý tùy thuộc vào quyền
@@ -265,6 +271,15 @@ public class HoaDonAdminServiceImpl implements HoaDonAdminService {
 
             // Log trạng thái sau khi lưu
             System.out.println("Sau khi lưu: " + savedHoaDon);
+            String taikhoan01 = principal.getName();
+            KhachHang khachHang = new KhachHang();
+            khachHang.setIdkh(hoaDon.getKhachhang().getIdkh());
+            LichSuTaoTac lichSuTaoTac = new LichSuTaoTac();
+            lichSuTaoTac.setIdhd(hoaDon.getIdhoadon());
+            lichSuTaoTac.setNguoithaotac(taikhoan01);
+            lichSuTaoTac.setGhichu("Chỉnh sửa thông tin hoá đơn");
+            lichSuTaoTac.setTrangthai(1);
+            lichSuThaoTacRepository.save(lichSuTaoTac);
 
             return savedHoaDon;
 
@@ -275,7 +290,7 @@ public class HoaDonAdminServiceImpl implements HoaDonAdminService {
     }
 
     @Override
-    public HoaDon updateTrangThaiHoaDon(UUID IDHD, HoaDonTrangThaiAdminRequest hoaDonTrangThaiAdminRequest, String taikhoan) {
+    public HoaDon updateTrangThaiHoaDon(UUID IDHD, HoaDonTrangThaiAdminRequest hoaDonTrangThaiAdminRequest, String taikhoan, Principal principal) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         // Kiểm tra quyền của người dùng và thực hiện xử lý tùy thuộc vào quyền
@@ -313,11 +328,23 @@ public class HoaDonAdminServiceImpl implements HoaDonAdminService {
 
             List<HinhThucThanhToan> hinhThucThanhToans = hinhThucThanhToanAdminRepository.findHinhThucThanhToanByHoadonIdhoadon(IDHD);
             String hinhthucthanhtoan = HinhThucThanhToan(hinhThucThanhToans);
-            Double tongtienhang = hoaDon.getThanhtien() + hoaDon.getGiatrigiam();
 
-            Double sotienphaitra = tongtienhang - hoaDon.getGiatrigiam();
+            // Kiểm tra và gán giá trị 0 nếu hoaDon.getGiatrigiam() là null
+            Double giatrigiam = hoaDon.getGiatrigiam() != null ? hoaDon.getGiatrigiam() : 0.0;
+
+            Double tongtienhang = hoaDon.getThanhtien() + giatrigiam;
+            Double sotienphaitra = tongtienhang - giatrigiam;
 
             sendInvoiceEmailTheotrangthai(hoaDon, hinhthucthanhtoan, productList, tongtienhang, sotienphaitra);
+            String taikhoan01 = principal.getName();
+            KhachHang khachHang = new KhachHang();
+            khachHang.setIdkh(hoaDon.getKhachhang().getIdkh());
+            LichSuTaoTac lichSuTaoTac = new LichSuTaoTac();
+            lichSuTaoTac.setIdhd(hoaDon.getIdhoadon());
+            lichSuTaoTac.setNguoithaotac(taikhoan01);
+            lichSuTaoTac.setGhichu("Xác nhận hoá đơn");
+            lichSuTaoTac.setTrangthai(1);
+            lichSuThaoTacRepository.save(lichSuTaoTac);
             return savedHoaDon;
 
         } else {
@@ -327,7 +354,7 @@ public class HoaDonAdminServiceImpl implements HoaDonAdminService {
     }
 
     @Override
-    public HoaDon updateThongTinNguoiGiao(UUID IDHD, HoaDonTrangThaiAdminRequest hoaDonTrangThaiAdminRequest, String taikhoan) {
+    public HoaDon updateThongTinNguoiGiao(UUID IDHD, HoaDonTrangThaiAdminRequest hoaDonTrangThaiAdminRequest, String taikhoan, Principal principal) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         // Kiểm tra quyền của người dùng và thực hiện xử lý tùy thuộc vào quyền
@@ -360,7 +387,15 @@ public class HoaDonAdminServiceImpl implements HoaDonAdminService {
 
             // Log trạng thái sau khi lưu
             System.out.println("Sau khi lưu: " + savedHoaDon);
-
+            String taikhoan01 = principal.getName();
+            KhachHang khachHang = new KhachHang();
+            khachHang.setIdkh(hoaDon.getKhachhang().getIdkh());
+            LichSuTaoTac lichSuTaoTac = new LichSuTaoTac();
+            lichSuTaoTac.setIdhd(hoaDon.getIdhoadon());
+            lichSuTaoTac.setNguoithaotac(taikhoan01);
+            lichSuTaoTac.setGhichu("Chỉnh sửa thông tin người giao");
+            lichSuTaoTac.setTrangthai(1);
+            lichSuThaoTacRepository.save(lichSuTaoTac);
             return savedHoaDon;
 
         } else {
@@ -370,7 +405,7 @@ public class HoaDonAdminServiceImpl implements HoaDonAdminService {
     }
 
     @Override
-    public HoaDon updatehoanthanh(UUID IDHD, HoaDonTrangThaiAdminRequest hoaDonTrangThaiAdminRequest, String taikhoan) {
+    public HoaDon updatehoanthanh(UUID IDHD, HoaDonTrangThaiAdminRequest hoaDonTrangThaiAdminRequest, String taikhoan, Principal principal) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         // Kiểm tra quyền của người dùng và thực hiện xử lý tùy thuộc vào quyền
@@ -408,7 +443,15 @@ public class HoaDonAdminServiceImpl implements HoaDonAdminService {
 
             // Log trạng thái sau khi lưu
             System.out.println("Sau khi lưu: " + savedHoaDon);
-
+            String taikhoan01 = principal.getName();
+            KhachHang khachHang = new KhachHang();
+            khachHang.setIdkh(hoaDon.getKhachhang().getIdkh());
+            LichSuTaoTac lichSuTaoTac = new LichSuTaoTac();
+            lichSuTaoTac.setIdhd(hoaDon.getIdhoadon());
+            lichSuTaoTac.setNguoithaotac(taikhoan01);
+            lichSuTaoTac.setGhichu("Xác nhận hoá đơn");
+            lichSuTaoTac.setTrangthai(1);
+            lichSuThaoTacRepository.save(lichSuTaoTac);
 
             return savedHoaDon;
 
@@ -419,7 +462,7 @@ public class HoaDonAdminServiceImpl implements HoaDonAdminService {
     }
 
     @Override
-    public HoaDon updatehuyhoadon(UUID IDHD, HoaDonTrangThaiAdminRequest hoaDonTrangThaiAdminRequest, String taikhoan) {
+    public HoaDon updatehuyhoadon(UUID IDHD, HoaDonTrangThaiAdminRequest hoaDonTrangThaiAdminRequest, String taikhoan, Principal principal) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         // Kiểm tra quyền của người dùng và thực hiện xử lý tùy thuộc vào quyền
@@ -473,6 +516,15 @@ public class HoaDonAdminServiceImpl implements HoaDonAdminService {
             // Log trạng thái sau khi lưu
             System.out.println("Sau khi lưu: " + savedHoaDon);
 
+            String taikhoan01 = principal.getName();
+            KhachHang khachHang = new KhachHang();
+            khachHang.setIdkh(hoaDon.getKhachhang().getIdkh());
+            LichSuTaoTac lichSuTaoTac = new LichSuTaoTac();
+            lichSuTaoTac.setIdhd(hoaDon.getIdhoadon());
+            lichSuTaoTac.setNguoithaotac(taikhoan01);
+            lichSuTaoTac.setGhichu("Huỷ đơn hàng");
+            lichSuTaoTac.setTrangthai(1);
+            lichSuThaoTacRepository.save(lichSuTaoTac);
             return savedHoaDon;
 
         } else {

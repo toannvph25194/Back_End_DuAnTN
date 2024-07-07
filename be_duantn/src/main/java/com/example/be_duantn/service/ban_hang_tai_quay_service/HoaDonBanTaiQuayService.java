@@ -32,10 +32,10 @@ public interface HoaDonBanTaiQuayService {
     LayTienKhachTraRespon laytienkhachtra(UUID id);
 
     // update hoá đơn hoàn thành
-    HoaDon updatehoanthanh(UUID IDHD, UUID Idgg, Double TienCuoiCung, Double TienDuocGiam);
+    HoaDon updatehoanthanh(UUID IDHD, UUID Idgg, Double TienCuoiCung, Double TienDuocGiam,Principal principal);
 
     // update hoá đơn xác nhận
-    HoaDon updateXacNhan(UUID IDHD, UUID Idgg, Double TienCuoiCung, Double TienDuocGiam, HoaDonXacNhanRequest hoaDonXacNhanRequest);
+    HoaDon updateXacNhan(UUID IDHD, UUID Idgg, Double TienCuoiCung, Double TienDuocGiam, HoaDonXacNhanRequest hoaDonXacNhanRequest,Principal principal);
 
     //lấy tiền khách đã trả
     HoaDon layhoadontheoid(UUID id);

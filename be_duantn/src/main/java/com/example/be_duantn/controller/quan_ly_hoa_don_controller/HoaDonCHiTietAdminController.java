@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.http.HttpStatus;
 
+import java.security.Principal;
 import java.util.UUID;
 
 @RestController
@@ -66,12 +67,13 @@ public class HoaDonCHiTietAdminController {
     // ToDo Add sản phẩm vào hdct
     @PostMapping("/add-san-pham")
     public ResponseEntity<?> addSPHDCT(@RequestParam("idhd") UUID idgh, @RequestParam("idspct") UUID idspct, @RequestParam("soluong") Integer soluong,
-                                       @RequestParam(value = "dongiakhigiam", required = false) Double dongiakhigiam) {
+                                       @RequestParam(value = "dongiakhigiam", required = false) Double dongiakhigiam
+            , Principal principal) {
         try {
             if (dongiakhigiam == null) {
                 dongiakhigiam = null;
             }
-            return ResponseEntity.ok(hoaDonChiTietAdminService.addSPHDCT(idgh, idspct, soluong, dongiakhigiam));
+            return ResponseEntity.ok(hoaDonChiTietAdminService.addSPHDCT(idgh, idspct, soluong, dongiakhigiam, principal));
         } catch (Exception ex) {
             return ResponseEntity.badRequest().body(new MessageGioHangCTRespon("Lỗi không thêm được sp vào ghct !"));
         }
@@ -81,10 +83,12 @@ public class HoaDonCHiTietAdminController {
     @PutMapping("/update-so-luong")
     public ResponseEntity<MessageGioHangCTRespon> updateSPGioHangCT(
             @RequestParam("idhdct") UUID idghct,
-            @RequestParam("soluong") Integer soluong
+            @RequestParam("soluong") Integer soluong,
+            @RequestParam("idhd") UUID idhd
+            , Principal principal
     ) {
         try {
-            MessageGioHangCTRespon response = hoaDonChiTietAdminService.updateHDCT(idghct, soluong);
+            MessageGioHangCTRespon response = hoaDonChiTietAdminService.updateHDCT(idghct, soluong, idhd, principal);
             return ResponseEntity.ok(response);
         } catch (AccessDeniedException ex) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new MessageGioHangCTRespon("Bạn không có quyền"));
@@ -97,9 +101,9 @@ public class HoaDonCHiTietAdminController {
 
     // ToDo Delete giỏ hàng chi tiết
     @DeleteMapping("/delete-san-pham")
-    public ResponseEntity<?> deleteSPGioHangCT(@RequestParam("idhdct") UUID idhdct) {
+    public ResponseEntity<?> deleteSPGioHangCT(@RequestParam("idhdct") UUID idhdct, @RequestParam("idhd") UUID idhd, Principal principal) {
         try {
-            return ResponseEntity.ok(hoaDonChiTietAdminService.deleteHoaDonCT(idhdct));
+            return ResponseEntity.ok(hoaDonChiTietAdminService.deleteHoaDonCT(idhdct,idhd, principal));
         } catch (Exception ex) {
             return ResponseEntity.badRequest().body(new MessageGioHangCTRespon("Lỗi không thế xóa 1 sp trong ghct !"));
         }
