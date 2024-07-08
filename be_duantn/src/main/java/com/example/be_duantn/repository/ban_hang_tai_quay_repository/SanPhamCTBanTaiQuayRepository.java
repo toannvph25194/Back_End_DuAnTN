@@ -15,24 +15,24 @@ public interface SanPhamCTBanTaiQuayRepository extends JpaRepository<SanPhamChiT
 
     // Load sản phẩm phân trang lên bán hàng tại quầy
     @Query(value = "SELECT COUNT(spct.Id), spct.id, sp.TenSP, ms.TenMauSac, s.TenSize, cl.TenChatLieu, sp.ImageDefaul, sp.TheLoai, spct.SoLuongTon, sp.TrangThai, sp.GiaBan, \n" +
-            "                    ISNULL(sp.GiaBan - tgg.sotiengiamcuoicung, NULL) AS DonGiaKhiGiam\n" +
-            "              FROM SanPham sp\n" +
-            "              LEFT JOIN(SELECT spgg.IdSP, SUM(spgg.DonGia - spgg.DonGiaKhiGiam) AS sotiengiamcuoicung, SUM(spgg.SoLuongBan) AS SoLuongBan\n" +
-            "                FROM SPGiamGia spgg\n" +
-            "                JOIN GiamGia gg ON spgg.IdGG = gg.Id\n" +
-            "                WHERE GETDATE() >= gg.NgayBatDau AND GETDATE() <= gg.NgayKetThuc\n" +
-            "                GROUP BY spgg.IdSP\n" +
-            "              )tgg ON sp.Id = tgg.IdSP\n" +
-            "              JOIN SanPhamChiTiet spct ON spct.IdSP = sp.Id\n" +
-            "              JOIN MauSac ms on ms.Id = spct.IdMS\n" +
-            "              JOIN Size s on s.Id = spct.IdSize\n" +
-            "              JOIN ChatLieu cl on cl.Id = sp.IdCL\n" +
-            "              JOIN XuatXu xx on xx.Id = sp.IdXX\n" +
-            "              JOIN DanhMuc dm on dm.Id = sp.IdDM\n" +
-            "              JOIN ThuongHieu th on th.Id = sp.IdTH\n" +
-            "      WHERE spct.SoLuongTon > 0 AND sp.TrangThai = 1 AND ms.TrangThai = 1 AND s.TrangThai = 1\n" +
-            "      AND cl.TrangThai = 1 AND dm.TrangThai = 1 AND th.TrangThai = 1 AND xx.TrangThai = 1\n" +
-            "      GROUP BY spct.Id, sp.TenSP, ms.TenMauSac, s.TenSize, cl.TenChatLieu, sp.ImageDefaul, sp.TheLoai, spct.SoLuongTon, sp.TrangThai, sp.GiaBan, tgg.sotiengiamcuoicung\n", nativeQuery = true)
+            "                          ISNULL(tgg.sotiengiamcuoicung, NULL) AS DonGiaKhiGiam\n" +
+            "                          FROM SanPham sp\n" +
+            "                          LEFT JOIN(SELECT spgg.IdSP, MIN(spgg.DonGiaKhiGiam) AS sotiengiamcuoicung\n" +
+            "                            FROM SPGiamGia spgg\n" +
+            "                            JOIN GiamGia gg ON spgg.IdGG = gg.Id\n" +
+            "                            WHERE GETDATE() >= gg.NgayBatDau AND GETDATE() <= gg.NgayKetThuc\n" +
+            "                            GROUP BY spgg.IdSP\n" +
+            "                          )tgg ON sp.Id = tgg.IdSP\n" +
+            "                          JOIN SanPhamChiTiet spct ON spct.IdSP = sp.Id\n" +
+            "                          JOIN MauSac ms on ms.Id = spct.IdMS\n" +
+            "                          JOIN Size s on s.Id = spct.IdSize\n" +
+            "                          JOIN ChatLieu cl on cl.Id = sp.IdCL\n" +
+            "                          JOIN XuatXu xx on xx.Id = sp.IdXX\n" +
+            "                          JOIN DanhMuc dm on dm.Id = sp.IdDM\n" +
+            "                          JOIN ThuongHieu th on th.Id = sp.IdTH\n" +
+            "                  WHERE spct.SoLuongTon > 0 AND sp.TrangThai = 1 AND ms.TrangThai = 1 AND s.TrangThai = 1\n" +
+            "                  AND cl.TrangThai = 1 AND dm.TrangThai = 1 AND th.TrangThai = 1 AND xx.TrangThai = 1\n" +
+            "                  GROUP BY spct.Id, sp.TenSP, ms.TenMauSac, s.TenSize, cl.TenChatLieu, sp.ImageDefaul, sp.TheLoai, spct.SoLuongTon, sp.TrangThai, sp.GiaBan, tgg.sotiengiamcuoicung", nativeQuery = true)
     Page<LoadSPTaiQuayRespon> LoadSPBanTaiQuay(Pageable pageable);
 
     // Load màu săc lên bán hàng tại quầy
