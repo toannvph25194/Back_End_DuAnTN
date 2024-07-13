@@ -158,9 +158,9 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
             HTTT.setNgaytao(timestamp);
             HTTT.setNgaythanhtoan(timestamp);
             HTTT.setSotientra(finhoadon.getTienkhachtra());
-            HTTT.setHinhthucthanhtoan(3); // Payment method code for cancelled payment
+            HTTT.setHinhthucthanhtoan(1); // Payment method code for cancelled payment
             HTTT.setGhichu("Hoàn tiền thừa cho khách");
-            HTTT.setTrangthai(1);
+            HTTT.setTrangthai(3);
 
             KhachHang khachHang = new KhachHang();
             khachHang.setIdkh(finhoadon.getKhachhang().getIdkh());
@@ -226,9 +226,9 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
                 HTTT.setNgaytao(timestamp);
                 HTTT.setNgaythanhtoan(timestamp);
                 HTTT.setSotientra(hoaDon.getTienkhachtra() - TienCuoiCung);
-                HTTT.setHinhthucthanhtoan(3); // Mã 3 đại diện cho hình thức thanh toán đã bị hủy
+                HTTT.setHinhthucthanhtoan(1); // Mã 3 đại diện cho hình thức thanh toán đã bị hủy
                 HTTT.setGhichu("Hoàn tiền thừa cho khách");
-                HTTT.setTrangthai(1);
+                HTTT.setTrangthai(3);
                 KhachHang khachHang = new KhachHang();
                 khachHang.setIdkh(hoaDon.getKhachhang().getIdkh());
                 HTTT.setKhachhang(khachHang);
@@ -261,6 +261,7 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
 
             hoaDon.setNgaycapnhat(timestamp);
             hoaDon.setNgaythanhtoan(timestamp);
+            hoaDon.setNgaynhanhang(timestamp);
 
             // Kiểm tra và gán voucher nếu không null
             if (Idgg != null) {
@@ -316,9 +317,9 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
                 HTTT.setNgaytao(timestamp);
                 HTTT.setNgaythanhtoan(timestamp);
                 HTTT.setSotientra(hoaDon.getTienkhachtra() - TienCuoiCung);
-                HTTT.setHinhthucthanhtoan(3); // Payment method code for cancelled payment
+                HTTT.setHinhthucthanhtoan(1); // Payment method code for cancelled payment
                 HTTT.setGhichu("Hoàn tiền thừa cho khách");
-                HTTT.setTrangthai(1);
+                HTTT.setTrangthai(3);
                 Optional<NhanVien> taiKhoanOptional = nhanVienRepository.findByTaikhoan(taikhoan);
                 if (taiKhoanOptional.isPresent()) {
                     NhanVien taiKhoan = taiKhoanOptional.get();
@@ -349,6 +350,7 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
             hoaDon.setSdtnguoinhan(hoaDonXacNhanRequest.getSdtnguoinhan());
             hoaDon.setEmailnguoinhan(hoaDonXacNhanRequest.getEmailnguoinhan());
             hoaDon.setDiachinhanhang(hoaDonXacNhanRequest.getDiachinhanhang());
+            hoaDon.setNgaynhanhang(timestamp);
             hoaDon.setGiatrigiam(TienDuocGiam != null ? TienDuocGiam : 0.0);
             hoaDon.setNgaycapnhat(timestamp);
             hoaDon.setNgaythanhtoan(timestamp);

@@ -135,9 +135,9 @@ public class HinhThucThanhToanAdminAdminServiceImpl implements HinhThucThanhToan
                 HTTT.setNgaytao(timestamp);
                 HTTT.setNgaythanhtoan(timestamp);
                 HTTT.setSotientra(hoaDon.getTienkhachtra());
-                HTTT.setHinhthucthanhtoan(3); // Mã 3 đại diện cho hình thức thanh toán đã bị hủy
-                HTTT.setGhichu("Hoá đơn đã bị huỷ");
-                HTTT.setTrangthai(1);
+                HTTT.setHinhthucthanhtoan(2); // Mã 3 đại diện cho hình thức thanh toán đã bị hủy
+                HTTT.setGhichu("Hoàn tiền thừa cho khách");
+                HTTT.setTrangthai(3);
                 KhachHang khachHang = new KhachHang();
                 khachHang.setIdkh(hoaDon.getKhachhang().getIdkh());
                 HTTT.setKhachhang(khachHang);
@@ -215,14 +215,14 @@ public class HinhThucThanhToanAdminAdminServiceImpl implements HinhThucThanhToan
     }
 
     private HinhThucThanhToan handleExcessPayment(HoaDon hoaDon, Timestamp timestamp) {
-        HinhThucThanhToan HTTT = createPaymentDetails(hoaDon.getTienkhachtra() - hoaDon.getThanhtien(), timestamp, 3, "Hoàn tiền thừa cho khách", hoaDon);
+        HinhThucThanhToan HTTT = createPaymentDetails(hoaDon.getTienkhachtra() - hoaDon.getThanhtien(), timestamp, 2, "Hoàn tiền thừa cho khách", hoaDon, 3);
         HinhThucThanhToan savedHTTT = hinhThucThanhToanAdminRepository.save(HTTT);
         System.out.println("Hình thức thanh toán đã được lưu thành công, ID: " + savedHTTT.getIdhttt());
         return savedHTTT;
     }
 
     private HinhThucThanhToan handleInsufficientPayment(HoaDon hoaDon, Timestamp timestamp) {
-        HinhThucThanhToan HTTT = createPaymentDetails(hoaDon.getThanhtien() - hoaDon.getTienkhachtra(), timestamp, 1, "Thu thêm tiền thiếu", hoaDon);
+        HinhThucThanhToan HTTT = createPaymentDetails(hoaDon.getThanhtien() - hoaDon.getTienkhachtra(), timestamp, 1, "Thu thêm tiền thiếu", hoaDon, 1);
         HinhThucThanhToan savedHTTT = hinhThucThanhToanAdminRepository.save(HTTT);
         System.out.println("Hình thức thanh toán đã được lưu thành công, ID: " + savedHTTT.getIdhttt());
         return savedHTTT;
@@ -233,6 +233,7 @@ public class HinhThucThanhToanAdminAdminServiceImpl implements HinhThucThanhToan
         HTTT.setMagiaodich(generatedTransactionId);
         HTTT.setGhichu("Khách hàng đã thanh toán");
         HTTT.setSotientra(amount);
+        HTTT.setTrangthai(1);
         HTTT.setNgaycapnhat(timestamp);
         if (HTTT.getNgaythanhtoan() == null) {
             HTTT.setNgaythanhtoan(timestamp);
@@ -240,7 +241,7 @@ public class HinhThucThanhToanAdminAdminServiceImpl implements HinhThucThanhToan
         System.out.println("Sau khi cập nhật nhưng trước khi lưu: " + HTTT);
     }
 
-    private HinhThucThanhToan createPaymentDetails(Double amount, Timestamp timestamp, int paymentMethod, String note, HoaDon hoaDon) {
+    private HinhThucThanhToan createPaymentDetails(Double amount, Timestamp timestamp, int paymentMethod, String note, HoaDon hoaDon, int trangthai) {
         HinhThucThanhToan HTTT = new HinhThucThanhToan();
         HTTT.setMagiaodich(generateRandomTransactionId());
         HTTT.setNgaytao(timestamp);
@@ -248,7 +249,7 @@ public class HinhThucThanhToanAdminAdminServiceImpl implements HinhThucThanhToan
         HTTT.setSotientra(amount);
         HTTT.setHinhthucthanhtoan(paymentMethod);
         HTTT.setGhichu(note);
-        HTTT.setTrangthai(1);
+        HTTT.setTrangthai(trangthai);
         KhachHang khachHang = new KhachHang();
         khachHang.setIdkh(hoaDon.getKhachhang().getIdkh());
         HTTT.setKhachhang(khachHang);
@@ -264,9 +265,12 @@ public class HinhThucThanhToanAdminAdminServiceImpl implements HinhThucThanhToan
 
         List<HinhThucThanhToan> hinhThucThanhToans = hinhThucThanhToanAdminRepository.findHinhThucThanhToanByHoadonIdhoadon(hoaDon.getIdhoadon());
         String hinhthucthanhtoan = HinhThucThanhToan(hinhThucThanhToans);
-        Double tongtienhang = hoaDon.getThanhtien() + hoaDon.getGiatrigiam();
+        Double giatrigiam = (hoaDon.getGiatrigiam() != null) ? hoaDon.getGiatrigiam() : 0;
 
-        Double sotienphaitra = tongtienhang - hoaDon.getGiatrigiam();
+        Double tongtienhang = hoaDon.getThanhtien() + giatrigiam;
+
+        Double sotienphaitra = tongtienhang - giatrigiam;
+
 
         sendInvoiceEmailhoanthanh(hoaDon, hinhthucthanhtoan, productList, tongtienhang, sotienphaitra);
     }
@@ -448,8 +452,8 @@ public class HinhThucThanhToanAdminAdminServiceImpl implements HinhThucThanhToan
                     "    </table>\n" +
                     "    <h6 style=\"color: black; font-size: 15px;\">Tổng Tiền Hàng: " + tongtienhang + " đ</h6>\n" +
                     "    <h6 style=\"color: black; font-size: 15px;\">Giảm Giá: " + hoaDon.getGiatrigiam() + " đ</h6>\n" +
-                    "    <h6 style=\"color: black; font-size: 15px;\">Tiền ship: " + hoaDon.getTiengiaohang() + " đ</h6>\n" +
-                    "    <h6 style=\"color: black; font-size: 15px;\">Số Tiền Phải Trả: " + sotienphaitra + " đ</h6>\n" +
+                    "<h6 style=\"color: black; font-size: 15px;\">Tiền ship: " + (hoaDon.getTiengiaohang() != null ? hoaDon.getTiengiaohang() + " đ" : "0 đ") + "</h6>\n"+
+            "    <h6 style=\"color: black; font-size: 15px;\">Số Tiền Phải Trả: " + sotienphaitra + " đ</h6>\n" +
                     "</body>";
 
             helper.setText(htmlMsg, true);
