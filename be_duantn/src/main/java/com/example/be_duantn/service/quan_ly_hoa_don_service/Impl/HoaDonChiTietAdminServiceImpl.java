@@ -3,28 +3,25 @@ package com.example.be_duantn.service.quan_ly_hoa_don_service.Impl;
 import com.example.be_duantn.dto.respon.ban_tai_quay_respon.LoadSPTaiQuayRespon;
 import com.example.be_duantn.dto.respon.mua_hang_online_respon.MessageGioHangCTRespon;
 import com.example.be_duantn.dto.respon.quan_ly_hoa_don_respon.HoaDonChiTietRespon;
-import com.example.be_duantn.entity.GioHangChiTiet;
 import com.example.be_duantn.entity.HoaDon;
 import com.example.be_duantn.entity.HoaDonChiTiet;
 import com.example.be_duantn.entity.KhachHang;
-import com.example.be_duantn.entity.LichSuTaoTac;
+import com.example.be_duantn.entity.LichSuHoaDon;
 import com.example.be_duantn.entity.SanPhamChiTiet;
 import com.example.be_duantn.repository.mua_hang_oneline_repository.SanPhamChiTietRepository;
 import com.example.be_duantn.repository.quan_ly_hoa_don_repository.HoaDonAdminRepository;
 import com.example.be_duantn.repository.quan_ly_hoa_don_repository.HoaDonChiTietAdminRepository;
-import com.example.be_duantn.repository.quan_ly_hoa_don_repository.LichSuThaoTacRepository;
+import com.example.be_duantn.repository.quan_ly_hoa_don_repository.LichSuHoaDonRepository;
 import com.example.be_duantn.service.quan_ly_hoa_don_service.HoaDonChiTietAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.http.HttpStatus;
 
 import java.security.Principal;
 import java.util.Collection;
@@ -42,7 +39,7 @@ public class HoaDonChiTietAdminServiceImpl implements HoaDonChiTietAdminService 
     HoaDonAdminRepository hoaDonAdminRepository;
 
     @Autowired
-    LichSuThaoTacRepository lichSuThaoTacRepository;
+    LichSuHoaDonRepository lichSuHoaDonRepository;
 
     @Override
     public List<HoaDonChiTietRespon> finByIdHDCT(UUID IdHD) {
@@ -159,12 +156,12 @@ public class HoaDonChiTietAdminServiceImpl implements HoaDonChiTietAdminService 
                 sanPhamChiTietRepository.save(spct);
                 KhachHang khachHang = new KhachHang();
                 khachHang.setIdkh(hoaDon.getKhachhang().getIdkh());
-                LichSuTaoTac lichSuTaoTac = new LichSuTaoTac();
-                lichSuTaoTac.setIdhd(hoaDon.getIdhoadon());
-                lichSuTaoTac.setNguoithaotac(taikhoan);
-                lichSuTaoTac.setGhichu("Thêm mới sản phẩm vào hoá đơn");
-                lichSuTaoTac.setTrangthai(1);
-                lichSuThaoTacRepository.save(lichSuTaoTac);
+                LichSuHoaDon lichsuhoadon = new LichSuHoaDon();
+                lichsuhoadon.setIdhd(hoaDon.getIdhoadon());
+                lichsuhoadon.setNguoithaotac(taikhoan);
+                lichsuhoadon.setGhichu("Thêm mới sản phẩm vào hoá đơn");
+                lichsuhoadon.setTrangthai(1);
+                lichSuHoaDonRepository.save(lichsuhoadon);
                 return MessageGioHangCTRespon.builder().message("Thêm mới thành công hdct !").build();
             }
         } else {
@@ -208,12 +205,12 @@ public class HoaDonChiTietAdminServiceImpl implements HoaDonChiTietAdminService 
                 String taikhoan = principal.getName();
                 KhachHang khachHang = new KhachHang();
                 khachHang.setIdkh(hoaDon.getKhachhang().getIdkh());
-                LichSuTaoTac lichSuTaoTac = new LichSuTaoTac();
-                lichSuTaoTac.setIdhd(hoaDon.getIdhoadon());
-                lichSuTaoTac.setNguoithaotac(taikhoan);
-                lichSuTaoTac.setGhichu("Sửa số lượng sản phẩm");
-                lichSuTaoTac.setTrangthai(1);
-                lichSuThaoTacRepository.save(lichSuTaoTac);
+                LichSuHoaDon lichsuhoadon = new LichSuHoaDon();
+                lichsuhoadon.setIdhd(hoaDon.getIdhoadon());
+                lichsuhoadon.setNguoithaotac(taikhoan);
+                lichsuhoadon.setGhichu("Sửa số lượng sản phẩm");
+                lichsuhoadon.setTrangthai(1);
+                lichSuHoaDonRepository.save(lichsuhoadon);
                 return new MessageGioHangCTRespon("Cập nhật số lượng hdct thành công!");
             } else {
                 throw new AccessDeniedException("Không tìm thấy idhdct!");
@@ -247,12 +244,12 @@ public class HoaDonChiTietAdminServiceImpl implements HoaDonChiTietAdminService 
                 String taikhoan = principal.getName();
                 KhachHang khachHang = new KhachHang();
                 khachHang.setIdkh(hoaDon.getKhachhang().getIdkh());
-                LichSuTaoTac lichSuTaoTac = new LichSuTaoTac();
-                lichSuTaoTac.setIdhd(hoaDon.getIdhoadon());
-                lichSuTaoTac.setNguoithaotac(taikhoan);
-                lichSuTaoTac.setGhichu("Xoá sản phẩm khỏi hoá đơn");
-                lichSuTaoTac.setTrangthai(1);
-                lichSuThaoTacRepository.save(lichSuTaoTac);
+                LichSuHoaDon lichsuhoadon = new LichSuHoaDon();
+                lichsuhoadon.setIdhd(hoaDon.getIdhoadon());
+                lichsuhoadon.setNguoithaotac(taikhoan);
+                lichsuhoadon.setGhichu("Xoá sản phẩm khỏi hoá đơn");
+                lichsuhoadon.setTrangthai(1);
+                lichSuHoaDonRepository.save(lichsuhoadon);
 
                 return MessageGioHangCTRespon.builder().message("Xóa hdct thành công !").build();
             } else {

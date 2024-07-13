@@ -1,25 +1,21 @@
 package com.example.be_duantn.service.quan_ly_hoa_don_service.Impl;
 
-import com.example.be_duantn.dto.request.quan_ly_hoa_don_request.HinhThucThanhToanAdminRequest;
 import com.example.be_duantn.dto.request.quan_ly_hoa_don_request.HoaDonTrangThaiAdminRequest;
-import com.example.be_duantn.dto.respon.mua_hang_online_respon.MessageGioHangCTRespon;
 import com.example.be_duantn.dto.respon.quan_ly_hoa_don_respon.Hoadonrespon;
-import com.example.be_duantn.entity.GioHangChiTiet;
 import com.example.be_duantn.entity.HinhThucThanhToan;
 import com.example.be_duantn.entity.HoaDon;
 import com.example.be_duantn.entity.HoaDonChiTiet;
 import com.example.be_duantn.entity.KhachHang;
-import com.example.be_duantn.entity.LichSuTaoTac;
+import com.example.be_duantn.entity.LichSuHoaDon;
 import com.example.be_duantn.entity.NhanVien;
 import com.example.be_duantn.entity.SanPhamChiTiet;
 import com.example.be_duantn.entity.VouCher;
 import com.example.be_duantn.repository.authentication_repository.NhanVienRepository;
 import com.example.be_duantn.repository.mua_hang_oneline_repository.SanPhamChiTietRepository;
-import com.example.be_duantn.repository.mua_hang_oneline_repository.VouCherRepository;
 import com.example.be_duantn.repository.quan_ly_hoa_don_repository.HinhThucThanhToanAdminRepository;
 import com.example.be_duantn.repository.quan_ly_hoa_don_repository.HoaDonAdminRepository;
 import com.example.be_duantn.repository.quan_ly_hoa_don_repository.HoaDonChiTietAdminRepository;
-import com.example.be_duantn.repository.quan_ly_hoa_don_repository.LichSuThaoTacRepository;
+import com.example.be_duantn.repository.quan_ly_hoa_don_repository.LichSuHoaDonRepository;
 import com.example.be_duantn.repository.quan_ly_hoa_don_repository.VouCherAdminQuanLyHoaDonRepository;
 import com.example.be_duantn.service.quan_ly_hoa_don_service.HoaDonAdminService;
 import jakarta.mail.MessagingException;
@@ -43,9 +39,7 @@ import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -66,7 +60,7 @@ public class HoaDonAdminServiceImpl implements HoaDonAdminService {
     @Autowired
     VouCherAdminQuanLyHoaDonRepository vouCherRepository;
     @Autowired
-    LichSuThaoTacRepository lichSuThaoTacRepository;
+    LichSuHoaDonRepository lichSuHoaDonRepository;
 
     @Autowired
 
@@ -274,12 +268,12 @@ public class HoaDonAdminServiceImpl implements HoaDonAdminService {
             String taikhoan01 = principal.getName();
             KhachHang khachHang = new KhachHang();
             khachHang.setIdkh(hoaDon.getKhachhang().getIdkh());
-            LichSuTaoTac lichSuTaoTac = new LichSuTaoTac();
-            lichSuTaoTac.setIdhd(hoaDon.getIdhoadon());
-            lichSuTaoTac.setNguoithaotac(taikhoan01);
-            lichSuTaoTac.setGhichu("Chỉnh sửa thông tin hoá đơn");
-            lichSuTaoTac.setTrangthai(1);
-            lichSuThaoTacRepository.save(lichSuTaoTac);
+            LichSuHoaDon lichsuhoadon = new LichSuHoaDon();
+            lichsuhoadon.setIdhd(hoaDon.getIdhoadon());
+            lichsuhoadon.setNguoithaotac(taikhoan01);
+            lichsuhoadon.setGhichu("Chỉnh sửa thông tin hoá đơn");
+            lichsuhoadon.setTrangthai(1);
+            lichSuHoaDonRepository.save(lichsuhoadon);
 
             return savedHoaDon;
 
@@ -342,12 +336,12 @@ public class HoaDonAdminServiceImpl implements HoaDonAdminService {
             String taikhoan01 = principal.getName();
             KhachHang khachHang = new KhachHang();
             khachHang.setIdkh(hoaDon.getKhachhang().getIdkh());
-            LichSuTaoTac lichSuTaoTac = new LichSuTaoTac();
-            lichSuTaoTac.setIdhd(hoaDon.getIdhoadon());
-            lichSuTaoTac.setNguoithaotac(taikhoan01);
-            lichSuTaoTac.setGhichu(hoaDonTrangThaiAdminRequest.getGhichu());
-            lichSuTaoTac.setTrangthai(1);
-            lichSuThaoTacRepository.save(lichSuTaoTac);
+            LichSuHoaDon lichsuhoadon = new LichSuHoaDon();
+            lichsuhoadon.setIdhd(hoaDon.getIdhoadon());
+            lichsuhoadon.setNguoithaotac(taikhoan01);
+            lichsuhoadon.setGhichu(hoaDonTrangThaiAdminRequest.getGhichu());
+            lichsuhoadon.setTrangthai(1);
+            lichSuHoaDonRepository.save(lichsuhoadon);
             return savedHoaDon;
 
         } else {
@@ -393,12 +387,12 @@ public class HoaDonAdminServiceImpl implements HoaDonAdminService {
             String taikhoan01 = principal.getName();
             KhachHang khachHang = new KhachHang();
             khachHang.setIdkh(hoaDon.getKhachhang().getIdkh());
-            LichSuTaoTac lichSuTaoTac = new LichSuTaoTac();
-            lichSuTaoTac.setIdhd(hoaDon.getIdhoadon());
-            lichSuTaoTac.setNguoithaotac(taikhoan01);
-            lichSuTaoTac.setGhichu("Chỉnh sửa thông tin người giao");
-            lichSuTaoTac.setTrangthai(1);
-            lichSuThaoTacRepository.save(lichSuTaoTac);
+            LichSuHoaDon lichsuhoadon = new LichSuHoaDon();
+            lichsuhoadon.setIdhd(hoaDon.getIdhoadon());
+            lichsuhoadon.setNguoithaotac(taikhoan01);
+            lichsuhoadon.setGhichu("Chỉnh sửa thông tin người giao");
+            lichsuhoadon.setTrangthai(1);
+            lichSuHoaDonRepository.save(lichsuhoadon);
             return savedHoaDon;
 
         } else {
@@ -450,12 +444,12 @@ public class HoaDonAdminServiceImpl implements HoaDonAdminService {
             String taikhoan01 = principal.getName();
             KhachHang khachHang = new KhachHang();
             khachHang.setIdkh(hoaDon.getKhachhang().getIdkh());
-            LichSuTaoTac lichSuTaoTac = new LichSuTaoTac();
-            lichSuTaoTac.setIdhd(hoaDon.getIdhoadon());
-            lichSuTaoTac.setNguoithaotac(taikhoan01);
-            lichSuTaoTac.setGhichu(hoaDonTrangThaiAdminRequest.getGhichu());
-            lichSuTaoTac.setTrangthai(1);
-            lichSuThaoTacRepository.save(lichSuTaoTac);
+            LichSuHoaDon lichsuhoadon = new LichSuHoaDon();
+            lichsuhoadon.setIdhd(hoaDon.getIdhoadon());
+            lichsuhoadon.setNguoithaotac(taikhoan01);
+            lichsuhoadon.setGhichu(hoaDonTrangThaiAdminRequest.getGhichu());
+            lichsuhoadon.setTrangthai(1);
+            lichSuHoaDonRepository.save(lichsuhoadon);
 
             return savedHoaDon;
 
@@ -523,12 +517,12 @@ public class HoaDonAdminServiceImpl implements HoaDonAdminService {
             String taikhoan01 = principal.getName();
             KhachHang khachHang = new KhachHang();
             khachHang.setIdkh(hoaDon.getKhachhang().getIdkh());
-            LichSuTaoTac lichSuTaoTac = new LichSuTaoTac();
-            lichSuTaoTac.setIdhd(hoaDon.getIdhoadon());
-            lichSuTaoTac.setNguoithaotac(taikhoan01);
-            lichSuTaoTac.setGhichu(hoaDonTrangThaiAdminRequest.getGhichu());
-            lichSuTaoTac.setTrangthai(1);
-            lichSuThaoTacRepository.save(lichSuTaoTac);
+            LichSuHoaDon lichsuhoadon = new LichSuHoaDon();
+            lichsuhoadon.setIdhd(hoaDon.getIdhoadon());
+            lichsuhoadon.setNguoithaotac(taikhoan01);
+            lichsuhoadon.setGhichu(hoaDonTrangThaiAdminRequest.getGhichu());
+            lichsuhoadon.setTrangthai(1);
+            lichSuHoaDonRepository.save(lichsuhoadon);
             return savedHoaDon;
 
         } else {

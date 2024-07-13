@@ -7,15 +7,13 @@ import com.example.be_duantn.entity.HinhThucThanhToan;
 import com.example.be_duantn.entity.HoaDon;
 import com.example.be_duantn.entity.HoaDonChiTiet;
 import com.example.be_duantn.entity.KhachHang;
-import com.example.be_duantn.entity.LichSuTaoTac;
+import com.example.be_duantn.entity.LichSuHoaDon;
 import com.example.be_duantn.entity.NhanVien;
-import com.example.be_duantn.entity.SanPhamChiTiet;
-import com.example.be_duantn.repository.authentication_repository.NhanVienRepository;
 import com.example.be_duantn.repository.quan_ly_dong_san_pham_repository.SanPhamRepository;
 import com.example.be_duantn.repository.quan_ly_hoa_don_repository.HinhThucThanhToanAdminRepository;
 import com.example.be_duantn.repository.quan_ly_hoa_don_repository.HoaDonAdminRepository;
 import com.example.be_duantn.repository.quan_ly_hoa_don_repository.HoaDonChiTietAdminRepository;
-import com.example.be_duantn.repository.quan_ly_hoa_don_repository.LichSuThaoTacRepository;
+import com.example.be_duantn.repository.quan_ly_hoa_don_repository.LichSuHoaDonRepository;
 import com.example.be_duantn.repository.quan_ly_hoa_don_repository.NhanVienAdminQuanLyHoaDonRepository;
 import com.example.be_duantn.service.quan_ly_hoa_don_service.HinhThucThanhToanAdminService;
 import jakarta.mail.MessagingException;
@@ -34,7 +32,6 @@ import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 
@@ -54,7 +51,7 @@ public class HinhThucThanhToanAdminAdminServiceImpl implements HinhThucThanhToan
     SanPhamRepository sanPhamRepository;
 
     @Autowired
-    LichSuThaoTacRepository lichSuThaoTacRepository;
+    LichSuHoaDonRepository lichHoaDonRepository;
 
     @Autowired
     NhanVienAdminQuanLyHoaDonRepository nhanVienRepository;
@@ -299,12 +296,12 @@ public class HinhThucThanhToanAdminAdminServiceImpl implements HinhThucThanhToan
             KhachHang khachHang = new KhachHang();
             khachHang.setIdkh(hoaDon.getKhachhang().getIdkh());
 
-            LichSuTaoTac lichSuTaoTac = new LichSuTaoTac();
-            lichSuTaoTac.setIdhd(hoaDon.getIdhoadon());
-            lichSuTaoTac.setNguoithaotac(taikhoan);
-            lichSuTaoTac.setGhichu("Chọn nhân viên xác nhận giao dịch");
-            lichSuTaoTac.setTrangthai(1);
-            lichSuThaoTacRepository.save(lichSuTaoTac);
+            LichSuHoaDon lichsuhoadon = new LichSuHoaDon();
+            lichsuhoadon.setIdhd(hoaDon.getIdhoadon());
+            lichsuhoadon.setNguoithaotac(taikhoan);
+            lichsuhoadon.setGhichu("Chọn nhân viên xác nhận giao dịch");
+            lichsuhoadon.setTrangthai(1);
+            lichHoaDonRepository.save(lichsuhoadon);
 
             // Lưu danh sách các hình thức thanh toán đã cập nhật và trả về
             return hinhThucThanhToanAdminRepository.saveAll(htttList);

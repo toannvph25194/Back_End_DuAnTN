@@ -1,7 +1,6 @@
 package com.example.be_duantn.controller.quan_ly_hoa_don_controller;
 
-import com.example.be_duantn.service.quan_ly_hoa_don_service.Impl.HoaDonChiTietAdminServiceImpl;
-import com.example.be_duantn.service.quan_ly_hoa_don_service.Impl.LichSuThaoTacServiceImpl;
+import com.example.be_duantn.service.quan_ly_hoa_don_service.Impl.LichSuHoaDonServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,7 +16,7 @@ import java.util.UUID;
 @RequestMapping("/api/admin/lichsuthaotac")
 public class LichSuThaoTacController {
     @Autowired
-    LichSuThaoTacServiceImpl lichSuThaoTacService;
+    LichSuHoaDonServiceImpl lichSuThaoTacService;
 
     //api Load Table
     @GetMapping("/hienthilichsuthaotactheoid")

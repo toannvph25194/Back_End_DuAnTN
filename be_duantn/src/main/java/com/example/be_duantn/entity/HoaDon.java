@@ -32,12 +32,24 @@ public class HoaDon {
     private Date ngaytao = new Date();
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "ngayxacnhan")
+    private Date ngayxacnhan;
+
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ngaythanhtoan")
     private Date ngaythanhtoan;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ngaycapnhat")
     private Date ngaycapnhat;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "ngaychogiaohang")
+    private Date ngaychogiaohang;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "ngayhuy")
+    private Date ngayhuy;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ngaygiaohang")
@@ -120,6 +132,6 @@ public class HoaDon {
 
     @OneToMany(mappedBy = "hoadon" , fetch = FetchType.LAZY)
     @JsonManagedReference
-    List<LichSuTaoTac> lichsuthaotac;
+    List<LichSuHoaDon> lichsuthaotac;
 
 }

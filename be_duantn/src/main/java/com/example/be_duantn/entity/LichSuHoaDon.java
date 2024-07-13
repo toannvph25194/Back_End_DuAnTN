@@ -13,8 +13,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Builder
-@Table(name = "lichsuthaotac")
-public class LichSuTaoTac {
+@Table(name = "lichsuhoadon")
+public class LichSuHoaDon {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

@@ -10,7 +10,7 @@ import com.example.be_duantn.entity.*;
 import com.example.be_duantn.enums.TrangThaiDonHangEnums;
 import com.example.be_duantn.repository.authentication_repository.NhanVienRepository;
 import com.example.be_duantn.repository.ban_hang_tai_quay_repository.*;
-import com.example.be_duantn.repository.quan_ly_hoa_don_repository.LichSuThaoTacRepository;
+import com.example.be_duantn.repository.quan_ly_hoa_don_repository.LichSuHoaDonRepository;
 import com.example.be_duantn.service.ban_hang_tai_quay_service.HoaDonBanTaiQuayService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -55,7 +55,7 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
     SanPhamCTBanTaiQuayRepository sanPhamCTBanTaiQuayRepository;
 
     @Autowired
-    LichSuThaoTacRepository lichSuThaoTacRepository;
+    LichSuHoaDonRepository lichSuHoaDonRepository;
     @Autowired
     NhanVienRepository nhanVienRepository;
 
@@ -107,12 +107,12 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
             hd.setTrangthai(TrangThaiDonHangEnums.CHO_XAC_NHAN.getValue());
             hoaDonBanTaiQuayRepository.save(hd);
 
-            LichSuTaoTac lichSuTaoTac = new LichSuTaoTac();
-            lichSuTaoTac.setIdhd(hd.getIdhoadon());
-            lichSuTaoTac.setNguoithaotac(taikhoan);
-            lichSuTaoTac.setGhichu("Tạo hoá đơn");
-            lichSuTaoTac.setTrangthai(1);
-            lichSuThaoTacRepository.save(lichSuTaoTac);
+            LichSuHoaDon lichsuhoadon = new LichSuHoaDon();
+            lichsuhoadon.setIdhd(hd.getIdhoadon());
+            lichsuhoadon.setNguoithaotac(taikhoan);
+            lichsuhoadon.setGhichu("Tạo hoá đơn");
+            lichsuhoadon.setTrangthai(1);
+            lichSuHoaDonRepository.save(lichsuhoadon);
 
             return HoaDonTaiQuayRequest.builder().idhoadon(hd.getIdhoadon()).idkh(khachle.getIdkh()).mahoadon(hd.getMahoadon()).message("Tạo hóa đơn bán tại quầy thành công !").build();
         } else {
@@ -173,16 +173,14 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
             } else {
                 throw new IllegalArgumentException("Không tìm thấy nhân viên với tài khoản: " + taikhoan);
             }
-            LichSuTaoTac lichSuTaoTac = new LichSuTaoTac();
-            lichSuTaoTac.setIdhd(finhoadon.getIdhoadon());
-            lichSuTaoTac.setNguoithaotac(taikhoan);
-            lichSuTaoTac.setGhichu("Huỷ hoá đơn");
-            lichSuTaoTac.setTrangthai(1);
-            lichSuThaoTacRepository.save(lichSuTaoTac);
-
             HinhThucThanhToan savedHTTT = hinhThucThanhToanAdminBanTaiQuayRepository.save(HTTT);
         }
-
+        LichSuHoaDon lichsuhoadon = new LichSuHoaDon();
+        lichsuhoadon.setIdhd(finhoadon.getIdhoadon());
+        lichsuhoadon.setNguoithaotac(taikhoan);
+        lichsuhoadon.setGhichu("Huỷ hoá đơn");
+        lichsuhoadon.setTrangthai(1);
+        lichSuHoaDonRepository.save(lichsuhoadon);
         return MessageHuyHoaDon.builder().message("Hủy hóa đơn thành công").build();
     }
 
@@ -279,12 +277,12 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
             // Log trạng thái sau khi lưu
             System.out.println("Sau khi lưu: " + savedHoaDon);
 
-            LichSuTaoTac lichSuTaoTac = new LichSuTaoTac();
-            lichSuTaoTac.setIdhd(IDHD);
-            lichSuTaoTac.setNguoithaotac(taikhoan);
-            lichSuTaoTac.setGhichu("Xác nhận hoàn thành hoá đơn");
-            lichSuTaoTac.setTrangthai(1);
-            lichSuThaoTacRepository.save(lichSuTaoTac);
+            LichSuHoaDon lichsuhoadon = new LichSuHoaDon();
+            lichsuhoadon.setIdhd(IDHD);
+            lichsuhoadon.setNguoithaotac(taikhoan);
+            lichsuhoadon.setGhichu("Xác nhận hoàn thành hoá đơn");
+            lichsuhoadon.setTrangthai(1);
+            lichSuHoaDonRepository.save(lichsuhoadon);
 
             return savedHoaDon;
 
@@ -385,12 +383,12 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
             sendInvoiceEmail(hoaDon, hinhthucthanhtoan, productList, tongtienhang, sotienphaitra);
             // Log trạng thái sau khi lưu
             System.out.println("Sau khi lưu: " + savedHoaDon);
-            LichSuTaoTac lichSuTaoTac = new LichSuTaoTac();
-            lichSuTaoTac.setIdhd(IDHD);
-            lichSuTaoTac.setNguoithaotac(taikhoan);
-            lichSuTaoTac.setGhichu("Xác nhận hoá đơn");
-            lichSuTaoTac.setTrangthai(1);
-            lichSuThaoTacRepository.save(lichSuTaoTac);
+            LichSuHoaDon lichsuhoadon = new LichSuHoaDon();
+            lichsuhoadon.setIdhd(IDHD);
+            lichsuhoadon.setNguoithaotac(taikhoan);
+            lichsuhoadon.setGhichu("Xác nhận hoá đơn");
+            lichsuhoadon.setTrangthai(1);
+            lichSuHoaDonRepository.save(lichsuhoadon);
 
             return savedHoaDon;
 

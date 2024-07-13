@@ -1,15 +1,13 @@
 package com.example.be_duantn.repository.quan_ly_hoa_don_repository;
 
-import com.example.be_duantn.dto.respon.quan_ly_hoa_don_respon.HoaDonChiTietRespon;
-import com.example.be_duantn.entity.HoaDon;
-import com.example.be_duantn.entity.LichSuTaoTac;
+import com.example.be_duantn.entity.LichSuHoaDon;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.UUID;
 
-public interface LichSuThaoTacRepository extends JpaRepository<LichSuTaoTac, UUID> {
+public interface LichSuHoaDonRepository extends JpaRepository<LichSuHoaDon, UUID> {
     // detail hoá đơn bằng id sp
     @Query(value = "SELECT [Id]\n" +
             "      ,[IdHD]\n" +
@@ -19,5 +17,5 @@ public interface LichSuThaoTacRepository extends JpaRepository<LichSuTaoTac, UUI
             "      ,[NgayTao]\n" +
             "  FROM [dbo].[LichSuThaoTac]\n" +
             "  Where IdHD = ?", nativeQuery = true)
-    List<LichSuTaoTac> finByidLstt(UUID idHD);
+    List<LichSuHoaDon> finByidLstt(UUID idHD);
 }
