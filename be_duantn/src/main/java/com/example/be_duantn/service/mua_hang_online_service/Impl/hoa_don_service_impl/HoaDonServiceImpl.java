@@ -469,7 +469,7 @@ public class HoaDonServiceImpl implements HoaDonService {
         hinhThucThanhToan.setHoadon(hoaDon);
         hinhThucThanhToan.setKhachhang(kh);
         hinhThucThanhToan.setGhichu("Khách hàng đã thanh toán");
-        hinhThucThanhToan.setTrangthai(1);
+        hinhThucThanhToan.setTrangthai(2);
         hinhThucThanhToanRepository.save(hinhThucThanhToan);
         return hinhThucThanhToan;
     }
