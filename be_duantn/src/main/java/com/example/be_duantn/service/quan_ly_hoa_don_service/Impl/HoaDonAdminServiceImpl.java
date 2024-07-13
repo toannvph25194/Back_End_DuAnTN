@@ -307,6 +307,9 @@ public class HoaDonAdminServiceImpl implements HoaDonAdminService {
             // Cập nhật các thông tin của hóa đơn
             hoaDon.setTrangthai(hoaDonTrangThaiAdminRequest.getTrangthai());
             hoaDon.setGhichu(hoaDonTrangThaiAdminRequest.getGhichu());
+            if (hoaDonTrangThaiAdminRequest.getTrangthai()==4){
+                hoaDon.setNgaygiaohang(timestamp);
+            }
             hoaDon.setNgaycapnhat(timestamp);
 
             Optional<NhanVien> taiKhoanOptional = nhanVienRepository.findByTaikhoan(taikhoan);
@@ -342,7 +345,7 @@ public class HoaDonAdminServiceImpl implements HoaDonAdminService {
             LichSuTaoTac lichSuTaoTac = new LichSuTaoTac();
             lichSuTaoTac.setIdhd(hoaDon.getIdhoadon());
             lichSuTaoTac.setNguoithaotac(taikhoan01);
-            lichSuTaoTac.setGhichu("Xác nhận hoá đơn");
+            lichSuTaoTac.setGhichu(hoaDonTrangThaiAdminRequest.getGhichu());
             lichSuTaoTac.setTrangthai(1);
             lichSuThaoTacRepository.save(lichSuTaoTac);
             return savedHoaDon;
@@ -422,6 +425,7 @@ public class HoaDonAdminServiceImpl implements HoaDonAdminService {
             // Cập nhật các thông tin của hóa đơn
             hoaDon.setTrangthai(hoaDonTrangThaiAdminRequest.getTrangthai());
             hoaDon.setGhichu(hoaDonTrangThaiAdminRequest.getGhichu());
+            hoaDon.setNgaynhanhang(timestamp);
             // Cập nhật giá trị Thanhtien bằng giá trị của Tienkhachtra
             hoaDon.setTienkhachtra(hoaDon.getThanhtien());
             hoaDon.setNgaycapnhat(timestamp);
@@ -449,7 +453,7 @@ public class HoaDonAdminServiceImpl implements HoaDonAdminService {
             LichSuTaoTac lichSuTaoTac = new LichSuTaoTac();
             lichSuTaoTac.setIdhd(hoaDon.getIdhoadon());
             lichSuTaoTac.setNguoithaotac(taikhoan01);
-            lichSuTaoTac.setGhichu("Xác nhận hoá đơn");
+            lichSuTaoTac.setGhichu(hoaDonTrangThaiAdminRequest.getGhichu());
             lichSuTaoTac.setTrangthai(1);
             lichSuThaoTacRepository.save(lichSuTaoTac);
 
@@ -522,7 +526,7 @@ public class HoaDonAdminServiceImpl implements HoaDonAdminService {
             LichSuTaoTac lichSuTaoTac = new LichSuTaoTac();
             lichSuTaoTac.setIdhd(hoaDon.getIdhoadon());
             lichSuTaoTac.setNguoithaotac(taikhoan01);
-            lichSuTaoTac.setGhichu("Huỷ đơn hàng");
+            lichSuTaoTac.setGhichu(hoaDonTrangThaiAdminRequest.getGhichu());
             lichSuTaoTac.setTrangthai(1);
             lichSuThaoTacRepository.save(lichSuTaoTac);
             return savedHoaDon;

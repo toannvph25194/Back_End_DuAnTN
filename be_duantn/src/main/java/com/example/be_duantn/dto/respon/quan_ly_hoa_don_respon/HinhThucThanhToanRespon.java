@@ -25,7 +25,7 @@ public interface HinhThucThanhToanRespon {
 
     String gettaikhoan();
 
-    Integer gettrangthai();
-
     Integer gethinhthucthanhtoan();
+
+    Integer gettrangthai();
 }
