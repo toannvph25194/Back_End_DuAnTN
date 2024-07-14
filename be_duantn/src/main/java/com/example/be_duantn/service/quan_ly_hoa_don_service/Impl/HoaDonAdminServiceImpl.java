@@ -301,8 +301,13 @@ public class HoaDonAdminServiceImpl implements HoaDonAdminService {
             // Cập nhật các thông tin của hóa đơn
             hoaDon.setTrangthai(hoaDonTrangThaiAdminRequest.getTrangthai());
             hoaDon.setGhichu(hoaDonTrangThaiAdminRequest.getGhichu());
-            if (hoaDonTrangThaiAdminRequest.getTrangthai()==4){
+            if (hoaDonTrangThaiAdminRequest.getTrangthai() == 4) {
                 hoaDon.setNgaygiaohang(timestamp);
+            } else if (hoaDonTrangThaiAdminRequest.getTrangthai() == 2) {
+                hoaDon.setNgayxacnhan(timestamp);
+
+            } else if (hoaDonTrangThaiAdminRequest.getTrangthai() == 3) {
+                hoaDon.setNgaychogiaohang(timestamp);
             }
             hoaDon.setNgaycapnhat(timestamp);
 
@@ -478,6 +483,7 @@ public class HoaDonAdminServiceImpl implements HoaDonAdminService {
             hoaDon.setTrangthai(hoaDonTrangThaiAdminRequest.getTrangthai());
             hoaDon.setGhichu(hoaDonTrangThaiAdminRequest.getGhichu());
             hoaDon.setNgaycapnhat(timestamp);
+            hoaDon.setNgayhuy(timestamp);
 
             // Lấy danh sách chi tiết hoá đơn
             List<HoaDonChiTiet> hdctList = hoaDon.getHoadonchitiet();

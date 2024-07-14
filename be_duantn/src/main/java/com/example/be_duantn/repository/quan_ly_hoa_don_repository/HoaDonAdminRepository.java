@@ -184,8 +184,9 @@ public interface HoaDonAdminRepository extends JpaRepository<HoaDon, UUID> {
             "      ,[IdVouCher]\n" +
             "      ,[MaHoaDon]\n" +
             "      ,[NgayTao]\n" +
-            "      ,[NgayThanhToan]\n" +
             "      ,[NgayCapNhat]\n" +
+            "      ,[NgayXacNhan]\n" +
+            "      ,[NgayChoGiaoHang]\n" +
             "      ,[NgayGiaoHang]\n" +
             "      ,[DonViGiaoHang]\n" +
             "      ,[TenNguoiGiao]\n" +
@@ -196,10 +197,12 @@ public interface HoaDonAdminRepository extends JpaRepository<HoaDon, UUID> {
             "      ,[SDTNguoiNhan]\n" +
             "      ,[EmailNguoiNhan]\n" +
             "      ,[DiaChiNhanHang]\n" +
+            "      ,[NgayThanhToan]\n" +
+            "      ,[NgayHuy]\n" +
             "      ,[GiaTriGiam]\n" +
             "      ,[TienKhachTra]\n" +
-            "      ,[ThanhTien]\n" +
             "      ,[TienThua]\n" +
+            "      ,[ThanhTien]\n" +
             "      ,[GhiChu]\n" +
             "      ,[LoaiHoaDon]\n" +
             "      ,[TrangThai]\n" +

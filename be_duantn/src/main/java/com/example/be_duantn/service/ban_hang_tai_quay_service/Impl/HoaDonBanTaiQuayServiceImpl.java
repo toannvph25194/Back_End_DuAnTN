@@ -110,7 +110,7 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
             LichSuHoaDon lichsuhoadon = new LichSuHoaDon();
             lichsuhoadon.setIdhd(hd.getIdhoadon());
             lichsuhoadon.setNguoithaotac(taikhoan);
-            lichsuhoadon.setGhichu("Tạo hoá đơn");
+            lichsuhoadon.setGhichu("Tạo hoá đơn bán tại quầy");
             lichsuhoadon.setTrangthai(1);
             lichSuHoaDonRepository.save(lichsuhoadon);
 
@@ -159,7 +159,7 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
             HTTT.setNgaythanhtoan(timestamp);
             HTTT.setSotientra(finhoadon.getTienkhachtra());
             HTTT.setHinhthucthanhtoan(1); // Payment method code for cancelled payment
-            HTTT.setGhichu("Hoàn tiền thừa cho khách");
+            HTTT.setGhichu("Hoàn tiền thừa cho khách ");
             HTTT.setTrangthai(3);
 
             KhachHang khachHang = new KhachHang();
@@ -178,7 +178,7 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
         LichSuHoaDon lichsuhoadon = new LichSuHoaDon();
         lichsuhoadon.setIdhd(finhoadon.getIdhoadon());
         lichsuhoadon.setNguoithaotac(taikhoan);
-        lichsuhoadon.setGhichu("Huỷ hoá đơn");
+        lichsuhoadon.setGhichu("Huỷ hoá đơn tại quầy");
         lichsuhoadon.setTrangthai(1);
         lichSuHoaDonRepository.save(lichsuhoadon);
         return MessageHuyHoaDon.builder().message("Hủy hóa đơn thành công").build();
@@ -280,7 +280,7 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
             LichSuHoaDon lichsuhoadon = new LichSuHoaDon();
             lichsuhoadon.setIdhd(IDHD);
             lichsuhoadon.setNguoithaotac(taikhoan);
-            lichsuhoadon.setGhichu("Xác nhận hoàn thành hoá đơn");
+            lichsuhoadon.setGhichu("Xác nhận hoàn thành hoá đơn bán tại quầy");
             lichsuhoadon.setTrangthai(1);
             lichSuHoaDonRepository.save(lichsuhoadon);
 
@@ -341,17 +341,17 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
 
             // Update HoaDon details
             hoaDon.setTrangthai(2);
-            hoaDon.setGhichu("Mua Hàng Thành công");
+            hoaDon.setGhichu("Mua Hàng Thành công ");
             hoaDon.setThanhtien(TienCuoiCung);
             hoaDon.setTiengiaohang(hoaDonXacNhanRequest.getTiengiaohang());
             hoaDon.setTennguoinhan(hoaDonXacNhanRequest.getTennguoinhan());
             hoaDon.setSdtnguoinhan(hoaDonXacNhanRequest.getSdtnguoinhan());
             hoaDon.setEmailnguoinhan(hoaDonXacNhanRequest.getEmailnguoinhan());
             hoaDon.setDiachinhanhang(hoaDonXacNhanRequest.getDiachinhanhang());
-            hoaDon.setNgaynhanhang(timestamp);
             hoaDon.setGiatrigiam(TienDuocGiam != null ? TienDuocGiam : 0.0);
             hoaDon.setNgaycapnhat(timestamp);
             hoaDon.setNgaythanhtoan(timestamp);
+            hoaDon.setNgayxacnhan(timestamp);
 
             if (Idgg != null) {
                 VouCher vouCher = new VouCher();

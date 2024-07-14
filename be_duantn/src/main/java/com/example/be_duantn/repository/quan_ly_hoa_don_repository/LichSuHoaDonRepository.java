@@ -15,7 +15,7 @@ public interface LichSuHoaDonRepository extends JpaRepository<LichSuHoaDon, UUID
             "      ,[GhiChu]\n" +
             "      ,[TrangThai]\n" +
             "      ,[NgayTao]\n" +
-            "  FROM [dbo].[LichSuThaoTac]\n" +
+            "  FROM [dbo].[LichSuHoaDon]\n" +
             "  Where IdHD = ?", nativeQuery = true)
     List<LichSuHoaDon> finByidLstt(UUID idHD);
 }
