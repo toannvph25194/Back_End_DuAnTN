@@ -1,9 +1,6 @@
 package com.example.be_duantn.service.mua_hang_online_service;
 
-import com.example.be_duantn.dto.respon.mua_hang_online_respon.TTHoaDonCTRespon;
-import com.example.be_duantn.dto.respon.mua_hang_online_respon.TTHoaDonRespon;
-import com.example.be_duantn.dto.respon.mua_hang_online_respon.TTSPHoaDonRespon;
-import org.springframework.data.repository.query.Param;
+import com.example.be_duantn.dto.respon.mua_hang_online_respon.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -21,4 +18,13 @@ public interface ThongTinHoaDonSevice {
 
     // Find thông tin hóa đơn chi tiết
     TTHoaDonCTRespon FinTTHoaDonCTKhachHang(UUID idhoadon);
+
+    // Find hình thức thanh toán hóa đơn của khách hàng
+    List<TTHinhThucTTRespon> FinTTHinhThucTT(UUID idhoadon);
+
+    // Find thông tin sản phẩm trong hóa đơn chi tiết
+    List<TTSPHoaDonRespon> FinTTSPHoaDonCTKhachHang(UUID idhoadon);
+
+    // Find thông tin lịch sử các ngày của hóa đơn
+    TTLichSuHDRespon FindLichSuNgayHD(UUID idhoadon);
 }

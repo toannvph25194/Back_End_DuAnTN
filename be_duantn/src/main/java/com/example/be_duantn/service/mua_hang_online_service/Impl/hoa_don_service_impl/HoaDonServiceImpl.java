@@ -96,8 +96,8 @@ public class HoaDonServiceImpl implements HoaDonService {
                 httt.setSotientra(ttttrequest.getThanhtien());
                 httt.setNgaytao(new Date(System.currentTimeMillis()));
                 httt.setHinhthucthanhtoan(ttttrequest.getPhuongthucthanhtoan());
-                httt.setGhichu("Khách hàng chưa thanh toán");
-                httt.setTrangthai(1);
+                httt.setGhichu("Khách thanh toán khi nhận hàng");
+                httt.setTrangthai(2);
                 hinhThucThanhToanRepository.save(httt);
             }
 
@@ -316,8 +316,8 @@ public class HoaDonServiceImpl implements HoaDonService {
             httt.setSotientra(ttttrequest.getThanhtien());
             httt.setNgaytao(new Date(System.currentTimeMillis()));
             httt.setHinhthucthanhtoan(ttttrequest.getPhuongthucthanhtoan());
-            httt.setGhichu("Khách hàng chưa thanh toán");
-            httt.setTrangthai(1);
+            httt.setGhichu("Khách thanh toán khi nhận hàng");
+            httt.setTrangthai(2);
             hinhThucThanhToanRepository.save(httt);
         }
 
@@ -469,7 +469,7 @@ public class HoaDonServiceImpl implements HoaDonService {
         hinhThucThanhToan.setHoadon(hoaDon);
         hinhThucThanhToan.setKhachhang(kh);
         hinhThucThanhToan.setGhichu("Khách hàng đã thanh toán");
-        hinhThucThanhToan.setTrangthai(2);
+        hinhThucThanhToan.setTrangthai(1);
         hinhThucThanhToanRepository.save(hinhThucThanhToan);
         return hinhThucThanhToan;
     }
