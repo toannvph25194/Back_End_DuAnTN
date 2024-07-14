@@ -55,4 +55,34 @@ public class ThongTinHoaDonController {
             return ResponseEntity.badRequest().body("Lỗi find thông tin hóa đơn chi tiết của khách hàng !");
         }
     }
+
+    // ToDo Find hình thức thanh toán hóa đơn của khách hàng
+    @GetMapping("/find-hinh-thuc/thanh-toan")
+    public ResponseEntity<?> FinTTHinhThucTT(@RequestParam("idhoadon") UUID idhoadon){
+        try {
+            return ResponseEntity.ok(thongTinHoaDonSevice.FinTTHinhThucTT(idhoadon));
+        }catch (Exception e) {
+            return ResponseEntity.badRequest().body("Lỗi find thông tin httt của khách hàng !");
+        }
+    }
+
+    // ToDo Find thông tin sản phẩm trong hóa đơn chi tiết
+    @GetMapping("/find-san-pham-hdct")
+    public ResponseEntity<?> FinTTSPHDCTKhachHang(@RequestParam("idhoadon") UUID idhoadon){
+        try {
+            return ResponseEntity.ok(thongTinHoaDonSevice.FinTTSPHoaDonCTKhachHang(idhoadon));
+        }catch (Exception e) {
+            return ResponseEntity.badRequest().body("Lỗi find thông tin sp trong hdct của khách hàng !");
+        }
+    }
+
+    // ToDo Find thông tin lịch sử các ngày của hóa đơn
+    @GetMapping("/find-lich-su-ngay")
+    public ResponseEntity<?> FindLichSuNgayHD(@RequestParam("idhoadon") UUID idhoadon){
+        try {
+            return ResponseEntity.ok(thongTinHoaDonSevice.FindLichSuNgayHD(idhoadon));
+        }catch (Exception e) {
+            return ResponseEntity.badRequest().body("Lỗi find lịch sử ngày hóa đơn của khách hàng !");
+        }
+    }
 }

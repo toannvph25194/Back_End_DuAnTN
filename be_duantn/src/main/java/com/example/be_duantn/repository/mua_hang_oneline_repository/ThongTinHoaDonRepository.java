@@ -1,8 +1,6 @@
 package com.example.be_duantn.repository.mua_hang_oneline_repository;
 
-import com.example.be_duantn.dto.respon.mua_hang_online_respon.TTHoaDonCTRespon;
-import com.example.be_duantn.dto.respon.mua_hang_online_respon.TTHoaDonRespon;
-import com.example.be_duantn.dto.respon.mua_hang_online_respon.TTSPHoaDonRespon;
+import com.example.be_duantn.dto.respon.mua_hang_online_respon.*;
 import com.example.be_duantn.entity.HoaDon;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -43,4 +41,27 @@ public interface ThongTinHoaDonRepository extends JpaRepository<HoaDon, UUID> {
     @Query(value = "SELECT hd.MaHoaDon, hd.TenNguoiNhan, hd.SDTNguoiNhan, hd.DiaChiNhanHang, hd.TienGiaoHang, hd.GiaTriGiam, hd.ThanhTien From HoaDon hd\n" +
             "Where hd.LoaiHoaDon = 1 AND hd.Id = ?", nativeQuery = true)
     TTHoaDonCTRespon FinTTHoaDonCTKhachHang(UUID idhoadon);
+
+    // Find hình thức thanh toán hóa đơn của khách hàng
+    @Query(value = "SELECT httt.MaGiaoDich, httt.TrangThai, httt.SoTienTra, httt.NgayThanhToan, httt.HinhThucThanhToan, httt.GhiChu, nv.HoVaTenNV FROM HinhThucThanhToan httt\n" +
+            "LEFT JOIN NhanVien nv on nv.Id = httt.IdNV\n" +
+            "Where httt.IdHD = ?", nativeQuery = true)
+    List<TTHinhThucTTRespon> FinTTHinhThucTT(UUID idhoadon);
+
+    // Find thông tin sản phẩm trong hóa đơn chi tiết
+    @Query(value = "SELECT sp.TenSP, sp.ImageDefaul, cl.TenChatLieu, ms.TenMauSac, s.TenSize, hdct.SoLuong, hdct.DonGia, hdct.DonGiaKhiGiam\n" +
+            "            FROM SanPhamChiTiet spct\n" +
+            "            JOIN HoaDonChiTiet hdct on hdct.IdSPCT = spct.Id\n" +
+            "            JOIN HoaDon hd on hd.Id = hdct.IdHD\n" +
+            "            JOIN SanPham sp on sp.Id = spct.IdSP\n" +
+            "            JOIN ChatLieu cl on cl.Id = sp.IdCL\n" +
+            "            JOIN MauSac ms on ms.Id = spct.IdMS\n" +
+            "            JOIN Size s on s.Id = spct.IdSize\n" +
+            "            Where hd.LoaiHoaDon = 1 AND hd.id = ?", nativeQuery = true)
+    List<TTSPHoaDonRespon> FinTTSPHoaDonCTKhachHang(UUID idhoadon);
+
+    // Find thông tin lịch sử các ngày của hóa đơn
+    @Query(value = "SELECT hd.NgayTao, NgayXacNhan, NgayChoGiaoHang, NgayGiaoHang, TenNguoiGiao, SDTNguoiGiao, DonViGiaoHang, TienGiaoHang,\n" +
+            "NgayNhanHang, NgayThanhToan, NgayHuy FROM HoaDon hd Where hd.Id = ?", nativeQuery = true)
+    TTLichSuHDRespon FindLichSuNgayHD(UUID idhoadon);
 }
