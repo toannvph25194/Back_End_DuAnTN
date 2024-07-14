@@ -51,5 +51,12 @@ public interface Hoadonrespon {
 
     String getghichu();
 
+    Date getngayxacnhan();
+
+    Date getngaychogiaohang();
+
+    Date getngayhuy();
+
+
     Integer gettrangthai();
 }
