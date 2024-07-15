@@ -9,13 +9,15 @@ import java.util.UUID;
 
 public interface LichSuHoaDonRepository extends JpaRepository<LichSuHoaDon, UUID> {
     // detail hoá đơn bằng id sp
-    @Query(value = "SELECT [Id]\n" +
-            "      ,[IdHD]\n" +
-            "      ,[NguoiThaoTac]\n" +
-            "      ,[GhiChu]\n" +
-            "      ,[TrangThai]\n" +
-            "      ,[NgayTao]\n" +
+    @Query(value = "SELECT \n" +
+            "      [Id],\n" +
+            "      [IdHD],\n" +
+            "      [NguoiThaoTac],\n" +
+            "      [GhiChu],\n" +
+            "      [TrangThai],\n" +
+            "      [NgayTao]\n" +
             "  FROM [dbo].[LichSuHoaDon]\n" +
-            "  Where IdHD = ?", nativeQuery = true)
+            "  WHERE IdHD = ?\n" +
+            "  ORDER BY [NgayTao] DESC\n", nativeQuery = true)
     List<LichSuHoaDon> finByidLstt(UUID idHD);
 }
