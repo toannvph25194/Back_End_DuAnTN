@@ -9,7 +9,7 @@ public interface TTLichSuHDRespon {
     Date getngaygiaohang();
     String gettennguoigiao();
     String getsdtnguoigiao();
-    String getdonvivanchuyen();
+    String getdonvigiaohang();
     Double gettiengiaohang();
     Date getngaynhanhang();
     Date getngaythanhtoan();
