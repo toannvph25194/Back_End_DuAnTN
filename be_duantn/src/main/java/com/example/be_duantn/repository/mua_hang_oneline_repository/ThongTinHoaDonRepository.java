@@ -38,14 +38,15 @@ public interface ThongTinHoaDonRepository extends JpaRepository<HoaDon, UUID> {
     List<TTHoaDonRespon> TimKiemHoaDonKhachHang(@Param("idkh") UUID idkh, @Param("keyword") String keyword, @Param("trangthai") Integer trangthai);
 
     // Find thông tin hóa đơn chi tiết
-    @Query(value = "SELECT hd.MaHoaDon, hd.TenNguoiNhan, hd.SDTNguoiNhan, hd.DiaChiNhanHang, hd.TienGiaoHang, hd.GiaTriGiam, hd.ThanhTien From HoaDon hd\n" +
+    @Query(value = "SELECT hd.MaHoaDon, hd.TenNguoiNhan, hd.SDTNguoiNhan, hd.DiaChiNhanHang, hd.TienGiaoHang, hd.GiaTriGiam, hd.ThanhTien, hd.TrangThai From HoaDon hd\n" +
             "Where hd.LoaiHoaDon = 1 AND hd.Id = ?", nativeQuery = true)
     TTHoaDonCTRespon FinTTHoaDonCTKhachHang(UUID idhoadon);
 
     // Find hình thức thanh toán hóa đơn của khách hàng
     @Query(value = "SELECT httt.MaGiaoDich, httt.TrangThai, httt.SoTienTra, httt.NgayThanhToan, httt.HinhThucThanhToan, httt.GhiChu, nv.HoVaTenNV FROM HinhThucThanhToan httt\n" +
             "LEFT JOIN NhanVien nv on nv.Id = httt.IdNV\n" +
-            "Where httt.IdHD = ?", nativeQuery = true)
+            "Where httt.IdHD = ? \n" +
+            "ORDER BY httt.NgayThanhToan ASC", nativeQuery = true)
     List<TTHinhThucTTRespon> FinTTHinhThucTT(UUID idhoadon);
 
     // Find thông tin sản phẩm trong hóa đơn chi tiết

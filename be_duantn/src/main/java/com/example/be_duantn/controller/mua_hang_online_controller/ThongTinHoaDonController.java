@@ -2,12 +2,11 @@ package com.example.be_duantn.controller.mua_hang_online_controller;
 
 import com.example.be_duantn.service.mua_hang_online_service.Impl.ThongTinHoaDonSeviceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.UUID;
 
 @RestController
@@ -83,6 +82,16 @@ public class ThongTinHoaDonController {
             return ResponseEntity.ok(thongTinHoaDonSevice.FindLichSuNgayHD(idhoadon));
         }catch (Exception e) {
             return ResponseEntity.badRequest().body("Lỗi find lịch sử ngày hóa đơn của khách hàng !");
+        }
+    }
+
+    // ToDo hủy hóa đơn khách hàng online
+    @PutMapping("/huy-don-hang-online")
+    public ResponseEntity<?> HuyHoaDonTaiQuay(@RequestParam("idhoadon") UUID idhoadon) {
+        try {
+            return ResponseEntity.ok(thongTinHoaDonSevice.HuyDonHangKhachHang(idhoadon));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Lỗi khách hàng hủy đơn hàng online !");
         }
     }
 }
