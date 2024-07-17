@@ -27,4 +27,7 @@ public interface ThongTinHoaDonSevice {
 
     // Find thông tin lịch sử các ngày của hóa đơn
     TTLichSuHDRespon FindLichSuNgayHD(UUID idhoadon);
+
+    // Xử lý khách hàng hủy đơn hàng
+    MessageHuyDonHangRespon HuyDonHangKhachHang(UUID idhoadon);
 }

@@ -8,4 +8,5 @@ public interface TTHoaDonCTRespon {
     Double gettiengiaohang();
     Double getgiatrigiam();
     Double getthanhtien();
+    Integer gettrangthai();
 }
