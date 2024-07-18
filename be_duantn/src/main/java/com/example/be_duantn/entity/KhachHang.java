@@ -59,10 +59,6 @@ public class KhachHang {
 
     @OneToMany(mappedBy = "khachhang" , fetch = FetchType.LAZY)
     @JsonManagedReference
-    List<DanhSachYeuThich> danhsachyeuthich;
-
-    @OneToMany(mappedBy = "khachhang" , fetch = FetchType.LAZY)
-    @JsonManagedReference
     List<DiaChi> diachi;
 
     @OneToMany(mappedBy = "khachhang" , fetch = FetchType.LAZY)

@@ -39,6 +39,9 @@ public class SanPham {
     @Column(name = "gianhap")
     private Double gianhap;
 
+    @Column(name = "dongiakhigiam")
+    private Double dongiakhigiam;
+
     @Column(name = "giaban")
     private Double giaban;
 
@@ -73,18 +76,15 @@ public class SanPham {
     @JsonBackReference
     ChatLieu chatlieu;
 
+    @ManyToOne
+    @JoinColumn(name = "idgg")
+    @JsonBackReference
+    GiamGia giamgia;
+
     // TODO 1 - N //
     @OneToMany(mappedBy = "sanpham", fetch = FetchType.LAZY)
     @JsonManagedReference
-    List<SPGiamGia> spgiamgia;
-
-    @OneToMany(mappedBy = "sanpham", fetch = FetchType.LAZY)
-    @JsonManagedReference
     List<Image> image;
-
-    @OneToMany(mappedBy = "sanpham", fetch = FetchType.LAZY)
-    @JsonManagedReference
-    List<YeuThichChiTiet> yeuthichchitiet;
 
     @OneToMany(mappedBy = "sanpham", fetch = FetchType.LAZY)
     @JsonManagedReference

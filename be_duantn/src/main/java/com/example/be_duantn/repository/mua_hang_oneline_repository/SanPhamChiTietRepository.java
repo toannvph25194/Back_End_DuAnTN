@@ -25,20 +25,14 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet ,
     List<SanPhamRespon> loadSPCTNew();
 
     // detail sản phẩm bằng id sp
-    @Query(value = "SELECT DISTINCT sp.Id, sp.TenSP, sp.TheLoai, sp.ImageDefaul, xx.TenXuatXu, th.TenThuongHieu, cl.TenChatLieu, sp.GiaBan,\n" +
-            "            CASE WHEN tgg.sotiengiamcuoicung IS NOT NULL THEN tgg.sotiengiamcuoicung ELSE NULL END AS DonGiaKhiGiam\n" +
-            "            FROM SanPham sp\n" +
-            "            JOIN SanPhamChiTiet spct ON sp.Id = spct.IdSP\n" +
-            "            JOIN XuatXu xx ON xx.Id = sp.IdXX\n" +
-            "            JOIN ThuongHieu th ON th.Id = sp.IdTH\n" +
-            "            JOIN ChatLieu cl ON cl.Id = sp.IdCL\n" +
-            "            LEFT JOIN (\n" +
-            "                SELECT spgg.IdSP, MIN(spgg.DonGiaKhiGiam) AS sotiengiamcuoicung FROM SPGiamGia spgg\n" +
-            "                JOIN GiamGia gg ON spgg.IdGG = gg.Id\n" +
-            "                WHERE GETDATE() >= gg.NgayBatDau AND GETDATE() <= gg.NgayKetThuc\n" +
-            "                GROUP BY spgg.IdSP\n" +
-            "            ) tgg ON sp.Id = tgg.IdSP\n" +
-            "            WHERE sp.TrangThai = 1 AND spct.SoLuongTon > 0 AND sp.Id = ?", nativeQuery = true)
+    @Query(value = "SELECT DISTINCT sp.Id, sp.TenSP, sp.TheLoai, sp.ImageDefaul, xx.TenXuatXu, th.TenThuongHieu, cl.TenChatLieu, sp.GiaBan, sp.DonGiaKhiGiam FROM SanPhamChiTiet spct\n" +
+            "LEFT JOIN SanPham sp ON sp.Id = spct.IdSP\n" +
+            "LEFT JOIN GiamGia gg on gg.Id = sp.IdGG\n" +
+            "JOIN XuatXu xx ON xx.Id = sp.IdXX\n" +
+            "JOIN ThuongHieu th ON th.Id = sp.IdTH\n" +
+            "JOIN ChatLieu cl ON cl.Id = sp.IdCL\n" +
+            "WHERE (gg.Id IS NULL OR (GETDATE() >= gg.NgayBatDau AND GETDATE() <= gg.NgayKetThuc))\n" +
+            "AND sp.TrangThai = 1 AND spct.SoLuongTon > 0 AND sp.Id = ?", nativeQuery = true)
     SanPhamChiTietRespon finByidSP(UUID idsp);
 
     // load list img theo idsp

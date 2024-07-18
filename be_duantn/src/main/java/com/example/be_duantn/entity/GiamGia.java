@@ -48,6 +48,9 @@ public class GiamGia {
     @Column(name = "hinhthucgiam")
     private Integer hinhthucgiam;
 
+    @Column(name = "giatrigiam")
+    private Integer giatrigiam;
+
     @Column(name = "ghichu")
     private String ghichu;
 
@@ -56,6 +59,6 @@ public class GiamGia {
 
     @OneToMany(mappedBy = "giamgia", fetch = FetchType.LAZY)
     @JsonManagedReference
-    List<SPGiamGia> spgiamgia;
+    List<SanPham> sanpham;
 
 }

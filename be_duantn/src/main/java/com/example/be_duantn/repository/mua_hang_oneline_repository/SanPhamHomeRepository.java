@@ -75,16 +75,18 @@ public interface SanPhamHomeRepository extends JpaRepository<SanPham , UUID> {
     List<SanPhamRespon> getALlSPNewHome();
 
     // getAll 6 sp giảm giá home
-    @Query(value = "SELECT DISTINCT TOP 6 sp.Id, sp.MaSP, sp.TenSP, sp.ImageDefaul, sp.TheLoai, sp.GiaBan, tgg.DonGiaKhiGiam, tgg.SoLuongBan\n" +
-            "              FROM SanPham sp\n" +
-            "              JOIN(SELECT spgg.IdSP, MIN(spgg.DonGiaKhiGiam) AS DonGiaKhiGiam, SUM(spgg.SoLuongBan) AS SoLuongBan\n" +
-            "                 FROM SPGiamGia spgg\n" +
-            "                 JOIN GiamGia gg ON spgg.IdGG = gg.Id\n" +
-            "                 WHERE GETDATE() >= gg.NgayBatDau AND GETDATE() <= gg.NgayKetThuc\n" +
-            "                 GROUP BY spgg.IdSP\n" +
-            "              )tgg ON sp.Id = tgg.IdSP\n" +
-            "                 JOIN SanPhamChiTiet spct ON spct.IdSP = sp.Id\n" +
-            "                 WHERE spct.SoLuongTon > 0 AND sp.TrangThai = 1\n" +
-            "                 ORDER BY tgg.SoLuongBan DESC;",nativeQuery = true)
+    @Query(value = "SELECT DISTINCT sp.Id, sp.MaSP, sp.TenSP, sp.ImageDefaul, sp.TheLoai, sp.GiaBan, sp.DonGiaKhiGiam FROM SanPham sp \n" +
+            "JOIN GiamGia gg on gg.Id = sp.IdGG\n" +
+            "JOIN SanPhamChiTiet spct on spct.IdSP = sp.Id\n" +
+            "JOIN DanhMuc dm on dm.Id = sp.IdDM\n" +
+            "JOIN XuatXu xx on xx.Id = sp.IdXX\n" +
+            "JOIN ThuongHieu th on th.Id = sp.IdTH\n" +
+            "JOIN ChatLieu cl on cl.Id = sp.IdCL\n" +
+            "JOIN MauSac ms on ms.Id = spct.IdMS\n" +
+            "JOIN Size s on s.Id = spct.IdSize\n" +
+            "Where GETDATE() >= gg.NgayBatDau AND GETDATE() <= gg.NgayKetThuc\n" +
+            "AND gg.TrangThai = 1 AND sp.TrangThai = 1 AND spct.SoLuongTon > 0\n" +
+            "AND dm.TrangThai = 1 AND xx.TrangThai = 1 AND th.TrangThai = 1\n" +
+            "AND cl.TrangThai = 1 AND ms.TrangThai = 1 AND s.TrangThai = 1",nativeQuery = true)
     List<SanPhamGiamGiaRespon> getAllSPGGHome();
 }
