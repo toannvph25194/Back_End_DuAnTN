@@ -25,14 +25,18 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet ,
     List<SanPhamRespon> loadSPCTNew();
 
     // detail sản phẩm bằng id sp
-    @Query(value = "SELECT DISTINCT sp.Id, sp.TenSP, sp.TheLoai, sp.ImageDefaul, xx.TenXuatXu, th.TenThuongHieu, cl.TenChatLieu, sp.GiaBan, sp.DonGiaKhiGiam FROM SanPhamChiTiet spct\n" +
+    @Query(value = "SELECT DISTINCT sp.Id, sp.TenSP, sp.TheLoai, sp.ImageDefaul, xx.TenXuatXu, th.TenThuongHieu, cl.TenChatLieu, sp.GiaBan, \n" +
+            "       CASE \n" +
+            "           WHEN gg.Id IS NULL OR GETDATE() > gg.NgayKetThuc THEN NULL \n" +
+            "           ELSE sp.DonGiaKhiGiam \n" +
+            "       END AS DonGiaKhiGiam\n" +
+            "FROM SanPhamChiTiet spct\n" +
             "LEFT JOIN SanPham sp ON sp.Id = spct.IdSP\n" +
-            "LEFT JOIN GiamGia gg on gg.Id = sp.IdGG\n" +
+            "LEFT JOIN GiamGia gg ON gg.Id = sp.IdGG\n" +
             "JOIN XuatXu xx ON xx.Id = sp.IdXX\n" +
             "JOIN ThuongHieu th ON th.Id = sp.IdTH\n" +
             "JOIN ChatLieu cl ON cl.Id = sp.IdCL\n" +
-            "WHERE (gg.Id IS NULL OR (GETDATE() >= gg.NgayBatDau AND GETDATE() <= gg.NgayKetThuc))\n" +
-            "AND sp.TrangThai = 1 AND spct.SoLuongTon > 0 AND sp.Id = ?", nativeQuery = true)
+            "WHERE sp.TrangThai = 1 AND spct.SoLuongTon > 0 AND sp.Id = ?", nativeQuery = true)
     SanPhamChiTietRespon finByidSP(UUID idsp);
 
     // load list img theo idsp

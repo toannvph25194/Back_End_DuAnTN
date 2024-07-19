@@ -87,6 +87,7 @@ public interface SanPhamHomeRepository extends JpaRepository<SanPham , UUID> {
             "Where GETDATE() >= gg.NgayBatDau AND GETDATE() <= gg.NgayKetThuc\n" +
             "AND gg.TrangThai = 1 AND sp.TrangThai = 1 AND spct.SoLuongTon > 0\n" +
             "AND dm.TrangThai = 1 AND xx.TrangThai = 1 AND th.TrangThai = 1\n" +
-            "AND cl.TrangThai = 1 AND ms.TrangThai = 1 AND s.TrangThai = 1",nativeQuery = true)
+            "AND cl.TrangThai = 1 AND ms.TrangThai = 1 AND s.TrangThai = 1 \n" +
+            "AND sp.TrangThai = 1 AND spct.SoLuongTon > 0 AND gg.TrangThai = 1",nativeQuery = true)
     List<SanPhamGiamGiaRespon> getAllSPGGHome();
 }
