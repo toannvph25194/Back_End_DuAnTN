@@ -1,6 +1,5 @@
 package com.example.be_duantn.dto.request.quan_ly_dong_san_pham_request;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -14,13 +13,13 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class XuatXuRequest {
 
-
+public class MauSacRequest {
     private UUID id;
 
-    @NotBlank(message = "Tên chất liệu không được để trống")
-    private String tenxuatxu;
+//    @NotBlank(message = "Tên danh mục không được để trống")
+
+    private String tenmausac;
 
 //    @NotBlank(message = "Mô tả không được để trống")
     private String mota;

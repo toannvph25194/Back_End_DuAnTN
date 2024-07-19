@@ -3,9 +3,13 @@ package com.example.be_duantn.service.quan_ly_dong_san_pham_service.Impl;
 import com.example.be_duantn.dto.request.quan_ly_dong_san_pham_request.ChatLieuRequest;
 import com.example.be_duantn.dto.respon.quan_ly_dong_san_pham_respon.ChatLieuRespon;
 import com.example.be_duantn.entity.ChatLieu;
+import com.example.be_duantn.entity.DanhMuc;
 import com.example.be_duantn.repository.quan_ly_dong_san_pham_repository.ChatLieuRepository;
 import com.example.be_duantn.service.quan_ly_dong_san_pham_service.ChatLieuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ChatLieuServiceImpl implements ChatLieuService {
@@ -22,14 +27,16 @@ public class ChatLieuServiceImpl implements ChatLieuService {
     ChatLieuRepository chatLieuRepository;
 
     @Override
-    public List<ChatLieuRespon> getChatLieu() {
+    public Page<ChatLieuRespon> getChatLieu(Integer page) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         // Kiểm tra quyền của người dùng và thực hiện xử lý tùy thuộc vào quyền
         if (hasPermission(authentication.getAuthorities(), "ADMIN", "NHANVIEN")) {
             // Thực hiện xử lý cho người dùng có quyền "ADMIN" hoặc "NHANVIEN"
-            return chatLieuRepository.GetAllChatlieu();
+            Pageable pageable = PageRequest.of(page, 9);
+
+            return chatLieuRepository.GetAllChatlieu(pageable);
         } else {
             // Người dùng không có quyền, xử lý theo ý của bạn
             throw new AccessDeniedException("Bạn không có quyền");
@@ -52,6 +59,39 @@ public class ChatLieuServiceImpl implements ChatLieuService {
         } else {
             // Người dùng không có quyền, xử lý theo ý của bạn
             throw new AccessDeniedException("Bạn không có quyền");
+        }
+    }
+
+    @Override
+    public Optional<ChatLieuRespon> getdanhmucById(UUID id) {
+        return chatLieuRepository.GetAllChatlieutheoid(id);
+    }
+
+    @Override
+    public ChatLieu updateChatlieu(UUID id, ChatLieuRequest chatLieuRequest) {
+        ChatLieu chatLieu = chatLieuRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Size không tìm thấy với id :: " + id));
+
+        chatLieu.setTenchatlieu(chatLieuRequest.getTenchatlieu());
+        chatLieu.setMota(chatLieuRequest.getMota());
+        chatLieu.setTrangthai(chatLieuRequest.getTrangthai());
+        return chatLieuRepository.save(chatLieu);
+    }
+
+    @Override
+    public void deleteChatlieu(UUID id) {
+
+    }
+
+    @Override
+    public ChatLieu chuyenTrangThai(UUID id, Integer trangThaiMoi) {
+        Optional<ChatLieu> chatLieu = chatLieuRepository.findById(id);
+        if (chatLieu.isPresent()) {
+            ChatLieu chatLieu1 = chatLieu.get();
+            chatLieu1.setTrangthai(trangThaiMoi);
+            return chatLieuRepository.save(chatLieu1);
+        } else {
+            throw new IllegalArgumentException("Không tìm thấy chất liệu với ID: " + id);
         }
     }
 

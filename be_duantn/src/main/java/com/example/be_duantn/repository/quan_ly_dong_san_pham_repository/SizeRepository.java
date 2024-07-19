@@ -4,6 +4,8 @@ import com.example.be_duantn.dto.respon.quan_ly_dong_san_pham_respon.ChatLieuRes
 import com.example.be_duantn.dto.respon.quan_ly_dong_san_pham_respon.SizeRespon;
 import com.example.be_duantn.entity.MauSac;
 import com.example.be_duantn.entity.Size;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -16,8 +18,7 @@ public interface SizeRepository extends JpaRepository<Size, UUID> {
             "      ,[TenSize]\n" +
             "      ,[MoTa]\n" +
             "      ,[TrangThai]\n" +
-            "  FROM [dbo].[Size]\n" +
-            "  where TrangThai = 1", nativeQuery = true)
-    List<SizeRespon> GetAllSIze();
+            "  FROM [dbo].[Size]\n", nativeQuery = true)
+    Page<SizeRespon> GetAllSIze(Pageable pageable);
 
 }

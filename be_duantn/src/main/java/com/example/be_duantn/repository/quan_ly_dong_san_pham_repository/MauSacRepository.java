@@ -3,6 +3,8 @@ package com.example.be_duantn.repository.quan_ly_dong_san_pham_repository;
 import com.example.be_duantn.dto.respon.quan_ly_dong_san_pham_respon.ChatLieuRespon;
 import com.example.be_duantn.dto.respon.quan_ly_dong_san_pham_respon.MauSacRespon;
 import com.example.be_duantn.entity.MauSac;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -15,7 +17,6 @@ public interface MauSacRepository extends JpaRepository<MauSac, UUID> {
             "      ,[TenMauSac]\n" +
             "      ,[MoTa]\n" +
             "      ,[TrangThai]\n" +
-            "  FROM [dbo].[MauSac]\n" +
-            "  where TrangThai = 1", nativeQuery = true)
-    List<MauSacRespon> GetAllMauSac();
+            "  FROM [dbo].[MauSac]\n" , nativeQuery = true)
+    Page<MauSacRespon> GetAllMauSac(Pageable pageable);
 }
