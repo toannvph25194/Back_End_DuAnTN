@@ -17,13 +17,11 @@ import java.util.UUID;
 public class MauSacRequest {
     private UUID id;
 
-//    @NotBlank(message = "Tên danh mục không được để trống")
-
+    @NotBlank(message = "Tên danh mục không được để trống")
     private String tenmausac;
 
-//    @NotBlank(message = "Mô tả không được để trống")
     private String mota;
 
-//    @NotNull(message = "Trạng thái không được để trống")
+    @NotNull(message = "Trạng thái không được để trống")
     private Integer trangthai;
 }

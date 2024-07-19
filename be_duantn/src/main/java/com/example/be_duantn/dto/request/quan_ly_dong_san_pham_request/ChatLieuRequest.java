@@ -19,9 +19,8 @@ public class ChatLieuRequest {
     @NotBlank(message = "Tên chất liệu không được để trống")
     private String tenchatlieu;
 
-//    @NotBlank(message = "Mô tả không được để trống")
     private String mota;
 
-//    @NotNull(message = "Trạng thái không được để trống")
+    @NotNull(message = "Trạng thái không được để trống")
     private Integer trangthai;
 }

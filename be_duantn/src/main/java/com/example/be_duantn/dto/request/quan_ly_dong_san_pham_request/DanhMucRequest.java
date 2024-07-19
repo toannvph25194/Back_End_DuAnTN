@@ -19,10 +19,8 @@ public class DanhMucRequest {
     private UUID id;
 
     @NotBlank(message = "Tên danh mục không được để trống")
-
     private String tendanhmuc;
 
-    @NotBlank(message = "Mô tả không được để trống")
     private String mota;
 
     @NotNull(message = "Trạng thái không được để trống")

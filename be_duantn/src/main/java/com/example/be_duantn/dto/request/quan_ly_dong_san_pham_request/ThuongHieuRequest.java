@@ -25,7 +25,6 @@ public class ThuongHieuRequest {
     @NotBlank(message = "Tên chất liệu không được để trống")
     private String tenthuonghieu;
 
-    @NotBlank(message = "Mô tả không được để trống")
     private String mota;
 
     @NotNull(message = "Trạng thái không được để trống")
