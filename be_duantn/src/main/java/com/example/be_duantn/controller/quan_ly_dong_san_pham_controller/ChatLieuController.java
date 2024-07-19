@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api/admin-chatlieu")
+@RequestMapping("/api/admin/chatlieu")
 public class ChatLieuController {
     @Autowired
     ChatLieuServiceImpl chatLieuService;

@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api/admin-danhmuc")
+@RequestMapping("/api/admin/danhmuc")
 public class DanhMucController {
     @Autowired
     DanhMucServiceImpl danhMucService;

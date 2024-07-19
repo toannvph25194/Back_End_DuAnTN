@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api/admin-mausac")
+@RequestMapping("/api/admin/mausac")
 public class MauSacController {
     @Autowired
     MauSacServiceImpl mauSacService;

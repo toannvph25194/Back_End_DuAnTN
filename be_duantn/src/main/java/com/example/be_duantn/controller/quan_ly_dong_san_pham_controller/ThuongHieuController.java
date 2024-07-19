@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api/admin-thuonghieu")
+@RequestMapping("/api/admin/thuonghieu")
 public class ThuongHieuController {
     @Autowired
     ThuongHieuServiceImpl thuongHieuService;

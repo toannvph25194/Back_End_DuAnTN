@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api/admin-size")
+@RequestMapping("/api/admin/size")
 public class SizeController {
     @Autowired
     SizeServiceImpl sizeService;

@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api/admin-xuatxu")
+@RequestMapping("/api/admin/xuatxu")
 public class XuatXuController {
     @Autowired
     XuatXuServiceImpl xuatXuService;
