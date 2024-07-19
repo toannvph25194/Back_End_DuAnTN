@@ -38,6 +38,11 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
+    public List<Image> getAllImages() {
+        return imageRepository.findAll();
+    }
+
+    @Override
     public List<Image> addImage(List<ImageRequest> imageRequests) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 

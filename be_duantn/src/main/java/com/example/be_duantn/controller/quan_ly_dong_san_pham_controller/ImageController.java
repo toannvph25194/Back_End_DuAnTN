@@ -27,14 +27,17 @@ public class ImageController {
 
     //api Load Table
     @GetMapping("/hienthitatcaimage")
-    public ResponseEntity<?> sanphamchitiet(@RequestParam("IdSP") UUID IdSP) {
-        return ResponseEntity.ok(imageService.getImage(IdSP));
+    public ResponseEntity<?> getAllimage() {
+        return ResponseEntity.ok(imageService.getAllImages());
     }
-    // them moi 1 san pham
+
+//     them moi 1 san pham
     @PostMapping("/add-imge")
     public ResponseEntity<?> addSanPham(@RequestBody List<ImageRequest> imageRequest) {
         return ResponseEntity.ok(imageService.addImage(imageRequest));
     }
+
+
     // API Xóa Image theo ID
     @DeleteMapping("/delete-image/{imageId}")
     public ResponseEntity<String> deleteImageById(@PathVariable UUID imageId) {
