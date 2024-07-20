@@ -16,10 +16,18 @@ import java.util.UUID;
 
 public interface ThuongHieuService {
     public Page<ThuongHieuRespon> getThuongHIeu(Integer page);
+
     // Thêm thương hiệu
     ThuongHieu addThuongHieu(ThuongHieuRequest thuonghieu);
+
     Optional<ThuongHieuRespon> getthuonghieuById(UUID id);
+
     ThuongHieu updateThuonghieu(UUID id, ThuongHieuRequest thuongHieuRequest);
+
     void deleteThuonghieu(UUID id);
+
     ThuongHieu chuyenTrangThai(UUID id, Integer trangThaiMoi);
+
+    // Hiển thị danh sách thương hiệu load combobox
+    List<ThuongHieuRespon> getThuongHieuLoadComboBox();
 }

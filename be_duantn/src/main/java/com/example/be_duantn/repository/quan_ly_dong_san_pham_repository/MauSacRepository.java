@@ -17,6 +17,14 @@ public interface MauSacRepository extends JpaRepository<MauSac, UUID> {
             "      ,[TenMauSac]\n" +
             "      ,[MoTa]\n" +
             "      ,[TrangThai]\n" +
-            "  FROM [dbo].[MauSac]\n" , nativeQuery = true)
+            "  FROM [dbo].[MauSac]\n", nativeQuery = true)
     Page<MauSacRespon> GetAllMauSac(Pageable pageable);
+
+    //  màu sắc load combobox
+    @Query(value = "SELECT [Id]\n" +
+            "      ,[TenMauSac]\n" +
+            "      ,[MoTa]\n" +
+            "      ,[TrangThai]\n" +
+            "  FROM [dbo].[MauSac]\n where trangthai = 1", nativeQuery = true)
+    List<MauSacRespon> GetAllMauSacLoadComboBox();
 }

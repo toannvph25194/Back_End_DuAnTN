@@ -21,4 +21,12 @@ public interface SizeRepository extends JpaRepository<Size, UUID> {
             "  FROM [dbo].[Size]\n", nativeQuery = true)
     Page<SizeRespon> GetAllSIze(Pageable pageable);
 
+    //  size load combobox
+    @Query(value = "SELECT [Id]\n" +
+            "      ,[TenSize]\n" +
+            "      ,[MoTa]\n" +
+            "      ,[TrangThai]\n" +
+            "  FROM [dbo].[Size]\n where trangthai = 1", nativeQuery = true)
+    List<SizeRespon> GetAllSizeLoadComboBox();
+
 }

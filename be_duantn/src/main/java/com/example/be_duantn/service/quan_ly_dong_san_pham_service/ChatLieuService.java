@@ -25,4 +25,7 @@ public interface ChatLieuService {
     // Chuyển trạng thái chất liệu
     ChatLieu ChuyenTrangThai(UUID id, Integer trangThaiMoi);
 
+    // Hiển thị danh sách chất liệu load combobox
+    List<ChatLieuRespon> GetAllChatlieuLoadCombobox();
+
 }

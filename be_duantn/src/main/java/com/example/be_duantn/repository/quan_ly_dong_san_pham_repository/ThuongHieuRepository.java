@@ -28,4 +28,12 @@ public interface ThuongHieuRepository extends JpaRepository<ThuongHieu, UUID> {
             "  FROM [dbo].[ThuongHieu]\n" +
             "      where [id]= ?\n", nativeQuery = true)
     Optional<ThuongHieuRespon> Getallthuonghieutheoid(UUID id);
+
+    //  thương hiệu load combobox
+    @Query(value = "SELECT [Id]\n" +
+            "      ,[TenThuongHieu]\n" +
+            "      ,[MoTa]\n" +
+            "      ,[TrangThai]\n" +
+            "  FROM [dbo].[ThuongHieu]\n where trangthai = 1", nativeQuery = true)
+    List<ThuongHieuRespon> GetallthuonghieuLoadComboBox();
 }

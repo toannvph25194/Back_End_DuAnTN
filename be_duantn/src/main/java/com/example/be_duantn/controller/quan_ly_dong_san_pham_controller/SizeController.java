@@ -19,7 +19,7 @@ public class SizeController {
 
     //api Load Table
     @GetMapping("/hienthitatcasize")
-    public ResponseEntity<?> getAllSize(@RequestParam(defaultValue = "0", value = "page") Integer page){
+    public ResponseEntity<?> getAllSize(@RequestParam(defaultValue = "0", value = "page") Integer page) {
         return ResponseEntity.ok(sizeService.getSize(page));
     }
 
@@ -28,6 +28,7 @@ public class SizeController {
     public ResponseEntity<Size> taoSize(@RequestBody SizeRequest sizeRequest) {
         return ResponseEntity.ok(sizeService.createSize(sizeRequest));
     }
+
     @GetMapping("/hienthitatcasizetheid")
     public ResponseEntity<?> getAllsize(@RequestParam(name = "id") UUID id) {
         return ResponseEntity.ok(sizeService.getSizeById(id));
@@ -38,6 +39,7 @@ public class SizeController {
     public ResponseEntity<Size> capNhatSize(@PathVariable UUID id, @RequestBody SizeRequest sizeRequest) {
         return ResponseEntity.ok(sizeService.updateSize(id, sizeRequest));
     }
+
     @PutMapping("/ctt-size/{id}")
     public ResponseEntity<Size> changeStatus(@PathVariable(value = "id") UUID id, @RequestParam int trangthai) {
         try {
@@ -51,5 +53,11 @@ public class SizeController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(null); // Invalid UUID format
         }
+    }
+
+    // ToDo hiển thị danh sách size load combobox
+    @GetMapping("/hien-thi-combobox")
+    public ResponseEntity<?> getAllSizeLoadComboBox() {
+        return ResponseEntity.ok(sizeService.getSizeLoadComboBox());
     }
 }

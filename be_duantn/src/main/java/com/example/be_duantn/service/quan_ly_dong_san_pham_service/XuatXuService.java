@@ -16,11 +16,19 @@ import java.util.UUID;
 
 public interface XuatXuService {
     public Page<XuatXuRespon> getXuatXu(Integer page);
+
     // Thêm xuất xứ
     XuatXu addXuatXu(XuatXuRequest xuatxu);
+
     Optional<XuatXuRespon> getSizeById(UUID id);
+
     XuatXu updateXuatxu(UUID id, XuatXuRequest xuatXuRequest);
+
     void deleteXuatxu(UUID id);
+
     XuatXu chuyenTrangThai(UUID id, Integer trangThaiMoi);
+
+    // Hiển thị danh sách xuất xứ load combobox
+    List<XuatXuRespon> getXuatXuLoadComboBox();
 
 }
