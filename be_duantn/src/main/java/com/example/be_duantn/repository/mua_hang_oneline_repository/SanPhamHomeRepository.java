@@ -75,7 +75,7 @@ public interface SanPhamHomeRepository extends JpaRepository<SanPham , UUID> {
     List<SanPhamRespon> getALlSPNewHome();
 
     // getAll 6 sp giảm giá home
-    @Query(value = "SELECT DISTINCT sp.Id, sp.MaSP, sp.TenSP, sp.ImageDefaul, sp.TheLoai, sp.GiaBan, sp.DonGiaKhiGiam FROM SanPham sp \n" +
+    @Query(value = "SELECT DISTINCT TOP 6 sp.Id, sp.MaSP, sp.TenSP, sp.ImageDefaul, sp.TheLoai, sp.GiaBan, sp.DonGiaKhiGiam, sp.NgayThemGiamGia FROM SanPham sp \n" +
             "JOIN GiamGia gg on gg.Id = sp.IdGG\n" +
             "JOIN SanPhamChiTiet spct on spct.IdSP = sp.Id\n" +
             "JOIN DanhMuc dm on dm.Id = sp.IdDM\n" +
@@ -88,6 +88,7 @@ public interface SanPhamHomeRepository extends JpaRepository<SanPham , UUID> {
             "AND gg.TrangThai = 1 AND sp.TrangThai = 1 AND spct.SoLuongTon > 0\n" +
             "AND dm.TrangThai = 1 AND xx.TrangThai = 1 AND th.TrangThai = 1\n" +
             "AND cl.TrangThai = 1 AND ms.TrangThai = 1 AND s.TrangThai = 1 \n" +
-            "AND sp.TrangThai = 1 AND spct.SoLuongTon > 0 AND gg.TrangThai = 1",nativeQuery = true)
+            "AND sp.TrangThai = 1 AND spct.SoLuongTon > 0 AND gg.TrangThai = 1 \n" +
+            "ORDER BY sp.NgayThemGiamGia DESC",nativeQuery = true)
     List<SanPhamGiamGiaRespon> getAllSPGGHome();
 }

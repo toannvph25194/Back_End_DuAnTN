@@ -49,6 +49,10 @@ public class SanPham {
     @Column(name = "ngaythem")
     private Date ngaythem = new Date();
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "ngaythemgiamgia")
+    private Date ngaythemgiamgia;
+
     @Column(name = "mota")
     private String mota;
 
