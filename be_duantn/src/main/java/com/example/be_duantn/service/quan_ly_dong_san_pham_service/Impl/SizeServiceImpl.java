@@ -41,7 +41,6 @@ public class SizeServiceImpl implements SizeService {
     }
 
 
-
     @Override
     public Optional<SizeRespon> FindBySizeID(UUID id) {
         return sizeRepository.FindBySizeID(id);
@@ -87,25 +86,20 @@ public class SizeServiceImpl implements SizeService {
             throw new IllegalArgumentException("Không tìm thấy size với Id : " + id);
         }
     }
-<<<<<<< Updated upstream
-
-    @Override
-    public List<SizeRespon> getSizeLoadComboBox() {
-        return sizeRepository.GetAllSizeLoadComboBox();
-
-    }
 
     private boolean hasPermission(Collection<? extends GrantedAuthority> authorities, String... requiredRoles) {
         // Kiểm tra xem người dùng có ít nhất một trong các quyền cần thiết hay không
-=======
-    private boolean hasPermission(Collection<? extends GrantedAuthority> authorities,  String... requiredRoles) {
->>>>>>> Stashed changes
         for (String requiredRole : requiredRoles) {
             if (authorities.stream().anyMatch(authority -> authority.getAuthority().equals(requiredRole))) {
                 return true;
             }
         }
         return false;
+    }
+
+    @Override
+    public List<SizeRespon> GetAllSizeLoadComboBox() {
+        return sizeRepository.GetAllSizeLoadComboBox();
 
     }
 }

@@ -86,16 +86,7 @@ public class ThuongHieuServiceImpl implements ThuongHieuService {
             throw new IllegalArgumentException("Không tìm thấy thương hiệu với Id : " + id);
         }
     }
-<<<<<<< Updated upstream
 
-    @Override
-    public List<ThuongHieuRespon> getThuongHieuLoadComboBox() {
-        return thuongHieuRepository.GetallthuonghieuLoadComboBox();
-
-    }
-
-=======
->>>>>>> Stashed changes
     private boolean hasPermission(Collection<? extends GrantedAuthority> authorities, String... requiredRoles) {
         for (String requiredRole : requiredRoles) {
             if (authorities.stream().anyMatch(authority -> authority.getAuthority().equals(requiredRole))) {
@@ -103,5 +94,11 @@ public class ThuongHieuServiceImpl implements ThuongHieuService {
             }
         }
         return false;
+    }
+
+    @Override
+    public List<ThuongHieuRespon> GetAllThuongHieuLoadComboBox() {
+        return thuongHieuRepository.GetAllThuongHieuLoadComboBox();
+
     }
 }

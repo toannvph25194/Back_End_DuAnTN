@@ -27,9 +27,8 @@ public interface ThuongHieuRepository extends JpaRepository<ThuongHieu, UUID> {
             "      ,[MoTa]\n" +
             "      ,[TrangThai]\n" +
             "  FROM [dbo].[ThuongHieu]\n" +
-            "      where [id]= ?\n", nativeQuery = true)
-<<<<<<< Updated upstream
-    Optional<ThuongHieuRespon> Getallthuonghieutheoid(UUID id);
+            "  where [id]= ?\n", nativeQuery = true)
+    Optional<ThuongHieuRespon> FindByThuongHieuID(UUID id);
 
     //  thương hiệu load combobox
     @Query(value = "SELECT [Id]\n" +
@@ -37,8 +36,5 @@ public interface ThuongHieuRepository extends JpaRepository<ThuongHieu, UUID> {
             "      ,[MoTa]\n" +
             "      ,[TrangThai]\n" +
             "  FROM [dbo].[ThuongHieu]\n where trangthai = 1", nativeQuery = true)
-    List<ThuongHieuRespon> GetallthuonghieuLoadComboBox();
-=======
-    Optional<ThuongHieuRespon> FindByThuongHieuID(UUID id);
->>>>>>> Stashed changes
+    List<ThuongHieuRespon> GetAllThuongHieuLoadComboBox();
 }

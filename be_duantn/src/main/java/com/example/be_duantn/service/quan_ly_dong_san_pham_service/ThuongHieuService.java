@@ -10,23 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ThuongHieuService {
-<<<<<<< Updated upstream
-    public Page<ThuongHieuRespon> getThuongHIeu(Integer page);
 
-    // Thêm thương hiệu
-    ThuongHieu addThuongHieu(ThuongHieuRequest thuonghieu);
-
-    Optional<ThuongHieuRespon> getthuonghieuById(UUID id);
-
-    ThuongHieu updateThuonghieu(UUID id, ThuongHieuRequest thuongHieuRequest);
-
-    void deleteThuonghieu(UUID id);
-
-    ThuongHieu chuyenTrangThai(UUID id, Integer trangThaiMoi);
-
-    // Hiển thị danh sách thương hiệu load combobox
-    List<ThuongHieuRespon> getThuongHieuLoadComboBox();
-=======
     // Hiển thị ra danh sách thương hiệu
     Page<ThuongHieuRespon> GetAllThuongHieu(Integer page);
 
@@ -41,5 +25,7 @@ public interface ThuongHieuService {
 
     // Chuyển trạng thái thương hiệu
     ThuongHieu ChuyenTrangThai(UUID id, Integer trangThaiMoi);
->>>>>>> Stashed changes
+
+    // Hiển thị danh sách thương hiệu load combobox
+    List<ThuongHieuRespon> GetAllThuongHieuLoadComboBox();
 }

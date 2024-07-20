@@ -58,7 +58,7 @@ public class ThuongHieuController {
 
     // ToDo hiển thị danh sách thương hiệu load combobox
     @GetMapping("/hien-thi-combobox")
-    public ResponseEntity<?> getAllThuongHieuLoadComboBox() {
-        return ResponseEntity.ok(thuongHieuService.getThuongHieuLoadComboBox());
+    public ResponseEntity<?> GetAllThuongHieuLoadComboBox() {
+        return ResponseEntity.ok(thuongHieuService.GetAllThuongHieuLoadComboBox());
     }
 }

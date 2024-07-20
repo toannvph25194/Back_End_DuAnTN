@@ -19,11 +19,7 @@ public class ChatLieuController {
 
     // ToDo hiển thị danh sách chất liệu
     @GetMapping("/hien-thi")
-<<<<<<< Updated upstream
-    public ResponseEntity<?> getAllThuongHieu(@RequestParam(defaultValue = "0", value = "page") Integer page) {
-=======
     public ResponseEntity<?> getAllChatLieu(@RequestParam(defaultValue = "0", value = "page") Integer page){
->>>>>>> Stashed changes
         return ResponseEntity.ok(chatLieuService.GetAllChatlieu(page));
     }
 

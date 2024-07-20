@@ -26,7 +26,6 @@ public class MauSacServiceImpl implements MauSacService {
     @Autowired
     MauSacRepository mauSacRepository;
 
-
     @Override
     public Page<MauSacRespon> GetAllMauSac(Integer page) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -86,13 +85,6 @@ public class MauSacServiceImpl implements MauSacService {
             throw new IllegalArgumentException("Không tìm thấy màu sắc với Id : " + id);
         }
     }
-<<<<<<< Updated upstream
-
-    @Override
-    public List<MauSacRespon> getMauSacLoadComboBox() {
-        return mauSacRepository.GetAllMauSacLoadComboBox();
-    }
-
 
     private boolean hasPermission(Collection<? extends GrantedAuthority> authorities, String... requiredRoles) {
         // Kiểm tra xem người dùng có ít nhất một trong các quyền cần thiết hay không
@@ -100,15 +92,12 @@ public class MauSacServiceImpl implements MauSacService {
             if (authorities.stream().anyMatch(authority -> authority.getAuthority().equals(requiredRole))) {
                 return true;
             }
-=======
-    private boolean hasPermission(Collection<? extends GrantedAuthority> authorities,  String... requiredRoles) {
-    for (String requiredRole : requiredRoles) {
-        if (authorities.stream().anyMatch(authority -> authority.getAuthority().equals(requiredRole))) {
-            return true;
->>>>>>> Stashed changes
         }
+        return false;
     }
-    return false;
 
+    @Override
+    public List<MauSacRespon> GetAllMauSacLoadComboBox() {
+        return mauSacRepository.GetAllMauSacLoadComboBox();
     }
 }

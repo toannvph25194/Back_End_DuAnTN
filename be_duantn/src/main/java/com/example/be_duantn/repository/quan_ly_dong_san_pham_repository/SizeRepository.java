@@ -20,22 +20,19 @@ public interface SizeRepository extends JpaRepository<Size, UUID> {
             "  FROM [dbo].[Size]\n", nativeQuery = true)
     Page<SizeRespon> GetAllSize(Pageable pageable);
 
-<<<<<<< Updated upstream
-    //  size load combobox
-=======
-
     // Findby size theo id
->>>>>>> Stashed changes
     @Query(value = "SELECT [Id]\n" +
             "      ,[TenSize]\n" +
             "      ,[MoTa]\n" +
             "      ,[TrangThai]\n" +
-<<<<<<< Updated upstream
-            "  FROM [dbo].[Size]\n where trangthai = 1", nativeQuery = true)
-    List<SizeRespon> GetAllSizeLoadComboBox();
-
-=======
             "  FROM [dbo].[Size] where id = ?", nativeQuery = true)
     Optional<SizeRespon> FindBySizeID(UUID id);
->>>>>>> Stashed changes
+
+    //  Size load combobox
+    @Query(value = "SELECT [Id]\n" +
+            "      ,[TenSize]\n" +
+            "      ,[MoTa]\n" +
+            "      ,[TrangThai]\n" +
+            "  FROM [dbo].[Size]\n where trangthai = 1", nativeQuery = true)
+    List<SizeRespon> GetAllSizeLoadComboBox();
 }

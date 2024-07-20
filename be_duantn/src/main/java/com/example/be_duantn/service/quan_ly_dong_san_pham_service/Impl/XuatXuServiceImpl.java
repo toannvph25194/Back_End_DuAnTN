@@ -85,30 +85,7 @@ public class XuatXuServiceImpl implements XuatXuService {
             throw new IllegalArgumentException("Không tìm thấy xuất xứ với Id : " + id);
         }
     }
-<<<<<<< Updated upstream
 
-    @Override
-    public XuatXu chuyenTrangThai(UUID id, Integer trangThaiMoi) {
-
-            Optional<XuatXu> xuatXu = xuatXuRepository.findById(id);
-            if (xuatXu.isPresent()) {
-                XuatXu xx = xuatXu.get();
-                xx.setTrangthai(trangThaiMoi);
-                return xuatXuRepository.save(xx);
-            } else {
-                throw new IllegalArgumentException("Không tìm thấy xuấtt xứ với ID: " + id);
-            }
-
-    }
-
-    @Override
-    public List<XuatXuRespon> getXuatXuLoadComboBox() {
-        return xuatXuRepository.GetallxuatxuLoadCombobox();
-
-    }
-
-=======
->>>>>>> Stashed changes
     private boolean hasPermission(Collection<? extends GrantedAuthority> authorities, String... requiredRoles) {
         for (String requiredRole : requiredRoles) {
             if (authorities.stream().anyMatch(authority -> authority.getAuthority().equals(requiredRole))) {
@@ -116,5 +93,11 @@ public class XuatXuServiceImpl implements XuatXuService {
             }
         }
         return false;
+    }
+
+    @Override
+    public List<XuatXuRespon> GetallXuatXuLoadCombobox() {
+        return xuatXuRepository.GetallXuatXuLoadCombobox();
+
     }
 }

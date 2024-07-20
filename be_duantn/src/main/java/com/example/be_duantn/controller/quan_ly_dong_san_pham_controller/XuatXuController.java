@@ -17,28 +17,10 @@ public class XuatXuController {
     @Autowired
     XuatXuServiceImpl xuatXuService;
 
-<<<<<<< Updated upstream
-    //api Load Table
-    @GetMapping("/hienthitatcaxuatxu")
-    public ResponseEntity<?> getAllThuongHieu(@RequestParam(defaultValue = "0", value = "page") Integer page) {
-        return ResponseEntity.ok(xuatXuService.getXuatXu(page));
-    }
-
-    //add
-    @PostMapping("/add-xuatxu")
-    public ResponseEntity<?> addChatLieu(@Valid @RequestBody XuatXuRequest xuatXuRequest) {
-        return ResponseEntity.ok(xuatXuService.addXuatXu(xuatXuRequest));
-    }
-
-    @GetMapping("/hienthitatcaxuatxutheid")
-    public ResponseEntity<?> getAllsize(@RequestParam(name = "id") UUID id) {
-        return ResponseEntity.ok(xuatXuService.getSizeById(id));
-=======
     // ToDo hiển thị danh sách xuất xứ
     @GetMapping("/hien-thi")
     public ResponseEntity<?> GetAllXuatXu(@RequestParam(defaultValue = "0", value = "page") Integer page){
         return ResponseEntity.ok(xuatXuService.GetAllXuatXu(page));
->>>>>>> Stashed changes
     }
 
     // ToDo findby xuất xứ theo id
@@ -47,10 +29,6 @@ public class XuatXuController {
         return ResponseEntity.ok(xuatXuService.FindByXuatXuID(id));
     }
 
-<<<<<<< Updated upstream
-    @PutMapping("/ctt-xuatxu/{id}")
-    public ResponseEntity<XuatXu> changeStatus(@PathVariable(value = "id") UUID id, @RequestParam int trangthai) {
-=======
     // ToDo thêm mới xuất xứ
     @PostMapping("/add-xuatxu")
     public ResponseEntity<?> AddXuatXu(@Valid @RequestBody XuatXuRequest xuatXuRequest) {
@@ -66,7 +44,6 @@ public class XuatXuController {
     // ToDo chuyển trạng thái xuất xứ theo id
     @PutMapping("/update-trang-thai")
     public ResponseEntity<XuatXu> ChuyenTrangThai(@RequestParam("id") UUID id, @RequestParam Integer trangthai) {
->>>>>>> Stashed changes
         try {
             XuatXu xuatXu = xuatXuService.ChuyenTrangThai(id, trangthai);
             if (xuatXu != null) {
@@ -81,7 +58,7 @@ public class XuatXuController {
 
     // ToDo hiển thị danh sách xuất xứ load combobox
     @GetMapping("/hien-thi-combobox")
-    public ResponseEntity<?> getAllThuongHieuLoadCombobox() {
-        return ResponseEntity.ok(xuatXuService.getXuatXuLoadComboBox());
+    public ResponseEntity<?> GetallXuatXuLoadCombobox() {
+        return ResponseEntity.ok(xuatXuService.GetallXuatXuLoadCombobox());
     }
 }
