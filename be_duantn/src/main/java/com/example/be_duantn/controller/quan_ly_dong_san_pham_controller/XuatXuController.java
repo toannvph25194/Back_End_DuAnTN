@@ -1,10 +1,7 @@
 package com.example.be_duantn.controller.quan_ly_dong_san_pham_controller;
 
-import com.example.be_duantn.dto.request.quan_ly_dong_san_pham_request.SizeRequest;
 import com.example.be_duantn.dto.request.quan_ly_dong_san_pham_request.XuatXuRequest;
-import com.example.be_duantn.entity.Size;
 import com.example.be_duantn.entity.XuatXu;
-import com.example.be_duantn.service.quan_ly_dong_san_pham_service.Impl.DanhMucServiceImpl;
 import com.example.be_duantn.service.quan_ly_dong_san_pham_service.Impl.XuatXuServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +17,7 @@ public class XuatXuController {
     @Autowired
     XuatXuServiceImpl xuatXuService;
 
+<<<<<<< Updated upstream
     //api Load Table
     @GetMapping("/hienthitatcaxuatxu")
     public ResponseEntity<?> getAllThuongHieu(@RequestParam(defaultValue = "0", value = "page") Integer page) {
@@ -35,25 +33,49 @@ public class XuatXuController {
     @GetMapping("/hienthitatcaxuatxutheid")
     public ResponseEntity<?> getAllsize(@RequestParam(name = "id") UUID id) {
         return ResponseEntity.ok(xuatXuService.getSizeById(id));
+=======
+    // ToDo hiển thị danh sách xuất xứ
+    @GetMapping("/hien-thi")
+    public ResponseEntity<?> GetAllXuatXu(@RequestParam(defaultValue = "0", value = "page") Integer page){
+        return ResponseEntity.ok(xuatXuService.GetAllXuatXu(page));
+>>>>>>> Stashed changes
     }
 
-    @PutMapping("/update-xuatxu/{id}")
-    public ResponseEntity<XuatXu> capNhatxuatxu(@PathVariable UUID id, @RequestBody XuatXuRequest xuatXuRequest) {
-        return ResponseEntity.ok(xuatXuService.updateXuatxu(id, xuatXuRequest));
+    // ToDo findby xuất xứ theo id
+    @GetMapping("/find-by")
+    public ResponseEntity<?> FindByIdXuatXu(@RequestParam("id") UUID id) {
+        return ResponseEntity.ok(xuatXuService.FindByXuatXuID(id));
     }
 
+<<<<<<< Updated upstream
     @PutMapping("/ctt-xuatxu/{id}")
     public ResponseEntity<XuatXu> changeStatus(@PathVariable(value = "id") UUID id, @RequestParam int trangthai) {
+=======
+    // ToDo thêm mới xuất xứ
+    @PostMapping("/add-xuatxu")
+    public ResponseEntity<?> AddXuatXu(@Valid @RequestBody XuatXuRequest xuatXuRequest) {
+        return ResponseEntity.ok(xuatXuService.AddXuatXu(xuatXuRequest));
+    }
+
+    // ToDo update xuất xứ theo id
+    @PutMapping("/update-xuatxu")
+    public ResponseEntity<XuatXu> CapNhatXuatXu(@RequestBody XuatXuRequest xuatXuRequest) {
+        return ResponseEntity.ok(xuatXuService.UpdateXuatXu(xuatXuRequest));
+    }
+
+    // ToDo chuyển trạng thái xuất xứ theo id
+    @PutMapping("/update-trang-thai")
+    public ResponseEntity<XuatXu> ChuyenTrangThai(@RequestParam("id") UUID id, @RequestParam Integer trangthai) {
+>>>>>>> Stashed changes
         try {
-            XuatXu updatedxuatxu = xuatXuService.chuyenTrangThai(id, trangthai);
-            // return ResponseEntity.ok(updatedMauSac);
-            if (updatedxuatxu != null) {
-                return ResponseEntity.ok(updatedxuatxu);
+            XuatXu xuatXu = xuatXuService.ChuyenTrangThai(id, trangthai);
+            if (xuatXu != null) {
+                return ResponseEntity.ok(xuatXu);
             } else {
                 return ResponseEntity.notFound().build();
             }
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(null); // Invalid UUID format
+            return ResponseEntity.badRequest().body(null);
         }
     }
 

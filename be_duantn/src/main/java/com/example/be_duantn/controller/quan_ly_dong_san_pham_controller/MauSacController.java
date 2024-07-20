@@ -1,16 +1,13 @@
 package com.example.be_duantn.controller.quan_ly_dong_san_pham_controller;
 
-import com.example.be_duantn.dto.request.quan_ly_dong_san_pham_request.ImageRequest;
 import com.example.be_duantn.dto.request.quan_ly_dong_san_pham_request.MauSacRequest;
 import com.example.be_duantn.entity.MauSac;
-import com.example.be_duantn.service.quan_ly_dong_san_pham_service.Impl.ChatLieuServiceImpl;
 import com.example.be_duantn.service.quan_ly_dong_san_pham_service.Impl.MauSacServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -20,44 +17,42 @@ public class MauSacController {
     @Autowired
     MauSacServiceImpl mauSacService;
 
-    //api Load Table
-    @GetMapping("/hienthitatcamausac")
-    public ResponseEntity<?> getAllmausac(@RequestParam(defaultValue = "0", value = "page") Integer page) {
-        return ResponseEntity.ok(mauSacService.getMauSac(page));
+    // ToDo hiển thị danh sách màu sắc
+    @GetMapping("/hien-thi")
+    public ResponseEntity<?> GetAllMauSac(@RequestParam(defaultValue = "0", value = "page") Integer page){
+        return ResponseEntity.ok(mauSacService.GetAllMauSac(page));
     }
 
-    @PostMapping("/create-mausac")
-    public MauSac createMauSac(@RequestBody MauSacRequest mausacRequest) {
-        return mauSacService.createMauSac(mausacRequest);
+    // ToDo findby màu sắc theo id
+    @GetMapping("/find-by")
+    public ResponseEntity<?> FindByIdMauSac(@RequestParam("id") UUID id) {
+        return ResponseEntity.ok(mauSacService.FindByMauSacID(id));
     }
 
-    @GetMapping("/hienthitatcamausactheid")
-    public ResponseEntity<?> getAllmausac(@RequestParam(name = "id") UUID id) {
-        return ResponseEntity.ok(mauSacService.getMauSacById(id));
+    // ToDo thêm mới màu sắc
+    @PostMapping("/add-mausac")
+    public ResponseEntity<?> AddMauSac(@Valid @RequestBody MauSacRequest mauSacRequest) {
+        return ResponseEntity.ok(mauSacService.AddMauSac(mauSacRequest));
     }
 
-
+    // ToDo update mausac theo id
     @PutMapping("/update-mausac")
-    public ResponseEntity<MauSac> updateNhanVien(
-            @RequestParam(name = "id") UUID id,
-            @Valid @RequestBody MauSacRequest nhanVien
-    ) {
-        MauSac updatedNhanVien = mauSacService.updateMauSac(id, nhanVien);
-        return ResponseEntity.ok(updatedNhanVien);
+    public ResponseEntity<MauSac> CapNhatMauSac(@RequestBody MauSacRequest mauSacRequest) {
+        return ResponseEntity.ok(mauSacService.UpdateMauSac(mauSacRequest));
     }
 
-    @PutMapping("/ctt-mausac/{mausacid}")
-    public ResponseEntity<MauSac> changeStatus(@PathVariable(value = "mausacid") UUID id, @RequestParam int trangthai) {
+    // ToDo chuyển trạng thái màu sắc theo id
+    @PutMapping("/update-trang-thai")
+    public ResponseEntity<MauSac> ChuyenTrangThai(@RequestParam("id") UUID id, @RequestParam Integer trangthai) {
         try {
-            MauSac updatedMauSac = mauSacService.chuyenTrangThai(id, trangthai);
-            // return ResponseEntity.ok(updatedMauSac);
-            if (updatedMauSac != null) {
-                return ResponseEntity.ok(updatedMauSac);
+            MauSac mauSac = mauSacService.ChuyenTrangThai(id, trangthai);
+            if (mauSac != null) {
+                return ResponseEntity.ok(mauSac);
             } else {
                 return ResponseEntity.notFound().build();
             }
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(null); // Invalid UUID format
+            return ResponseEntity.badRequest().body(null);
         }
     }
 

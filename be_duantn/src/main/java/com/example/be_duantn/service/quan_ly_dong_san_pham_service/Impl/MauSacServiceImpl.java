@@ -3,9 +3,7 @@ package com.example.be_duantn.service.quan_ly_dong_san_pham_service.Impl;
 import com.example.be_duantn.dto.request.quan_ly_dong_san_pham_request.MauSacRequest;
 import com.example.be_duantn.dto.respon.quan_ly_dong_san_pham_respon.MauSacRespon;
 import com.example.be_duantn.entity.MauSac;
-import com.example.be_duantn.repository.quan_ly_dong_san_pham_repository.DanhMucRepository;
 import com.example.be_duantn.repository.quan_ly_dong_san_pham_repository.MauSacRepository;
-import com.example.be_duantn.service.quan_ly_dong_san_pham_service.DanhMucService;
 import com.example.be_duantn.service.quan_ly_dong_san_pham_service.MauSacService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,14 +26,14 @@ public class MauSacServiceImpl implements MauSacService {
     @Autowired
     MauSacRepository mauSacRepository;
 
-    @Override
-    public Page<MauSacRespon> getMauSac(Integer page) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+    @Override
+    public Page<MauSacRespon> GetAllMauSac(Integer page) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         // Kiểm tra quyền của người dùng và thực hiện xử lý tùy thuộc vào quyền
         if (hasPermission(authentication.getAuthorities(), "ADMIN", "NHANVIEN")) {
-            Pageable pageable = PageRequest.of(page, 9);
             // Thực hiện xử lý cho người dùng có quyền "ADMIN" hoặc "NHANVIEN"
+            Pageable pageable = PageRequest.of(page, 10);
             return mauSacRepository.GetAllMauSac(pageable);
         } else {
             // Người dùng không có quyền, xử lý theo ý của bạn
@@ -44,27 +42,22 @@ public class MauSacServiceImpl implements MauSacService {
     }
 
     @Override
-    public List<MauSac> getAllMauSac() {
-        return mauSacRepository.findAll();
+    public Optional<MauSacRespon> FindByMauSacID(UUID id) {
+        return mauSacRepository.FindByMauSacID(id);
     }
 
     @Override
-    public Optional<MauSac> getMauSacById(UUID id) {
-        return mauSacRepository.findById(id);
-    }
-
-    @Override
-    public MauSac createMauSac(MauSacRequest mausacRequest) {
+    public MauSac AddMauSac(MauSacRequest mauSacRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         // Kiểm tra quyền của người dùng và thực hiện xử lý tùy thuộc vào quyền
         if (hasPermission(authentication.getAuthorities(), "ADMIN", "NHANVIEN")) {
-        MauSac mausac = MauSac.builder()
-                .tenmausac(mausacRequest.getTenmausac())
-                .mota(mausacRequest.getMota())
-                .trangthai(mausacRequest.getTrangthai())
-                .build();
-        return mauSacRepository.save(mausac);
+
+            MauSac mauSac = new MauSac();
+            mauSac.setTenmausac(mauSacRequest.getTenmausac());
+            mauSac.setMota(mauSacRequest.getMota());
+            mauSac.setTrangthai(mauSacRequest.getTrangthai());
+
+            return mauSacRepository.save(mauSac);
         } else {
             // Người dùng không có quyền, xử lý theo ý của bạn
             throw new AccessDeniedException("Bạn không có quyền");
@@ -72,31 +65,28 @@ public class MauSacServiceImpl implements MauSacService {
     }
 
     @Override
-    public MauSac updateMauSac(UUID id, MauSacRequest mausacRequest) {
-        MauSac existingMauSac = mauSacRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("MauSac not found for this id :: " + id));
+    public MauSac UpdateMauSac(MauSacRequest mauSacRequest) {
+        MauSac mauSac = mauSacRepository.findById(mauSacRequest.getId())
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy màu sắc với Id : " + mauSacRequest.getId()));
 
-        existingMauSac.setTenmausac(mausacRequest.getTenmausac());
-        existingMauSac.setMota(mausacRequest.getMota());
-        existingMauSac.setTrangthai(mausacRequest.getTrangthai());
-
-        return mauSacRepository.save(existingMauSac);
+        mauSac.setTenmausac(mauSacRequest.getTenmausac());
+        mauSac.setMota(mauSacRequest.getMota());
+        mauSac.setTrangthai(mauSacRequest.getTrangthai());
+        return mauSacRepository.save(mauSac);
     }
-
 
     @Override
-    public MauSac chuyenTrangThai(UUID idmausac, Integer trangThaiMoi) {
-
-
-        Optional<MauSac> mauSacOpt = mauSacRepository.findById(idmausac);
-        if (mauSacOpt.isPresent()) {
-            MauSac mauSac = mauSacOpt.get();
-            mauSac.setTrangthai(trangThaiMoi);
-            return mauSacRepository.save(mauSac);
+    public MauSac ChuyenTrangThai(UUID id, Integer trangThaiMoi) {
+        Optional<MauSac> mauSac = mauSacRepository.findById(id);
+        if (mauSac.isPresent()) {
+            MauSac mauSac1 = mauSac.get();
+            mauSac1.setTrangthai(trangThaiMoi);
+            return mauSacRepository.save(mauSac1);
         } else {
-            throw new IllegalArgumentException("Không tìm thấy màu sắc với ID: " + idmausac);
+            throw new IllegalArgumentException("Không tìm thấy màu sắc với Id : " + id);
         }
     }
+<<<<<<< Updated upstream
 
     @Override
     public List<MauSacRespon> getMauSacLoadComboBox() {
@@ -110,8 +100,15 @@ public class MauSacServiceImpl implements MauSacService {
             if (authorities.stream().anyMatch(authority -> authority.getAuthority().equals(requiredRole))) {
                 return true;
             }
+=======
+    private boolean hasPermission(Collection<? extends GrantedAuthority> authorities,  String... requiredRoles) {
+    for (String requiredRole : requiredRoles) {
+        if (authorities.stream().anyMatch(authority -> authority.getAuthority().equals(requiredRole))) {
+            return true;
+>>>>>>> Stashed changes
         }
-        return false;
     }
+    return false;
 
+    }
 }

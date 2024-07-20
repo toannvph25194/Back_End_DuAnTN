@@ -1,6 +1,5 @@
 package com.example.be_duantn.repository.quan_ly_dong_san_pham_repository;
 
-import com.example.be_duantn.dto.respon.quan_ly_dong_san_pham_respon.DanhMucRespon;
 import com.example.be_duantn.dto.respon.quan_ly_dong_san_pham_respon.ThuongHieuRespon;
 import com.example.be_duantn.entity.ThuongHieu;
 import org.springframework.data.domain.Page;
@@ -13,20 +12,23 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ThuongHieuRepository extends JpaRepository<ThuongHieu, UUID> {
-    //xuất ra các trạng thái thương hiệu là 1
+    // Hiển thị ra danh sách thương hiệu
     @Query(value = "SELECT [Id]\n" +
             "      ,[TenThuongHieu]\n" +
             "      ,[MoTa]\n" +
             "      ,[TrangThai]\n" +
             "  FROM [dbo].[ThuongHieu]\n", nativeQuery = true)
-    Page<ThuongHieuRespon> Getallthuonghieu(Pageable pageable);
+    Page<ThuongHieuRespon> GetAllThuongHieu(Pageable pageable);
 
+
+    // Findby thương hiệu theo id
     @Query(value = "SELECT [Id]\n" +
             "      ,[TenThuongHieu]\n" +
             "      ,[MoTa]\n" +
             "      ,[TrangThai]\n" +
             "  FROM [dbo].[ThuongHieu]\n" +
             "      where [id]= ?\n", nativeQuery = true)
+<<<<<<< Updated upstream
     Optional<ThuongHieuRespon> Getallthuonghieutheoid(UUID id);
 
     //  thương hiệu load combobox
@@ -36,4 +38,7 @@ public interface ThuongHieuRepository extends JpaRepository<ThuongHieu, UUID> {
             "      ,[TrangThai]\n" +
             "  FROM [dbo].[ThuongHieu]\n where trangthai = 1", nativeQuery = true)
     List<ThuongHieuRespon> GetallthuonghieuLoadComboBox();
+=======
+    Optional<ThuongHieuRespon> FindByThuongHieuID(UUID id);
+>>>>>>> Stashed changes
 }

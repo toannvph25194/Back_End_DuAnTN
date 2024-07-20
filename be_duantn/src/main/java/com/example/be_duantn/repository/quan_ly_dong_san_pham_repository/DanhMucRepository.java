@@ -13,19 +13,21 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface DanhMucRepository extends JpaRepository<DanhMuc, UUID> {
-    //xuất ra các trạng thái danh muc là 1
+    // Hiển thị ra danh sách danh mục
     @Query(value = "SELECT [Id]\n" +
             "      ,[TenDanhMuc]\n" +
             "      ,[MoTa]\n" +
             "      ,[TrangThai]\n" +
             "  FROM [dbo].[DanhMuc]", nativeQuery = true)
-    Page<DanhMucRespon> Getalldanhmuc(Pageable pageable);
+    Page<DanhMucRespon> GetAllDanhMuc(Pageable pageable);
 
+    // Findby danh mục theo id
     @Query(value = "SELECT [Id]\n" +
             "      ,[TenDanhMuc]\n" +
             "      ,[MoTa]\n" +
             "      ,[TrangThai]\n" +
             "  FROM [dbo].[DanhMuc] where id = ?", nativeQuery = true)
+<<<<<<< Updated upstream
     Optional<DanhMucRespon> Getalldanhmuctheoid(UUID id);
 
     //  danh mục load combobox
@@ -35,4 +37,7 @@ public interface DanhMucRepository extends JpaRepository<DanhMuc, UUID> {
             "      ,[TrangThai]\n" +
             "  FROM [dbo].[DanhMuc] where trangthai = 1", nativeQuery = true)
     List<DanhMucRespon> GetalldanhmucLoadCombobox();
+=======
+    Optional<DanhMucRespon> FindByDanhMucID(UUID id);
+>>>>>>> Stashed changes
 }
