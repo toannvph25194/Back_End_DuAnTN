@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ChatLieuRepository extends JpaRepository<ChatLieu, UUID> {
-    //xuất ra các trạng thái chất lieu là 1
+    // Hiển thị danh sách chất liệu
     @Query(value = "SELECT [Id]\n" +
             "      ,[TenChatLieu]\n" +
             "      ,[MoTa]\n" +
@@ -20,10 +20,11 @@ public interface ChatLieuRepository extends JpaRepository<ChatLieu, UUID> {
             "  FROM [dbo].[ChatLieu]" , nativeQuery = true)
     Page<ChatLieuRespon> GetAllChatlieu(Pageable pageable);
 
+    // Findby chất liệu theo Id
     @Query(value = "SELECT [Id]\n" +
             "      ,[TenChatLieu]\n" +
             "      ,[MoTa]\n" +
             "      ,[TrangThai]\n" +
             "  FROM [dbo].[ChatLieu] where id = ?", nativeQuery = true)
-    Optional<ChatLieuRespon> GetAllChatlieutheoid(UUID id);
+    Optional<ChatLieuRespon> FindByChatLieuID(UUID id);
 }
