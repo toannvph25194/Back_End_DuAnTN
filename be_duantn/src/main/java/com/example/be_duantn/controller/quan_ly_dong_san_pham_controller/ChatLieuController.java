@@ -1,10 +1,7 @@
 package com.example.be_duantn.controller.quan_ly_dong_san_pham_controller;
 
 import com.example.be_duantn.dto.request.quan_ly_dong_san_pham_request.ChatLieuRequest;
-import com.example.be_duantn.dto.request.quan_ly_dong_san_pham_request.DanhMucRequest;
-import com.example.be_duantn.dto.request.quan_ly_dong_san_pham_request.SanPhamRequest;
 import com.example.be_duantn.entity.ChatLieu;
-import com.example.be_duantn.entity.DanhMuc;
 import com.example.be_duantn.service.quan_ly_dong_san_pham_service.Impl.ChatLieuServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,36 +17,42 @@ public class ChatLieuController {
     @Autowired
     ChatLieuServiceImpl chatLieuService;
 
-    //api Load Table
-    @GetMapping("/hienthitatcachatlieu")
+    // ToDo hiển thị danh sách chất liệu
+    @GetMapping("/hien-thi")
     public ResponseEntity<?> getAllThuongHieu(@RequestParam(defaultValue = "0", value = "page") Integer page){
-        return ResponseEntity.ok(chatLieuService.getChatLieu(page));
+        return ResponseEntity.ok(chatLieuService.GetAllChatlieu(page));
     }
-    @GetMapping("/hienthitatcachatlieutheid")
-    public ResponseEntity<?> getAllsize(@RequestParam(name = "id") UUID id) {
-        return ResponseEntity.ok(chatLieuService.getdanhmucById(id));
+
+    // ToDo findby chất liệu theo id
+    @GetMapping("/find-by")
+    public ResponseEntity<?> FindByIdChatLieu(@RequestParam("id") UUID id) {
+        return ResponseEntity.ok(chatLieuService.FindByChatLieuID(id));
     }
-    //add
+
+    // ToDo thêm mới chất liệu
     @PostMapping("/add-chatlieu")
-    public ResponseEntity<?> addChatLieu(@Valid @RequestBody ChatLieuRequest chatLieuRequest) {
-        return ResponseEntity.ok(chatLieuService.addChatLieu(chatLieuRequest));
+    public ResponseEntity<?> AddChatLieu(@Valid @RequestBody ChatLieuRequest chatLieuRequest) {
+        return ResponseEntity.ok(chatLieuService.AddChatLieu(chatLieuRequest));
     }
-    @PutMapping("/update-chatlieu/{id}")
-    public ResponseEntity<ChatLieu> capNhatchatlieu(@PathVariable UUID id, @RequestBody ChatLieuRequest chatLieuRequest) {
-        return ResponseEntity.ok(chatLieuService.updateChatlieu(id, chatLieuRequest));
+
+    // ToDo update chất liệu theo id
+    @PutMapping("/update-chatlieu")
+    public ResponseEntity<ChatLieu> CapNhatchatlieu(@RequestBody ChatLieuRequest chatLieuRequest) {
+        return ResponseEntity.ok(chatLieuService.UpdateChatlieu(chatLieuRequest));
     }
-    @PutMapping("/ctt-chatlieu/{id}")
-    public ResponseEntity<ChatLieu> changeStatus(@PathVariable(value = "id") UUID id, @RequestParam int trangthai) {
+
+    // ToDo chuyển trạng thái chất liệu theo id
+    @PutMapping("/update-trang-thai")
+    public ResponseEntity<ChatLieu> ChuyenTrangThai(@RequestParam("id") UUID id, @RequestParam Integer trangthai) {
         try {
-            ChatLieu chatLieu = chatLieuService.chuyenTrangThai(id, trangthai);
-            // return ResponseEntity.ok(updatedMauSac);
+            ChatLieu chatLieu = chatLieuService.ChuyenTrangThai(id, trangthai);
             if (chatLieu != null) {
                 return ResponseEntity.ok(chatLieu);
             } else {
                 return ResponseEntity.notFound().build();
             }
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(null); // Invalid UUID format
+            return ResponseEntity.badRequest().body(null);
         }
     }
 }
