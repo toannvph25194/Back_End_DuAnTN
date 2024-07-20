@@ -1,6 +1,5 @@
 package com.example.be_duantn.repository.quan_ly_dong_san_pham_repository;
 
-import com.example.be_duantn.dto.respon.quan_ly_dong_san_pham_respon.ChatLieuRespon;
 import com.example.be_duantn.dto.respon.quan_ly_dong_san_pham_respon.DanhMucRespon;
 import com.example.be_duantn.entity.DanhMuc;
 import org.springframework.data.domain.Page;
@@ -27,17 +26,13 @@ public interface DanhMucRepository extends JpaRepository<DanhMuc, UUID> {
             "      ,[MoTa]\n" +
             "      ,[TrangThai]\n" +
             "  FROM [dbo].[DanhMuc] where id = ?", nativeQuery = true)
-<<<<<<< Updated upstream
-    Optional<DanhMucRespon> Getalldanhmuctheoid(UUID id);
+    Optional<DanhMucRespon> FindByDanhMucID(UUID id);
 
-    //  danh mục load combobox
+    // Danh mục load combobox
     @Query(value = "SELECT [Id]\n" +
             "      ,[TenDanhMuc]\n" +
             "      ,[MoTa]\n" +
             "      ,[TrangThai]\n" +
             "  FROM [dbo].[DanhMuc] where trangthai = 1", nativeQuery = true)
-    List<DanhMucRespon> GetalldanhmucLoadCombobox();
-=======
-    Optional<DanhMucRespon> FindByDanhMucID(UUID id);
->>>>>>> Stashed changes
+    List<DanhMucRespon> GetAllDanhMucLoadComboBox();
 }

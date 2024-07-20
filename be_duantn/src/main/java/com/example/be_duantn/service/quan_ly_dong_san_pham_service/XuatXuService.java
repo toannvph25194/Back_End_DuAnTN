@@ -11,24 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface XuatXuService {
-<<<<<<< Updated upstream
-    public Page<XuatXuRespon> getXuatXu(Integer page);
 
-    // Thêm xuất xứ
-    XuatXu addXuatXu(XuatXuRequest xuatxu);
-
-    Optional<XuatXuRespon> getSizeById(UUID id);
-
-    XuatXu updateXuatxu(UUID id, XuatXuRequest xuatXuRequest);
-
-    void deleteXuatxu(UUID id);
-
-    XuatXu chuyenTrangThai(UUID id, Integer trangThaiMoi);
-
-    // Hiển thị danh sách xuất xứ load combobox
-    List<XuatXuRespon> getXuatXuLoadComboBox();
-
-=======
     // Hiển thị ra danh sách xuất xứ
     Page<XuatXuRespon> GetAllXuatXu(Integer page);
 
@@ -43,5 +26,7 @@ public interface XuatXuService {
 
     // Chuyển trạng thái xuất xứ
     XuatXu ChuyenTrangThai(UUID id, Integer trangThaiMoi);
->>>>>>> Stashed changes
+
+    // Hiển thị danh sách xuất xứ load combobox
+    List<XuatXuRespon> GetallXuatXuLoadCombobox();
 }

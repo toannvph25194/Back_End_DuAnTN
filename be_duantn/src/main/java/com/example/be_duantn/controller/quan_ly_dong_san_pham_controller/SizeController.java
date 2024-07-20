@@ -17,23 +17,6 @@ public class SizeController {
     @Autowired
     SizeServiceImpl sizeService;
 
-<<<<<<< Updated upstream
-    //api Load Table
-    @GetMapping("/hienthitatcasize")
-    public ResponseEntity<?> getAllSize(@RequestParam(defaultValue = "0", value = "page") Integer page) {
-        return ResponseEntity.ok(sizeService.getSize(page));
-    }
-
-
-    @PostMapping("/create-size")
-    public ResponseEntity<Size> taoSize(@RequestBody SizeRequest sizeRequest) {
-        return ResponseEntity.ok(sizeService.createSize(sizeRequest));
-    }
-
-    @GetMapping("/hienthitatcasizetheid")
-    public ResponseEntity<?> getAllsize(@RequestParam(name = "id") UUID id) {
-        return ResponseEntity.ok(sizeService.getSizeById(id));
-=======
     // ToDo hiển thị danh sách size
     @GetMapping("/hien-thi")
     public ResponseEntity<?> GetAllSize(@RequestParam(defaultValue = "0", value = "page") Integer page){
@@ -44,7 +27,6 @@ public class SizeController {
     @GetMapping("/find-by")
     public ResponseEntity<?> FindByIdSize(@RequestParam("id") UUID id) {
         return ResponseEntity.ok(sizeService.FindBySizeID(id));
->>>>>>> Stashed changes
     }
 
     // ToDo thêm mới size
@@ -53,10 +35,6 @@ public class SizeController {
         return ResponseEntity.ok(sizeService.AddSize(sizeRequest));
     }
 
-<<<<<<< Updated upstream
-    @PutMapping("/ctt-size/{id}")
-    public ResponseEntity<Size> changeStatus(@PathVariable(value = "id") UUID id, @RequestParam int trangthai) {
-=======
     // ToDo update size theo id
     @PutMapping("/update-size")
     public ResponseEntity<Size> CapNhatSize(@RequestBody SizeRequest sizeRequest) {
@@ -66,7 +44,6 @@ public class SizeController {
     // ToDo chuyển trạng thái size theo id
     @PutMapping("/update-trang-thai")
     public ResponseEntity<Size> ChuyenTrangThai(@RequestParam("id") UUID id, @RequestParam Integer trangthai) {
->>>>>>> Stashed changes
         try {
             Size size = sizeService.ChuyenTrangThai(id, trangthai);
             if (size != null) {
@@ -81,7 +58,7 @@ public class SizeController {
 
     // ToDo hiển thị danh sách size load combobox
     @GetMapping("/hien-thi-combobox")
-    public ResponseEntity<?> getAllSizeLoadComboBox() {
-        return ResponseEntity.ok(sizeService.getSizeLoadComboBox());
+    public ResponseEntity<?> GetAllSizeLoadComboBox() {
+        return ResponseEntity.ok(sizeService.GetAllSizeLoadComboBox());
     }
 }

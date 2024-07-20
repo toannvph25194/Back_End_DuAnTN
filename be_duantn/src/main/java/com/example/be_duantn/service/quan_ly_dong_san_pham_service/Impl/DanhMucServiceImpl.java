@@ -39,8 +39,6 @@ public class DanhMucServiceImpl implements DanhMucService {
         }
     }
 
-
-
     @Override
     public Optional<DanhMucRespon> FindByDanhMucID(UUID id) {
         return danhMucRepository.FindByDanhMucID(id);
@@ -86,13 +84,6 @@ public class DanhMucServiceImpl implements DanhMucService {
             throw new IllegalArgumentException("Không tìm thấy danh mục với Id : " + id);
         }
     }
-<<<<<<< Updated upstream
-
-    @Override
-    public List<DanhMucRespon> getDanhMucLoadComboBox() {
-        return danhMucRepository.GetalldanhmucLoadCombobox();
-
-    }
 
     private boolean hasPermission(Collection<? extends GrantedAuthority> authorities, String... requiredRoles) {
         // Kiểm tra xem người dùng có ít nhất một trong các quyền cần thiết hay không
@@ -100,15 +91,13 @@ public class DanhMucServiceImpl implements DanhMucService {
             if (authorities.stream().anyMatch(authority -> authority.getAuthority().equals(requiredRole))) {
                 return true;
             }
-=======
-    private boolean hasPermission(Collection<? extends GrantedAuthority> authorities,  String... requiredRoles) {
-    for (String requiredRole : requiredRoles) {
-        if (authorities.stream().anyMatch(authority -> authority.getAuthority().equals(requiredRole))) {
-            return true;
->>>>>>> Stashed changes
         }
+        return false;
     }
-    return false;
+
+    @Override
+    public List<DanhMucRespon> GetAllDanhMucLoadComboBox() {
+        return danhMucRepository.GetAllDanhMucLoadComboBox();
 
     }
 }

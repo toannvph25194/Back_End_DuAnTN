@@ -10,22 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface SizeService {
-<<<<<<< Updated upstream
-    public Page<SizeRespon> getSize(Integer page);
 
-    Optional<Size> getSizeById(UUID id);
-
-    Size createSize(SizeRequest sizeRequest);
-
-    Size updateSize(UUID id, SizeRequest sizeRequest);
-
-    void deleteSize(UUID id);
-
-    Size chuyenTrangThai(UUID id, Integer trangThaiMoi);
-
-    // Hiển thị danh sách size load combobox
-    List<SizeRespon> getSizeLoadComboBox();
-=======
     // Hiển thị ra danh sách size
     Page<SizeRespon> GetAllSize(Integer page);
 
@@ -40,5 +25,8 @@ public interface SizeService {
 
     // Chuyển trạng thái size
     Size ChuyenTrangThai(UUID id, Integer trangThaiMoi);
->>>>>>> Stashed changes
+
+    // Hiển thị danh sách size load combobox
+    List<SizeRespon> GetAllSizeLoadComboBox();
+
 }

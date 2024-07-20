@@ -21,20 +21,20 @@ public interface MauSacRepository extends JpaRepository<MauSac, UUID> {
             "  FROM [dbo].[MauSac]\n", nativeQuery = true)
     Page<MauSacRespon> GetAllMauSac(Pageable pageable);
 
-<<<<<<< Updated upstream
-    //  màu sắc load combobox
-=======
     // Findby màu sắc theo id
->>>>>>> Stashed changes
     @Query(value = "SELECT [Id]\n" +
             "      ,[TenMauSac]\n" +
             "      ,[MoTa]\n" +
             "      ,[TrangThai]\n" +
-<<<<<<< Updated upstream
+            "  FROM [dbo].[MauSac]  where id = ? \n", nativeQuery = true)
+    Optional<MauSacRespon> FindByMauSacID(UUID id);
+
+    //  Màu sắc load combobox
+    @Query(value = "SELECT [Id]\n" +
+            "      ,[TenMauSac]\n" +
+            "      ,[MoTa]\n" +
+            "      ,[TrangThai]\n" +
             "  FROM [dbo].[MauSac]\n where trangthai = 1", nativeQuery = true)
     List<MauSacRespon> GetAllMauSacLoadComboBox();
-=======
-            "  FROM [dbo].[MauSac] where id = ?", nativeQuery = true)
-    Optional<MauSacRespon> FindByMauSacID(UUID id);
->>>>>>> Stashed changes
+
 }
