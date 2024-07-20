@@ -89,6 +89,7 @@ public class SanPhamController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Có lỗi xảy ra !");
         }
     }
+
     // hiển thị sản phẩm thêm hoá đơn
     @GetMapping("/hienthisanphamthemhoadon")
     public ResponseEntity<?> ShowSanPhamPhanTrangThemHD(@RequestParam(defaultValue = "0", value = "page") Integer page) {
@@ -98,20 +99,21 @@ public class SanPhamController {
     // TODO Lọc theo tenspThemHD
     @GetMapping("/loc/ten-san-pham-them-hd")
     public ResponseEntity<?> locTenSPThemHD(@RequestParam(name = "pageNumber", defaultValue = "0") Integer pageNumber,
-                                      @RequestParam(name = "pageSize", defaultValue = "8") Integer pageSize,
-                                      @RequestParam("tensp") String tensp) {
+                                            @RequestParam(name = "pageSize", defaultValue = "8") Integer pageSize,
+                                            @RequestParam("tensp") String tensp) {
         return ResponseEntity.ok(sanPhamService.locTenSPShopThemHD(pageNumber, pageSize, tensp));
     }
+
     // TODO Lọc theo nhiều tiêu chí. tendanhmuc, tenmausac, tensize thêm hoá đơn
     @GetMapping("/loc/san-pham-themhd")
     public ResponseEntity<?> locSPShopThemHD(@RequestParam(name = "pageNumber", defaultValue = "0") Integer pageNumber,
-                                       @RequestParam(name = "pageSize", defaultValue = "8") Integer pageSize,
-                                       @RequestParam("tendanhmuc") String tendanhmuc,
-                                       @RequestParam("tenmausac") String tenmausac,
-                                       @RequestParam("tensize") String tensize,
-                                       @RequestParam("tenchatlieu") String tenchatlieu,
-                                       @RequestParam("tenxuatxu") String tenxuatxu,
-                                       @RequestParam("tenthuonghieu") String tenthuonghieu
+                                             @RequestParam(name = "pageSize", defaultValue = "8") Integer pageSize,
+                                             @RequestParam("tendanhmuc") String tendanhmuc,
+                                             @RequestParam("tenmausac") String tenmausac,
+                                             @RequestParam("tensize") String tensize,
+                                             @RequestParam("tenchatlieu") String tenchatlieu,
+                                             @RequestParam("tenxuatxu") String tenxuatxu,
+                                             @RequestParam("tenthuonghieu") String tenthuonghieu
     ) {
         return ResponseEntity.ok(sanPhamService.locSPShopNTCThemHD(pageNumber, pageSize, tendanhmuc, tenmausac, tensize, tenchatlieu, tenxuatxu, tenthuonghieu));
     }

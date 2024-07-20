@@ -17,7 +17,7 @@ public interface ChatLieuRepository extends JpaRepository<ChatLieu, UUID> {
             "      ,[TenChatLieu]\n" +
             "      ,[MoTa]\n" +
             "      ,[TrangThai]\n" +
-            "  FROM [dbo].[ChatLieu]" , nativeQuery = true)
+            "  FROM [dbo].[ChatLieu]", nativeQuery = true)
     Page<ChatLieuRespon> GetAllChatlieu(Pageable pageable);
 
     // Findby chất liệu theo Id
@@ -27,4 +27,13 @@ public interface ChatLieuRepository extends JpaRepository<ChatLieu, UUID> {
             "      ,[TrangThai]\n" +
             "  FROM [dbo].[ChatLieu] where id = ?", nativeQuery = true)
     Optional<ChatLieuRespon> FindByChatLieuID(UUID id);
+
+    //  chất liệu load combobox
+    @Query(value = "SELECT [Id]\n" +
+            "      ,[TenChatLieu]\n" +
+            "      ,[MoTa]\n" +
+            "      ,[TrangThai]\n" +
+            "  FROM [dbo].[ChatLieu] where trangthai = 1", nativeQuery = true)
+    List<ChatLieuRespon> GetAllChatLieuLoadComboBox();
+
 }

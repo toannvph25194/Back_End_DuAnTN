@@ -19,7 +19,7 @@ public class ChatLieuController {
 
     // ToDo hiển thị danh sách chất liệu
     @GetMapping("/hien-thi")
-    public ResponseEntity<?> getAllThuongHieu(@RequestParam(defaultValue = "0", value = "page") Integer page){
+    public ResponseEntity<?> getAllThuongHieu(@RequestParam(defaultValue = "0", value = "page") Integer page) {
         return ResponseEntity.ok(chatLieuService.GetAllChatlieu(page));
     }
 
@@ -54,5 +54,11 @@ public class ChatLieuController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(null);
         }
+    }
+
+    // ToDo hiển thị danh sách chất liệu load combobox
+    @GetMapping("/hien-thi-combobox")
+    public ResponseEntity<?> getAllThuongHieuLoadcombobox() {
+        return ResponseEntity.ok(chatLieuService.GetAllChatlieuLoadCombobox());
     }
 }

@@ -27,8 +27,8 @@ public class ImageController {
 
     //api Load Table
     @GetMapping("/hienthitatcaimage")
-    public ResponseEntity<?> getAllimage() {
-        return ResponseEntity.ok(imageService.getAllImages());
+    public ResponseEntity<?> getAllimage(@RequestParam UUID IdSP) {
+        return ResponseEntity.ok(imageService.getImage(IdSP));
     }
 
 //     them moi 1 san pham

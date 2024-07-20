@@ -94,6 +94,13 @@ public class SizeServiceImpl implements SizeService {
             throw new IllegalArgumentException("Không tìm thấy size  với ID: " + idsize);
         }
     }
+
+    @Override
+    public List<SizeRespon> getSizeLoadComboBox() {
+        return sizeRepository.GetAllSizeLoadComboBox();
+
+    }
+
     private boolean hasPermission(Collection<? extends GrantedAuthority> authorities, String... requiredRoles) {
         // Kiểm tra xem người dùng có ít nhất một trong các quyền cần thiết hay không
         for (String requiredRole : requiredRoles) {

@@ -12,9 +12,18 @@ import java.util.UUID;
 
 public interface MauSacService {
     Page<MauSacRespon> getMauSac(Integer page);
+
     List<MauSac> getAllMauSac();
+
     Optional<MauSac> getMauSacById(UUID id);
+
     MauSac createMauSac(MauSacRequest mausacRequest);
+
     MauSac updateMauSac(UUID id, MauSacRequest mausacRequest);
+
     MauSac chuyenTrangThai(UUID id, Integer trangThaiMoi);
+
+    // Hiển thị danh sách màu sắc load combobox
+    List<MauSacRespon> getMauSacLoadComboBox();
+
 }

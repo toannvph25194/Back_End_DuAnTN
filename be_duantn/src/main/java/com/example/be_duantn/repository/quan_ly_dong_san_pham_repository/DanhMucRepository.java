@@ -27,4 +27,12 @@ public interface DanhMucRepository extends JpaRepository<DanhMuc, UUID> {
             "      ,[TrangThai]\n" +
             "  FROM [dbo].[DanhMuc] where id = ?", nativeQuery = true)
     Optional<DanhMucRespon> Getalldanhmuctheoid(UUID id);
+
+    //  danh mục load combobox
+    @Query(value = "SELECT [Id]\n" +
+            "      ,[TenDanhMuc]\n" +
+            "      ,[MoTa]\n" +
+            "      ,[TrangThai]\n" +
+            "  FROM [dbo].[DanhMuc] where trangthai = 1", nativeQuery = true)
+    List<DanhMucRespon> GetalldanhmucLoadCombobox();
 }

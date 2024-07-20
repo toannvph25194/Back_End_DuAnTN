@@ -23,13 +23,15 @@ public class DanhMucController {
 
     //api Load Table
     @GetMapping("/hienthitatcadanhmuc")
-    public ResponseEntity<?> getAllThuongHieu(@RequestParam(defaultValue = "0", value = "page") Integer page){
+    public ResponseEntity<?> getAllThuongHieu(@RequestParam(defaultValue = "0", value = "page") Integer page) {
         return ResponseEntity.ok(danhMucService.getDanhMuc(page));
     }
+
     @GetMapping("/hienthitatcadanhmuctheoid")
     public ResponseEntity<?> getAllsize(@RequestParam(name = "id") UUID id) {
         return ResponseEntity.ok(danhMucService.getdanhmucById(id));
     }
+
     //add
     @PostMapping("/add-danhmuc")
     public ResponseEntity<?> addChatLieu(@Valid @RequestBody DanhMucRequest danhMucRequest) {
@@ -40,6 +42,7 @@ public class DanhMucController {
     public ResponseEntity<DanhMuc> capNhatdanhmuc(@PathVariable UUID id, @RequestBody DanhMucRequest danhMucRequest) {
         return ResponseEntity.ok(danhMucService.updateDanhmuc(id, danhMucRequest));
     }
+
     @PutMapping("/ctt-danhmuc/{id}")
     public ResponseEntity<DanhMuc> changeStatus(@PathVariable(value = "id") UUID id, @RequestParam int trangthai) {
         try {
@@ -53,5 +56,11 @@ public class DanhMucController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(null); // Invalid UUID format
         }
+    }
+
+    // ToDo hiển thị danh sách danh mục load combobox
+    @GetMapping("/hien-thi-combobox")
+    public ResponseEntity<?> getAllThuongHieuLoadCOmbobox() {
+        return ResponseEntity.ok(danhMucService.getDanhMucLoadComboBox());
     }
 }

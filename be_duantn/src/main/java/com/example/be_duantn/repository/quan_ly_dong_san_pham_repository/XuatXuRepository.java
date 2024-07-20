@@ -28,4 +28,13 @@ public interface XuatXuRepository extends JpaRepository<XuatXu, UUID> {
             "  FROM [dbo].[XuatXu]\n" +
             "  where id = ?", nativeQuery = true)
     Optional<XuatXuRespon> Getallxuatxutheoid(UUID id);
+
+    //  xuất xứ load combobox
+    @Query(value = "SELECT [Id]\n" +
+            "      ,[TenXuatXu]\n" +
+            "      ,[MoTa]\n" +
+            "      ,[TrangThai]\n" +
+            "  FROM [dbo].[XuatXu] where trangthai = 1", nativeQuery = true)
+    List<XuatXuRespon> GetallxuatxuLoadCombobox();
+
 }

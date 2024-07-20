@@ -61,4 +61,9 @@ public class MauSacController {
         }
     }
 
+    // ToDo hiển thị danh sách màu sắc load combobox
+    @GetMapping("/hien-thi-combobox")
+    public ResponseEntity<?> getAllmausacLoadComboBox() {
+        return ResponseEntity.ok(mauSacService.getMauSacLoadComboBox());
+    }
 }

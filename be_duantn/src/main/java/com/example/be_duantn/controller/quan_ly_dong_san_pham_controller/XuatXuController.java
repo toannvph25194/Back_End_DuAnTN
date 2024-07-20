@@ -22,14 +22,16 @@ public class XuatXuController {
 
     //api Load Table
     @GetMapping("/hienthitatcaxuatxu")
-    public ResponseEntity<?> getAllThuongHieu(@RequestParam(defaultValue = "0", value = "page") Integer page){
+    public ResponseEntity<?> getAllThuongHieu(@RequestParam(defaultValue = "0", value = "page") Integer page) {
         return ResponseEntity.ok(xuatXuService.getXuatXu(page));
     }
+
     //add
     @PostMapping("/add-xuatxu")
     public ResponseEntity<?> addChatLieu(@Valid @RequestBody XuatXuRequest xuatXuRequest) {
         return ResponseEntity.ok(xuatXuService.addXuatXu(xuatXuRequest));
     }
+
     @GetMapping("/hienthitatcaxuatxutheid")
     public ResponseEntity<?> getAllsize(@RequestParam(name = "id") UUID id) {
         return ResponseEntity.ok(xuatXuService.getSizeById(id));
@@ -39,6 +41,7 @@ public class XuatXuController {
     public ResponseEntity<XuatXu> capNhatxuatxu(@PathVariable UUID id, @RequestBody XuatXuRequest xuatXuRequest) {
         return ResponseEntity.ok(xuatXuService.updateXuatxu(id, xuatXuRequest));
     }
+
     @PutMapping("/ctt-xuatxu/{id}")
     public ResponseEntity<XuatXu> changeStatus(@PathVariable(value = "id") UUID id, @RequestParam int trangthai) {
         try {
@@ -52,5 +55,11 @@ public class XuatXuController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(null); // Invalid UUID format
         }
+    }
+
+    // ToDo hiển thị danh sách xuất xứ load combobox
+    @GetMapping("/hien-thi-combobox")
+    public ResponseEntity<?> getAllThuongHieuLoadCombobox() {
+        return ResponseEntity.ok(xuatXuService.getXuatXuLoadComboBox());
     }
 }

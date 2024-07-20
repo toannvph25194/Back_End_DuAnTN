@@ -13,9 +13,17 @@ import java.util.UUID;
 
 public interface SizeService {
     public Page<SizeRespon> getSize(Integer page);
+
     Optional<Size> getSizeById(UUID id);
+
     Size createSize(SizeRequest sizeRequest);
+
     Size updateSize(UUID id, SizeRequest sizeRequest);
+
     void deleteSize(UUID id);
+
     Size chuyenTrangThai(UUID id, Integer trangThaiMoi);
+
+    // Hiển thị danh sách size load combobox
+    List<SizeRespon> getSizeLoadComboBox();
 }

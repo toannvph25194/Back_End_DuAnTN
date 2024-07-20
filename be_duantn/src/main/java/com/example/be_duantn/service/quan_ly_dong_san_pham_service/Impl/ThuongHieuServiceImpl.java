@@ -96,6 +96,12 @@ public class ThuongHieuServiceImpl implements ThuongHieuService {
 
     }
 
+    @Override
+    public List<ThuongHieuRespon> getThuongHieuLoadComboBox() {
+        return thuongHieuRepository.GetallthuonghieuLoadComboBox();
+
+    }
+
     private boolean hasPermission(Collection<? extends GrantedAuthority> authorities, String... requiredRoles) {
         // Kiểm tra xem người dùng có ít nhất một trong các quyền cần thiết hay không
         for (String requiredRole : requiredRoles) {

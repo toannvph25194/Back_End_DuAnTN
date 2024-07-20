@@ -56,4 +56,10 @@ public class ThuongHieuController {
             return ResponseEntity.badRequest().body(null); // Invalid UUID format
         }
     }
+
+    // ToDo hiển thị danh sách thương hiệu load combobox
+    @GetMapping("/hien-thi-combobox")
+    public ResponseEntity<?> getAllThuongHieuLoadComboBox() {
+        return ResponseEntity.ok(thuongHieuService.getThuongHieuLoadComboBox());
+    }
 }

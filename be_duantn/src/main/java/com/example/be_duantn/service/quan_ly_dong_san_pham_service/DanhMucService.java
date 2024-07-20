@@ -16,10 +16,19 @@ import java.util.UUID;
 
 public interface DanhMucService {
     public Page<DanhMucRespon> getDanhMuc(Integer page);
+
     // Thêm danh mục
     DanhMuc addDanhMuc(DanhMucRequest danhmuc);
+
     Optional<DanhMucRespon> getdanhmucById(UUID id);
+
     DanhMuc updateDanhmuc(UUID id, DanhMucRequest danhMucRequest);
+
     void deleteDanhmuc(UUID id);
+
     DanhMuc chuyenTrangThai(UUID id, Integer trangThaiMoi);
+
+    // Hiển thị danh sách danh muc load combobox
+    List<DanhMucRespon> getDanhMucLoadComboBox();
+
 }
