@@ -27,8 +27,8 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet ,
     // detail sản phẩm bằng id sp
     @Query(value = "SELECT DISTINCT sp.Id, sp.TenSP, sp.TheLoai, sp.ImageDefaul, xx.TenXuatXu, th.TenThuongHieu, cl.TenChatLieu, sp.GiaBan, \n" +
             "       CASE \n" +
-            "           WHEN gg.Id IS NULL OR GETDATE() > gg.NgayKetThuc THEN NULL \n" +
-            "           ELSE sp.DonGiaKhiGiam \n" +
+            "           WHEN gg.Id IS NOT NULL AND GETDATE() >= gg.NgayBatDau AND GETDATE() <= gg.NgayKetThuc THEN sp.DonGiaKhiGiam \n" +
+            "           ELSE NULL \n" +
             "       END AS DonGiaKhiGiam\n" +
             "FROM SanPhamChiTiet spct\n" +
             "LEFT JOIN SanPham sp ON sp.Id = spct.IdSP\n" +
