@@ -50,12 +50,12 @@ public class ChatLieuServiceImpl implements ChatLieuService {
         // Kiểm tra quyền của người dùng và thực hiện xử lý tùy thuộc vào quyền
         if (hasPermission(authentication.getAuthorities(), "ADMIN", "NHANVIEN")) {
 
-            ChatLieu chatLieu = new ChatLieu();
-            chatLieu.setTenchatlieu(chatlieu.getTenchatlieu());
-            chatLieu.setMota(chatlieu.getMota());
-            chatLieu.setTrangthai(chatlieu.getTrangthai());
+            ChatLieu clm = new ChatLieu();
+            clm.setTenchatlieu(chatlieu.getTenchatlieu());
+            clm.setMota(chatlieu.getMota());
+            clm.setTrangthai(chatlieu.getTrangthai());
 
-            return chatLieuRepository.save(chatLieu);
+            return chatLieuRepository.save(clm);
         } else {
             // Người dùng không có quyền, xử lý theo ý của bạn
             throw new AccessDeniedException("Bạn không có quyền");
