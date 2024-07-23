@@ -52,12 +52,12 @@ public class SizeServiceImpl implements SizeService {
         // Kiểm tra quyền của người dùng và thực hiện xử lý tùy thuộc vào quyền
         if (hasPermission(authentication.getAuthorities(), "ADMIN", "NHANVIEN")) {
 
-            Size size1 = new Size();
-            size1.setTensize(size.getTensize());
-            size1.setMota(size.getMota());
-            size1.setTrangthai(size.getTrangthai());
+            Size sm = new Size();
+            sm.setTensize(size.getTensize());
+            sm.setMota(size.getMota());
+            sm.setTrangthai(size.getTrangthai());
 
-            return sizeRepository.save(size1);
+            return sizeRepository.save(sm);
         } else {
             // Người dùng không có quyền, xử lý theo ý của bạn
             throw new AccessDeniedException("Bạn không có quyền");

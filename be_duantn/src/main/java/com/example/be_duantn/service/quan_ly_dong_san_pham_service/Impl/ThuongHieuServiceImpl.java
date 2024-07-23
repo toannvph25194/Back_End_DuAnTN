@@ -52,12 +52,12 @@ public class ThuongHieuServiceImpl implements ThuongHieuService {
         // Kiểm tra quyền của người dùng và thực hiện xử lý tùy thuộc vào quyền
         if (hasPermission(authentication.getAuthorities(), "ADMIN", "NHANVIEN")) {
 
-            ThuongHieu thuongHieu = new ThuongHieu();
-            thuongHieu.setTenthuonghieu(thuongHieuRequest.getTenthuonghieu());
-            thuongHieu.setMota(thuongHieuRequest.getMota());
-            thuongHieu.setTrangthai(thuongHieuRequest.getTrangthai());
+            ThuongHieu thm = new ThuongHieu();
+            thm.setTenthuonghieu(thuongHieuRequest.getTenthuonghieu());
+            thm.setMota(thuongHieuRequest.getMota());
+            thm.setTrangthai(thuongHieuRequest.getTrangthai());
 
-            return thuongHieuRepository.save(thuongHieu);
+            return thuongHieuRepository.save(thm);
         } else {
             // Người dùng không có quyền, xử lý theo ý của bạn
             throw new AccessDeniedException("Bạn không có quyền");

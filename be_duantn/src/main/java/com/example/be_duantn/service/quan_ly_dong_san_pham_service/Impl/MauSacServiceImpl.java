@@ -51,12 +51,12 @@ public class MauSacServiceImpl implements MauSacService {
         // Kiểm tra quyền của người dùng và thực hiện xử lý tùy thuộc vào quyền
         if (hasPermission(authentication.getAuthorities(), "ADMIN", "NHANVIEN")) {
 
-            MauSac mauSac = new MauSac();
-            mauSac.setTenmausac(mauSacRequest.getTenmausac());
-            mauSac.setMota(mauSacRequest.getMota());
-            mauSac.setTrangthai(mauSacRequest.getTrangthai());
+            MauSac msm = new MauSac();
+            msm.setTenmausac(mauSacRequest.getTenmausac());
+            msm.setMota(mauSacRequest.getMota());
+            msm.setTrangthai(mauSacRequest.getTrangthai());
 
-            return mauSacRepository.save(mauSac);
+            return mauSacRepository.save(msm);
         } else {
             // Người dùng không có quyền, xử lý theo ý của bạn
             throw new AccessDeniedException("Bạn không có quyền");
