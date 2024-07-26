@@ -68,6 +68,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/Admin/BanTaiQuay/vnpay/**").hasAnyAuthority("ADMIN", "NHANVIEN")
                         .requestMatchers("/api/admin/lichsuthaotac/**").hasAnyAuthority("ADMIN", "NHANVIEN")
                         .requestMatchers("/api/admin/quan-ly-khach-hang/**").hasAnyAuthority("ADMIN", "NHANVIEN")
+                        .requestMatchers("/api/admin/giamgia/**").hasAnyAuthority("ADMIN", "NHANVIEN")
                         .anyRequest()
                         .authenticated())
                 .sessionManagement(
