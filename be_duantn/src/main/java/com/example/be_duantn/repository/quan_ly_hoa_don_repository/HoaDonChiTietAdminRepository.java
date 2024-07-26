@@ -25,213 +25,82 @@ public interface HoaDonChiTietAdminRepository extends JpaRepository<HoaDonChiTie
             "                  dbo.Size ON dbo.SanPhamChiTiet.IdSize = dbo.Size.Id where dbo.HoaDonChiTiet.IdHD = ?", nativeQuery = true)
     List<HoaDonChiTietRespon> finByidHDCT(UUID idHD);
 
-    @Query(value = "SELECT \n" +
-            "    COUNT(spct.Id), \n" +
-            "    spct.Id, \n" +
-            "    sp.TenSP, \n" +
-            "    ms.TenMauSac, \n" +
-            "    s.TenSize, \n" +
-            "    cl.TenChatLieu, \n" +
-            "    sp.ImageDefaul, \n" +
-            "    sp.TheLoai, \n" +
-            "    spct.SoLuongTon, \n" +
-            "    sp.TrangThai, \n" +
-            "    sp.GiaBan, \n" +
-            "    ISNULL(tgg.sotiengiamcuoicung, NULL) AS DonGiaKhiGiam\n" +
-            "FROM \n" +
-            "    SanPham sp\n" +
-            "LEFT JOIN \n" +
-            "    (\n" +
-            "        SELECT \n" +
-            "            spgg.IdSP, \n" +
-            "            MIN(spgg.DonGiaKhiGiam) AS sotiengiamcuoicung\n" +
-            "        FROM \n" +
-            "            SPGiamGia spgg\n" +
-            "        JOIN \n" +
-            "            GiamGia gg ON spgg.IdGG = gg.Id\n" +
-            "        WHERE \n" +
-            "            GETDATE() >= gg.NgayBatDau AND GETDATE() <= gg.NgayKetThuc\n" +
-            "        GROUP BY \n" +
-            "            spgg.IdSP\n" +
-            "    ) tgg ON sp.Id = tgg.IdSP\n" +
-            "JOIN \n" +
-            "    SanPhamChiTiet spct ON spct.IdSP = sp.Id\n" +
-            "JOIN \n" +
-            "    MauSac ms ON ms.Id = spct.IdMS\n" +
-            "JOIN \n" +
-            "    Size s ON s.Id = spct.IdSize\n" +
-            "JOIN \n" +
-            "    ChatLieu cl ON cl.Id = sp.IdCL\n" +
-            "JOIN \n" +
-            "    XuatXu xx ON xx.Id = sp.IdXX\n" +
-            "JOIN \n" +
-            "    DanhMuc dm ON dm.Id = sp.IdDM\n" +
-            "JOIN \n" +
-            "    ThuongHieu th ON th.Id = sp.IdTH\n" +
-            "WHERE \n" +
-            "    spct.SoLuongTon > 0 \n" +
-            "    AND sp.TrangThai = 1 \n" +
-            "    AND spct.TrangThai = 1 \n" +
-            "    AND ms.TrangThai = 1 \n" +
-            "    AND s.TrangThai = 1 \n" +
-            "    AND cl.TrangThai = 1 \n" +
-            "    AND dm.TrangThai = 1 \n" +
-            "    AND th.TrangThai = 1 \n" +
-            "    AND xx.TrangThai = 1\n" +
-            "GROUP BY \n" +
-            "    spct.Id, \n" +
-            "    sp.TenSP, \n" +
-            "    ms.TenMauSac, \n" +
-            "    s.TenSize, \n" +
-            "    cl.TenChatLieu, \n" +
-            "    sp.ImageDefaul, \n" +
-            "    sp.TheLoai, \n" +
-            "    spct.SoLuongTon, \n" +
-            "    sp.TrangThai, \n" +
-            "    sp.GiaBan, \n" +
-            "    tgg.sotiengiamcuoicung\n",
+    @Query(value = "SELECT COUNT(spct.Id), spct.id, sp.TenSP, ms.TenMauSac, s.TenSize, cl.TenChatLieu, sp.ImageDefaul, sp.TheLoai, spct.SoLuongTon, sp.TrangThai, sp.GiaBan, \n" +
+            "          CASE \n" +
+            "             WHEN gg.Id IS NOT NULL AND GETDATE() >= gg.NgayBatDau AND GETDATE() <= gg.NgayKetThuc THEN sp.DonGiaKhiGiam\n" +
+            "          ELSE NULL \n" +
+            "               END AS DonGiaKhiGiam            \n" +
+            "               FROM SanPhamChiTiet spct\n" +
+            "               JOIN SanPham sp ON spct.IdSP = sp.Id\n" +
+            "               LEFT JOIN GiamGia gg on gg.Id = sp.IdGG\n" +
+            "               JOIN MauSac ms on ms.Id = spct.IdMS\n" +
+            "               JOIN Size s on s.Id = spct.IdSize\n" +
+            "               JOIN ChatLieu cl on cl.Id = sp.IdCL\n" +
+            "               JOIN XuatXu xx on xx.Id = sp.IdXX\n" +
+            "               JOIN DanhMuc dm on dm.Id = sp.IdDM\n" +
+            "               JOIN ThuongHieu th on th.Id = sp.IdTH\n" +
+            "      WHERE spct.SoLuongTon > 0 AND sp.TrangThai = 1 AND spct.TrangThai = 1\n" +
+            "      AND ms.TrangThai = 1 AND s.TrangThai = 1 AND cl.TrangThai = 1 \n" +
+            "      AND dm.TrangThai = 1 AND th.TrangThai = 1 AND xx.TrangThai = 1\n" +
+            "      GROUP BY spct.Id, sp.TenSP, ms.TenMauSac, s.TenSize, cl.TenChatLieu, sp.ImageDefaul, sp.TheLoai, spct.SoLuongTon, sp.TrangThai, sp.GiaBan,\n" +
+            "      CASE \n" +
+            "         WHEN gg.Id IS NOT NULL AND GETDATE() >= gg.NgayBatDau AND GETDATE() <= gg.NgayKetThuc THEN sp.DonGiaKhiGiam\n" +
+            "         ELSE NULL \n" +
+            "      END",
             nativeQuery = true)
     Page<LoadSPTaiQuayRespon> LoadSPBanTaiQuay(Pageable pageable);
 
 
     // Lọc sản phẩm phân trang theo tên sản phẩm sửa hoá đơn
-    @Query(value = "SELECT \n" +
-            "    COUNT(spct.Id) AS SoLuongSanPhamChiTiet, \n" +
-            "    spct.Id, \n" +
-            "    sp.TenSP, \n" +
-            "    ms.TenMauSac, \n" +
-            "    s.TenSize, \n" +
-            "    cl.TenChatLieu, \n" +
-            "    sp.ImageDefaul, \n" +
-            "    sp.TheLoai, \n" +
-            "    spct.SoLuongTon, \n" +
-            "    sp.GiaBan, \n" +
-            "    ISNULL(tgg.sotiengiamcuoicung, NULL) AS DonGiaKhiGiam\n" +
-            "FROM \n" +
-            "    SanPham sp\n" +
-            "LEFT JOIN \n" +
-            "    (\n" +
-            "        SELECT \n" +
-            "            spgg.IdSP, \n" +
-            "            MIN(spgg.DonGiaKhiGiam) AS sotiengiamcuoicung\n" +
-            "        FROM \n" +
-            "            SPGiamGia spgg\n" +
-            "        JOIN \n" +
-            "            GiamGia gg ON spgg.IdGG = gg.Id\n" +
-            "        WHERE \n" +
-            "            GETDATE() >= gg.NgayBatDau AND GETDATE() <= gg.NgayKetThuc\n" +
-            "        GROUP BY \n" +
-            "            spgg.IdSP\n" +
-            "    ) tgg ON sp.Id = tgg.IdSP\n" +
-            "JOIN \n" +
-            "    SanPhamChiTiet spct ON spct.IdSP = sp.Id\n" +
-            "JOIN \n" +
-            "    MauSac ms ON ms.Id = spct.IdMS\n" +
-            "JOIN \n" +
-            "    Size s ON s.Id = spct.IdSize\n" +
-            "JOIN \n" +
-            "    ChatLieu cl ON cl.Id = sp.IdCL\n" +
-            "JOIN \n" +
-            "    XuatXu xx ON xx.Id = sp.IdXX\n" +
-            "JOIN \n" +
-            "    DanhMuc dm ON dm.Id = sp.IdDM\n" +
-            "JOIN \n" +
-            "    ThuongHieu th ON th.Id = sp.IdTH\n" +
-            "WHERE \n" +
-            "    spct.SoLuongTon > 0 \n" +
-            "    AND sp.TrangThai = 1 \n" +
-            "    AND spct.TrangThai = 1 \n" +
-            "    AND ms.TrangThai = 1\n" +
-            "    AND s.TrangThai = 1 \n" +
-            "    AND cl.TrangThai = 1 \n" +
-            "    AND xx.TrangThai = 1\n" +
-            "    AND dm.TrangThai = 1 \n" +
-            "    AND th.TrangThai = 1 \n" +
-            "    AND sp.TenSP LIKE %:tensp%\n" +
-            "GROUP BY \n" +
-            "    spct.Id, \n" +
-            "    sp.TenSP, \n" +
-            "    ms.TenMauSac, \n" +
-            "    s.TenSize, \n" +
-            "    cl.TenChatLieu, \n" +
-            "    sp.ImageDefaul, \n" +
-            "    sp.TheLoai, \n" +
-            "    spct.SoLuongTon, \n" +
-            "    sp.GiaBan, \n" +
-            "    tgg.sotiengiamcuoicung\n", nativeQuery = true)
+    @Query(value = "SELECT COUNT(spct.Id), spct.id, sp.TenSP, ms.TenMauSac, s.TenSize, cl.TenChatLieu, sp.ImageDefaul, sp.TheLoai, spct.SoLuongTon, sp.TrangThai, sp.GiaBan, \n" +
+            "                   CASE \n" +
+            "                      WHEN gg.Id IS NOT NULL AND GETDATE() >= gg.NgayBatDau AND GETDATE() <= gg.NgayKetThuc THEN sp.DonGiaKhiGiam\n" +
+            "                   ELSE NULL \n" +
+            "                   END AS DonGiaKhiGiam \n" +
+            "                   FROM SanPhamChiTiet spct\n" +
+            "                   JOIN SanPham sp ON spct.IdSP = sp.Id\n" +
+            "                   LEFT JOIN GiamGia gg on gg.Id = sp.IdGG\n" +
+            "                   JOIN MauSac ms on ms.Id = spct.IdMS\n" +
+            "                   JOIN Size s on s.Id = spct.IdSize\n" +
+            "                   JOIN ChatLieu cl on cl.Id = sp.IdCL\n" +
+            "                   JOIN XuatXu xx on xx.Id = sp.IdXX\n" +
+            "                   JOIN DanhMuc dm on dm.Id = sp.IdDM\n" +
+            "                   JOIN ThuongHieu th on th.Id = sp.IdTH\n" +
+            "                   WHERE spct.SoLuongTon > 0 AND sp.TrangThai = 1 AND spct.TrangThai = 1\n" +
+            "                   AND ms.TrangThai = 1 AND s.TrangThai = 1 AND cl.TrangThai = 1 \n" +
+            "                   AND xx.TrangThai = 1 AND dm.TrangThai = 1 AND th.TrangThai = 1 AND sp.TenSP LIKE %:tensp%\n" +
+            "                   GROUP BY spct.Id, sp.TenSP, ms.TenMauSac, s.TenSize, cl.TenChatLieu, sp.ImageDefaul, sp.TheLoai, spct.SoLuongTon, sp.TrangThai, sp.GiaBan,\n" +
+            "                   CASE \n" +
+            "                      WHEN gg.Id IS NOT NULL AND GETDATE() >= gg.NgayBatDau AND GETDATE() <= gg.NgayKetThuc THEN sp.DonGiaKhiGiam\n" +
+            "                      ELSE NULL \n" +
+            "                   END", nativeQuery = true)
     Page<LoadSPTaiQuayRespon> LocTenSPSuaHoaDon(Pageable pageable, @Param("tensp") String tensp);
 
     // Lọc sản phẩm phân trang nhiều tiêu chí sửa hoá đơn
-    @Query(value = "SELECT \n" +
-            "    COUNT(spct.Id) AS SoLuongSanPhamChiTiet, \n" +
-            "    spct.Id, \n" +
-            "    sp.TenSP, \n" +
-            "    ms.TenMauSac, \n" +
-            "    s.TenSize, \n" +
-            "    cl.TenChatLieu, \n" +
-            "    sp.ImageDefaul, \n" +
-            "    sp.TheLoai, \n" +
-            "    spct.SoLuongTon, \n" +
-            "    sp.GiaBan, \n" +
-            "    ISNULL(tgg.sotiengiamcuoicung, NULL) AS DonGiaKhiGiam\n" +
-            "FROM \n" +
-            "    SanPham sp\n" +
-            "LEFT JOIN \n" +
-            "    (\n" +
-            "        SELECT \n" +
-            "            spgg.IdSP, \n" +
-            "            MIN(spgg.DonGiaKhiGiam) AS sotiengiamcuoicung\n" +
-            "        FROM \n" +
-            "            SPGiamGia spgg\n" +
-            "        JOIN \n" +
-            "            GiamGia gg ON spgg.IdGG = gg.Id\n" +
-            "        WHERE \n" +
-            "            GETDATE() >= gg.NgayBatDau AND GETDATE() <= gg.NgayKetThuc\n" +
-            "        GROUP BY \n" +
-            "            spgg.IdSP\n" +
-            "    ) tgg ON sp.Id = tgg.IdSP\n" +
-            "JOIN \n" +
-            "    SanPhamChiTiet spct ON spct.IdSP = sp.Id\n" +
-            "JOIN \n" +
-            "    MauSac ms ON ms.Id = spct.IdMS\n" +
-            "JOIN \n" +
-            "    Size s ON s.Id = spct.IdSize\n" +
-            "JOIN \n" +
-            "    ChatLieu cl ON cl.Id = sp.IdCL\n" +
-            "JOIN \n" +
-            "    DanhMuc dm ON dm.Id = sp.IdDM\n" +
-            "JOIN \n" +
-            "    ThuongHieu th ON th.Id = sp.IdTH\n" +
-            "JOIN \n" +
-            "    XuatXu xx ON xx.Id = sp.IdXX\n" +
-            "WHERE \n" +
-            "    spct.SoLuongTon > 0 \n" +
-            "    AND sp.TrangThai = 1 \n" +
-            "    AND ms.TrangThai = 1\n" +
-            "    AND s.TrangThai = 1 \n" +
-            "    AND cl.TrangThai = 1 \n" +
-            "    AND dm.TrangThai = 1 \n" +
-            "    AND th.TrangThai = 1 \n" +
-            "    AND xx.TrangThai = 1\n" +
-            "    AND (\n" +
-            "        ms.TenMauSac LIKE :tenmausac \n" +
-            "        OR s.TenSize LIKE :tensize \n" +
-            "        OR cl.TenChatLieu LIKE :tenchatlieu \n" +
-            "        OR dm.TenDanhMuc LIKE :tendanhmuc \n" +
-            "        OR th.TenThuongHieu LIKE :tenthuonghieu \n" +
-            "        OR xx.TenXuatXu LIKE :tenxuatxu\n" +
-            "    )\n" +
-            "GROUP BY \n" +
-            "    spct.Id, \n" +
-            "    sp.TenSP, \n" +
-            "    ms.TenMauSac, \n" +
-            "    s.TenSize, \n" +
-            "    cl.TenChatLieu, \n" +
-            "    sp.ImageDefaul, \n" +
-            "    sp.TheLoai, \n" +
-            "    spct.SoLuongTon, \n" +
-            "    sp.GiaBan, \n" +
-            "    tgg.sotiengiamcuoicung\n", nativeQuery = true)
+    @Query(value =  "SELECT COUNT(spct.Id), spct.id, sp.TenSP, ms.TenMauSac, s.TenSize, cl.TenChatLieu, sp.ImageDefaul, sp.TheLoai, spct.SoLuongTon, sp.TrangThai, sp.GiaBan, \n" +
+            "               CASE \n" +
+            "                  WHEN gg.Id IS NOT NULL AND GETDATE() >= gg.NgayBatDau AND GETDATE() <= gg.NgayKetThuc THEN sp.DonGiaKhiGiam\n" +
+            "               ELSE NULL \n" +
+            "               END AS DonGiaKhiGiam \n" +
+            "               FROM SanPhamChiTiet spct\n" +
+            "               JOIN SanPham sp ON spct.IdSP = sp.Id\n" +
+            "               LEFT JOIN GiamGia gg on gg.Id = sp.IdGG\n" +
+            "               JOIN MauSac ms on ms.Id = spct.IdMS\n" +
+            "               JOIN Size s on s.Id = spct.IdSize\n" +
+            "               JOIN ChatLieu cl on cl.Id = sp.IdCL\n" +
+            "               JOIN DanhMuc dm on dm.Id = sp.IdDM\n" +
+            "               JOIN ThuongHieu th on th.Id = sp.IdTH\n" +
+            "               JOIN XuatXu xx on xx.Id = sp.IdXX\n" +
+            "               WHERE spct.SoLuongTon > 0 AND sp.TrangThai = 1 AND spct.TrangThai = 1\n" +
+            "               AND ms.TrangThai = 1 AND s.TrangThai = 1 AND cl.TrangThai = 1\n" +
+            "               AND dm.TrangThai = 1 AND th.TrangThai = 1 AND xx.TrangThai = 1\n" +
+            "               AND(ms.TenMauSac LIKE :tenmausac OR s.TenSize LIKE :tensize OR cl.TenChatLieu LIKE :tenchatlieu \n" +
+            "               OR dm.TenDanhMuc LIKE :tendanhmuc OR th.TenThuongHieu LIKE :tenthuonghieu OR xx.TenXuatXu LIKE :tenxuatxu)\n" +
+            "               GROUP BY spct.Id, sp.TenSP, ms.TenMauSac, s.TenSize, cl.TenChatLieu, sp.ImageDefaul, sp.TheLoai, spct.SoLuongTon, sp.TrangThai, sp.GiaBan,\n" +
+            "               CASE \n" +
+            "                  WHEN gg.Id IS NOT NULL AND GETDATE() >= gg.NgayBatDau AND GETDATE() <= gg.NgayKetThuc THEN sp.DonGiaKhiGiam\n" +
+            "                  ELSE NULL \n" +
+            "               END", nativeQuery = true)
     Page<LoadSPTaiQuayRespon> LocSPNhieuTieuChiSuaHoaDon(Pageable pageable, @Param("tenmausac") String tenmausac, @Param("tensize") String tensize,
                                                          @Param("tenchatlieu") String tenchatlieu, @Param("tendanhmuc") String tendanhmuc,
                                                          @Param("tenthuonghieu") String tenthuonghieu, @Param("tenxuatxu") String tenxuatxu);
