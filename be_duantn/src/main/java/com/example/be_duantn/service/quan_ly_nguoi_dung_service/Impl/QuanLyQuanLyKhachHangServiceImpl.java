@@ -171,9 +171,9 @@ public class QuanLyQuanLyKhachHangServiceImpl implements QuanLyKhachHangService 
     }
 
     @Override
-    public Page<KhachHangRespon> LocKhachHangTheoNhieuTieuChi(Integer page, String hovatenkh, String sodienthoai, String email) {
+    public Page<KhachHangRespon> LocKhachHangTheoNhieuTieuChi(Integer page, String keyword) {
         Pageable pageable = PageRequest.of(page, 10);
-        return quanLyKhachHangRepository.LocKhachHangTheoNhieuTieuChi(pageable, hovatenkh, sodienthoai, email);
+        return quanLyKhachHangRepository.LocKhachHangTheoNhieuTieuChi(pageable, keyword);
     }
 
     @Override

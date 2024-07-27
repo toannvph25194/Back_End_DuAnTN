@@ -22,7 +22,7 @@ public interface QuanLyKhachHangService {
     MessageKhachHangRespon UpdateTrangThaiKhachHang(UUID id, Integer trangThai);
 
     // Lọc khách hàng theo tên, sdt, email
-    Page<KhachHangRespon> LocKhachHangTheoNhieuTieuChi(Integer page, String hovatenkh, String sodienthoai, String email);
+    Page<KhachHangRespon> LocKhachHangTheoNhieuTieuChi(Integer page, String keyword);
 
     // Lọc khách hàng theo trạng thái
     Page<KhachHangRespon> LocKhachHangTheoTrangThai(Integer page, Integer trangthai);

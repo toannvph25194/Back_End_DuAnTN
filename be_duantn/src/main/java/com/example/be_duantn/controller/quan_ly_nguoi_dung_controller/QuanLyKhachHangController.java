@@ -54,10 +54,9 @@ public class QuanLyKhachHangController {
 
     // ToDo Lọc khách hàng theo nhiều tiêu chí hovatenkh, sdt, email
     @GetMapping("/loc-tieu-chi")
-    public ResponseEntity<?> LocKhachHangTheoNhieuTieuChi(@RequestParam(defaultValue = "0", value = "page") Integer page, @RequestParam("hovatenkh") String hovatenkh,
-                                                          @RequestParam("sodienthoai") String sodienthoai,  @RequestParam("email") String email){
+    public ResponseEntity<?> LocKhachHangTheoNhieuTieuChi(@RequestParam(defaultValue = "0", value = "page") Integer page, @RequestParam("keyword") String keyword){
         try {
-            return ResponseEntity.ok(quanLyQuanLyKhachHangService.LocKhachHangTheoNhieuTieuChi(page, hovatenkh, sodienthoai, email));
+            return ResponseEntity.ok(quanLyQuanLyKhachHangService.LocKhachHangTheoNhieuTieuChi(page, keyword));
         }catch (Exception e) {
             return ResponseEntity.badRequest().body("Lỗi lọc nhiều tiêu chí quản lý khách hàng !");
         }
