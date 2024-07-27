@@ -25,7 +25,7 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-public class QuanLyQuanLyKhachHangServiceImpl implements QuanLyKhachHangService {
+public class QuanLyKhachHangServiceImpl implements QuanLyKhachHangService {
     @Autowired
     QuanLyKhachHangRepository quanLyKhachHangRepository;
 
@@ -57,6 +57,15 @@ public class QuanLyQuanLyKhachHangServiceImpl implements QuanLyKhachHangService 
         String combinedName = firstWord + lastWord;
         // Loại bỏ dấu tiếng Việt và chuyển về chữ thường, không khoảng cách
         String taikhoan = Normalizer.normalize(combinedName, Normalizer.Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "").toLowerCase();
+
+        // Thêm 5 ký tự ngẫu nhiên vào sau tên tài khoản
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder randomSuffix = new StringBuilder(5);
+        for (int i = 0; i < 5; i++) {
+            int index = rand.nextInt(characters.length());
+            randomSuffix.append(characters.charAt(index));
+        }
+        taikhoan += randomSuffix.toString();
 
         KhachHang khachHang = new KhachHang();
         khachHang.setIdkh(UUID.randomUUID());
