@@ -3,10 +3,7 @@ package com.example.be_duantn.service.quan_ly_nguoi_dung_service;
 import com.example.be_duantn.dto.request.quan_ly_nguoi_dung_request.KhachHangRequest;
 import com.example.be_duantn.dto.respon.quan_ly_nguoi_dung_respon.KhachHangRespon;
 import com.example.be_duantn.dto.respon.quan_ly_nguoi_dung_respon.MessageKhachHangRespon;
-import com.example.be_duantn.entity.KhachHang;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 
 import java.util.UUID;
 
