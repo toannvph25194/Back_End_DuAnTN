@@ -25,7 +25,7 @@ public class QuanLyKhachHangController {
     }
 
     // ToDo Thêm mới khách hàng
-    @PostMapping("/them- khach-hang")
+    @PostMapping("/them-khach-hang")
     public ResponseEntity<?> ThemKhachHang(@RequestBody KhachHangRequest khachHangRequest) {
         try {
             return ResponseEntity.ok( quanLyQuanLyKhachHangService.ThemMoiKhachHang(khachHangRequest));

@@ -15,7 +15,6 @@ import java.util.UUID;
 @NoArgsConstructor
 public class KhachHangRequest {
     private UUID id;
-    private String makhachhang;
     private String image;
     private String hovatenkh;
     private Boolean gioitinh;

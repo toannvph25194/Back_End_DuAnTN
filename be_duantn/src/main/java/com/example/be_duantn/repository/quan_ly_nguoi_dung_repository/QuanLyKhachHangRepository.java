@@ -14,7 +14,7 @@ import java.util.UUID;
 public interface QuanLyKhachHangRepository extends JpaRepository<KhachHang, UUID> {
 
     // Load khách hàng phân trang
-    @Query(value = "SELECT DISTINCT COUNT(kh.Id), kh.Id, kh.MaKH, kh.Image, kh.HoVaTenKH, kh.GioiTinh, dc.DiaChiChiTiet, dc.PhuongXa, dc.QuanHuyen, dc.TinhThanh,\n" +
+    @Query(value = "SELECT COUNT(DISTINCT kh.Id), kh.Id, kh.MaKH, kh.Image, kh.HoVaTenKH, kh.GioiTinh, dc.DiaChiChiTiet, dc.PhuongXa, dc.QuanHuyen, dc.TinhThanh,\n" +
             "\t   kh.Email, kh.SoDienThoai, kh.NgaySinh, kh.TrangThai\n" +
             "FROM KhachHang kh\n" +
             "FULL JOIN DiaChi dc on dc.IdKH = kh.Id\n" +
