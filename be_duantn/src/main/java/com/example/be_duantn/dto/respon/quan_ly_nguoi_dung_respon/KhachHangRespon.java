@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public interface KhachHangRespon {
     UUID getId();
-    String getmakhachhang();
+    String getmakh();
     String getimage();
     String gethovatenkh();
     Boolean getgioitinh();
