@@ -117,8 +117,6 @@ public class QuanLyQuanLyKhachHangServiceImpl implements QuanLyKhachHangService 
             khachHang.setSodienthoai(updatedRequest.getSodienthoai());
             khachHang.setNgaysinh(updatedRequest.getNgaysinh());
             khachHang.setMota(updatedRequest.getMota());
-            khachHang.setTaikhoan(updatedRequest.getTaikhoan());
-            khachHang.setMatkhau(updatedRequest.getMatkhau());
             khachHang.setTrangthai(updatedRequest.getTrangthai());
             quanLyKhachHangRepository.save(khachHang);
 

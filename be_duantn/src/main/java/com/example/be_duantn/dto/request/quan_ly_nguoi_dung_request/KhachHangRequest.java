@@ -22,8 +22,6 @@ public class KhachHangRequest {
     private String sodienthoai;
     private Date ngaysinh;
     private String mota;
-    private String taikhoan;
-    private String matkhau;
     private Integer trangthai;
     private String diachichitiet;
     private String phuongxa;
