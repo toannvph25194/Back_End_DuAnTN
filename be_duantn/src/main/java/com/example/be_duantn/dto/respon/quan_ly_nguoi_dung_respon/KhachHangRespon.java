@@ -16,5 +16,6 @@ public interface KhachHangRespon {
     String getemail();
     String getsodienthoai();
     Date getngaysinh();
+    String getmota();
     Integer gettrangthai();
 }

@@ -26,4 +26,7 @@ public interface QuanLyKhachHangService {
 
     // Lọc khách hàng theo trạng thái
     Page<KhachHangRespon> LocKhachHangTheoTrangThai(Integer page, Integer trangthai);
+
+    // Find by khách hàng theo id
+    KhachHangRespon FindByKhachHang(UUID idkh);
 }

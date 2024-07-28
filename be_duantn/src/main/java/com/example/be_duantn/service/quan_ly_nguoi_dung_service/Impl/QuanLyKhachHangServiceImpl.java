@@ -191,6 +191,11 @@ public class QuanLyKhachHangServiceImpl implements QuanLyKhachHangService {
         return quanLyKhachHangRepository.LocKhachHangTheoTrangThai(pageable, trangthai);
     }
 
+    @Override
+    public KhachHangRespon FindByKhachHang(UUID idkh) {
+        return quanLyKhachHangRepository.FindByKhachHang(idkh);
+    }
+
     /**
      * Send mail khi đăng ký
      * @param email
