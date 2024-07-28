@@ -72,6 +72,16 @@ public class QuanLyKhachHangController {
         }
     }
 
+    // ToDo Find by khách hàng theo id
+    @GetMapping("/find-khach-hang")
+    public ResponseEntity<?> FindByKhachHang(@RequestParam("id") UUID id){
+        try {
+            return ResponseEntity.ok(quanLyKhachHangService.FindByKhachHang(id));
+        }catch (Exception e) {
+            return ResponseEntity.badRequest().body("Lỗi find by quản lý khách hàng !");
+        }
+    }
+
 
 
 }
