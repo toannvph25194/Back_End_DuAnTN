@@ -32,22 +32,4 @@ public class NhanVienRegisterRequest {
     @NotNull(message = "Không được để trống quyền hạn")
     private QuyenEnum chucvu;
 //    private TypeAccountEnum role;
-
-    private String manv;
-    private String hovatennv;
-    private Boolean gioitinh;
-    @Temporal(TemporalType.DATE)
-    private Date ngaysinh;
-    private String sodienthoai;
-    private String image;
-    private String mota;
-    private String diachi;
-    private Integer trangthai;
-    // Getter và Setter
-    public Integer getTrangthai() {
-        return trangthai;
-    }
-    public void setTrangthai(Integer trangthai) {
-        this.trangthai = trangthai;
-    }
 }
