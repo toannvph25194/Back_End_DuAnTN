@@ -125,6 +125,8 @@ public class QuanLyNhanVienServiceImpl implements QuanLyNhanVienService {
         try {
             NhanVien savedUser = taiKhoanRepository.save(user);
             String jwtToken = nhanVienJwtService.generateToken(new NhanVienCustomDetails(savedUser));
+            // Send confirmation email
+            sendConfirmationEmail(savedUser.getEmail(), savedUser.getTaikhoan(), nhanVienRegisterRequest.getMatkhau());
             return NhanVienMessageResponse.builder().message("Registered Successfully").build();
         } catch (Exception e) {
             return NhanVienMessageResponse.builder().message("Lỗi trong quá trình đăng ký").build();
