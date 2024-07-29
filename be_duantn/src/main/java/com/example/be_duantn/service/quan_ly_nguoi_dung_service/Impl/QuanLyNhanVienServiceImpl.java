@@ -1,12 +1,10 @@
 package com.example.be_duantn.service.quan_ly_nguoi_dung_service.Impl;
 
-import com.example.be_duantn.dto.request.authentication_request.nhanvien.NhanVienRegisterRequest;
-import com.example.be_duantn.dto.request.quan_ly_nguoi_dung_request.NhanVienUpdateRequest;
-import com.example.be_duantn.dto.respon.authentication_respon.nhanvien.NhanVienMessageResponse;
+import com.example.be_duantn.dto.request.quan_ly_nguoi_dung_request.NhanVienRequest;
+import com.example.be_duantn.dto.respon.quan_ly_nguoi_dung_respon.MessageNhanVienRespon;
+import com.example.be_duantn.dto.respon.quan_ly_nguoi_dung_respon.NhanVienRespon;
 import com.example.be_duantn.entity.ChucVu;
 import com.example.be_duantn.entity.NhanVien;
-import com.example.be_duantn.jwt.nhan_vien_jwt.NhanVienCustomDetails;
-import com.example.be_duantn.jwt.nhan_vien_jwt.NhanVienJwtService;
 import com.example.be_duantn.repository.authentication_repository.ChucVuRepository;
 import com.example.be_duantn.repository.quan_ly_nguoi_dung_repository.QuanLyNhanVienRepository;
 import com.example.be_duantn.service.quan_ly_nguoi_dung_service.QuanLyNhanVienService;
@@ -37,23 +35,6 @@ public class QuanLyNhanVienServiceImpl implements QuanLyNhanVienService {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final NhanVienJwtService nhanVienJwtService;
-
-
-    @Override
-    public Page<NhanVien> getAllNhanVien(int page, int size) {
-        Pageable pageable = PageRequest.of(page - 1, size); // Page index bắt đầu từ 0
-        return taiKhoanRepository.findAll(pageable);
-    }
-
-    @Override
-    public NhanVien updateStatus(UUID id, Integer newStatus) {
-        return taiKhoanRepository.findById(id).map(nhanVien -> {
-            nhanVien.setTrangthai(newStatus);
-            return taiKhoanRepository.save(nhanVien);
-        }).orElse(null);
-    }
-
     @Override
     public boolean emailExists(String email) {
         return taiKhoanRepository.existsByEmail(email);
@@ -65,71 +46,100 @@ public class QuanLyNhanVienServiceImpl implements QuanLyNhanVienService {
     }
 
     @Override
-    public NhanVien updateNhanVien(NhanVienUpdateRequest nhanVienUpdate, UUID id) {
-        NhanVien existingNhanVien = taiKhoanRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("NhanVien not found with id " + id));
-        existingNhanVien.setHovatennv(nhanVienUpdate.getHovatennv());
-        existingNhanVien.setGioitinh(nhanVienUpdate.getGioitinh());
-        existingNhanVien.setNgaysinh(nhanVienUpdate.getNgaysinh());
-        existingNhanVien.setSodienthoai(nhanVienUpdate.getSodienthoai());
-        existingNhanVien.setEmail(nhanVienUpdate.getEmail());
-        existingNhanVien.setImage(nhanVienUpdate.getImage());
-        existingNhanVien.setMota(nhanVienUpdate.getMota());
-        existingNhanVien.setDiachi(nhanVienUpdate.getDiachi());
-        existingNhanVien.setTrangthai(nhanVienUpdate.getTrangthai());
-
-        return taiKhoanRepository.save(existingNhanVien);
+    public Page<NhanVienRespon> LoadAllNhanVien(Integer page) {
+        Pageable pageable = PageRequest.of(page, 10);
+        return taiKhoanRepository.LoadAllNhanVien(pageable);
     }
 
     @Override
-    public NhanVien getNhanVienById(UUID id) {
-        return taiKhoanRepository.findById(id).orElseThrow(() -> new RuntimeException("Nhân viên không tồn tại"));
+    public NhanVienRespon FindNhanVienById(UUID id) {
+        return taiKhoanRepository.FindByNhanVien(id);
     }
 
     @Override
-    public Page<NhanVien> searchNhanVien(String search, Integer trangthai, Pageable pageable) {
-        return taiKhoanRepository.searchNhanVien(search, trangthai, pageable);
+    public Page<NhanVienRespon> LocNhanVienTieuChi(Integer page, String search) {
+        Pageable pageable = PageRequest.of(page, 10);
+        return taiKhoanRepository.LocNhanVienTieuChi(pageable, search);
     }
 
     @Override
-    public NhanVienMessageResponse themNhanVien(NhanVienRegisterRequest nhanVienRegisterRequest) {
-        Optional<NhanVien> optionalPhatTu = taiKhoanRepository.findByTaikhoan(nhanVienRegisterRequest.getTaikhoan());
+    public Page<NhanVienRespon> LocNhanVienTrangThai(Integer page, Integer trangthai) {
+        Pageable pageable = PageRequest.of(page, 10);
+        return taiKhoanRepository.LocNhanVienTrangThai(pageable, trangthai);
+    }
+
+    @Override
+    public MessageNhanVienRespon UpdateNhanVien(NhanVienRequest nhanVienRequest) {
+        Optional<NhanVien> finnv = taiKhoanRepository.findById(nhanVienRequest.getId());
+        if(finnv.isPresent()){
+            NhanVien nv = finnv.get();
+            nv.setEmail(nhanVienRequest.getEmail());
+            nv.setHovatennv(nhanVienRequest.getHovatennv());
+            nv.setGioitinh(nhanVienRequest.getGioitinh());
+            nv.setNgaysinh(nhanVienRequest.getNgaysinh());
+            nv.setSodienthoai(nhanVienRequest.getSodienthoai());
+            nv.setImage(nhanVienRequest.getImage());
+            nv.setMota(nhanVienRequest.getMota());
+            nv.setDiachi(nhanVienRequest.getDiachi());
+            nv.setTrangthai(nhanVienRequest.getTrangthai());
+            taiKhoanRepository.save(nv);
+            return MessageNhanVienRespon.builder().message("Cập nhật nhân viên thành công !").build();
+        }
+
+        return MessageNhanVienRespon.builder().message("Không tìm thấy nhân viên !").build();
+    }
+
+    @Override
+    public MessageNhanVienRespon UpdateTrangThai(UUID id, Integer trangThai) {
+        Optional<NhanVien> nvfin = taiKhoanRepository.findById(id);
+        if (nvfin.isPresent()) {
+            NhanVien nv = nvfin.get();
+            nv.setTrangthai(trangThai);
+            taiKhoanRepository.save(nv);
+            return MessageNhanVienRespon.builder().message("Cập nhật trạng thái nhân viên thành công !").build();
+        } else {
+            return MessageNhanVienRespon.builder().message("Không tìm thấy thông tin nhân viên !").build();
+        }
+    }
+
+    @Override
+    public MessageNhanVienRespon ThemNhanVien(NhanVienRequest nhanVienRequest) {
+        Optional<NhanVien> optionalPhatTu = taiKhoanRepository.findByTaikhoan(nhanVienRequest.getTaikhoan());
 
         if (optionalPhatTu.isPresent()) {
-            return NhanVienMessageResponse.builder().message("Tài khoản đã tồn tại").build();
+            return MessageNhanVienRespon.builder().message("Tài khoản nhân viên đã tồn tại !").build();
         }
 
-        Optional<ChucVu> quyenHan = chucVuRepository.findByTenchucvu(nhanVienRegisterRequest.getChucvu());
+        Optional<ChucVu> quyenHan = chucVuRepository.findByTenchucvu(nhanVienRequest.getChucvu());
 
         if (quyenHan.isEmpty()) {
-            return NhanVienMessageResponse.builder().message("Quyền hạn không hợp lệ").build();
+            return MessageNhanVienRespon.builder().message("Quyền hạn không hợp lệ").build();
         }
 
-        NhanVien user = NhanVien.builder()
-                .idnv(UUID.randomUUID())
-                .taikhoan(nhanVienRegisterRequest.getTaikhoan())
-                .matkhau(passwordEncoder.encode(nhanVienRegisterRequest.getMatkhau()))
-                .email(nhanVienRegisterRequest.getEmail())
-                .trangthai(nhanVienRegisterRequest.getTrangthai())
-                .sodienthoai(nhanVienRegisterRequest.getSodienthoai())
-                .manv(nhanVienRegisterRequest.getManv())
-                .ngaysinh(nhanVienRegisterRequest.getNgaysinh())
-                .gioitinh(nhanVienRegisterRequest.getGioitinh())
-                .hovatennv(nhanVienRegisterRequest.getHovatennv())
-                .diachi(nhanVienRegisterRequest.getDiachi())
-                .image(nhanVienRegisterRequest.getImage())
-                .mota(nhanVienRegisterRequest.getMota())
-                .chucvu(quyenHan.get())
-                .build();
+        NhanVien nv = new NhanVien();
+        nv.setIdnv(UUID.randomUUID());
+        nv.setChucvu(quyenHan.get());
+        nv.setManv(nhanVienRequest.getManv());
+        nv.setEmail(nhanVienRequest.getEmail());
+        nv.setHovatennv(nhanVienRequest.getHovatennv());
+        nv.setGioitinh(nhanVienRequest.getGioitinh());
+        nv.setTaikhoan(nhanVienRequest.getTaikhoan());
+        nv.setMatkhau(passwordEncoder.encode(nhanVienRequest.getMatkhau()));
+        nv.setNgaysinh(nhanVienRequest.getNgaysinh());
+        nv.setSodienthoai(nhanVienRequest.getSodienthoai());
+        nv.setImage(nhanVienRequest.getImage());
+        nv.setMota(nhanVienRequest.getMota());
+        nv.setDiachi(nhanVienRequest.getDiachi());
+        nv.setTrangthai(nhanVienRequest.getTrangthai());
+
 
         try {
-            NhanVien savedUser = taiKhoanRepository.save(user);
-            String jwtToken = nhanVienJwtService.generateToken(new NhanVienCustomDetails(savedUser));
+            taiKhoanRepository.save(nv);
             // Send confirmation email
-            sendConfirmationEmail(savedUser.getEmail(), savedUser.getTaikhoan(), nhanVienRegisterRequest.getMatkhau());
-            return NhanVienMessageResponse.builder().message("Registered Successfully").build();
+            sendConfirmationEmail(nv.getEmail(), nhanVienRequest.getTaikhoan(), nhanVienRequest.getMatkhau());
+            return MessageNhanVienRespon.builder().message("Thêm mới nhân viên thành công !").build();
         } catch (Exception e) {
-            return NhanVienMessageResponse.builder().message("Lỗi trong quá trình đăng ký").build();
+            return MessageNhanVienRespon.builder().message("Lỗi thêm nhân viên !").build();
         }
     }
 
