@@ -81,7 +81,6 @@ public class QuanLyNhanVienServiceImpl implements QuanLyNhanVienService {
             nv.setImage(nhanVienRequest.getImage());
             nv.setMota(nhanVienRequest.getMota());
             nv.setDiachi(nhanVienRequest.getDiachi());
-            nv.setTrangthai(nhanVienRequest.getTrangthai());
             taiKhoanRepository.save(nv);
             return MessageNhanVienRespon.builder().message("Cập nhật nhân viên thành công !").build();
         }
