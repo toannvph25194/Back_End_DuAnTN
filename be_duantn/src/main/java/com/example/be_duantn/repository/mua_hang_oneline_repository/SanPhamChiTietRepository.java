@@ -36,7 +36,7 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet ,
             "JOIN XuatXu xx ON xx.Id = sp.IdXX\n" +
             "JOIN ThuongHieu th ON th.Id = sp.IdTH\n" +
             "JOIN ChatLieu cl ON cl.Id = sp.IdCL\n" +
-            "WHERE sp.TrangThai = 1 AND spct.SoLuongTon > 0 AND sp.Id = ?", nativeQuery = true)
+            "WHERE sp.TrangThai = 1 AND spct.TrangThai = 1 AND spct.SoLuongTon > 0 AND sp.Id = ?", nativeQuery = true)
     SanPhamChiTietRespon finByidSP(UUID idsp);
 
     // load list img theo idsp
@@ -51,14 +51,14 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet ,
     @Query(value = "SELECT DISTINCT ms.id, ms.TenMauSac FROM MauSac ms \n" +
             "JOIN SanPhamChiTiet spct on spct.IdMS = ms.Id \n" +
             "JOIN SanPham sp on sp.Id = spct.IdSP\n" +
-            "Where ms.TrangThai = 1 AND sp.Id = ?1", nativeQuery = true)
+            "Where ms.TrangThai = 1 AND spct.TrangThai = 1 AND sp.Id = ?1", nativeQuery = true)
     List<LoadMauSacByIdSP> loadMauSacByIdSP(UUID idsp);
 
     // load size theo idsp
     @Query(value = "SELECT DISTINCT s.Id, s.TenSize FROM Size s \n" +
             "JOIN SanPhamChiTiet spct on spct.IdSize = s.Id \n" +
             "JOIN SanPham sp on sp.Id = spct.IdSP\n" +
-            "Where s.TrangThai = 1 AND sp.Id = ?1", nativeQuery = true)
+            "Where s.TrangThai = 1 AND spct.TrangThai = 1 AND sp.Id = ?1", nativeQuery = true)
     List<LoadSizeByIdSP> loadSizeByIdSP(UUID idsp);
 
     // finByMauSac theo idsp và idsize

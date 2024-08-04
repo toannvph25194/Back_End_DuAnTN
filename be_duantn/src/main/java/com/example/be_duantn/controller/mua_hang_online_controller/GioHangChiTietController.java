@@ -78,4 +78,14 @@ public class GioHangChiTietController {
             return ResponseEntity.badRequest().body(new MessageGioHangCTRespon ("Lỗi load tổng tất cả số tiền sp theo idgh !"));
         }
     }
+
+    // ToDo find số lượng giỏ hàng chi tiết
+    @GetMapping("/find-so-luong")
+    public ResponseEntity<?> FindSoLuongGHCT(@RequestParam("idspct") UUID idspct, @RequestParam("idgh") UUID idgh){
+        try {
+            return ResponseEntity.ok(gioHangChiTietService.FindSoLuongGHCT(idspct, idgh));
+        }catch (Exception ex){
+            return ResponseEntity.badRequest().body(new MessageGioHangCTRespon ("Lỗi find số lượng giỏ hàng chi tiết !"));
+        }
+    }
 }

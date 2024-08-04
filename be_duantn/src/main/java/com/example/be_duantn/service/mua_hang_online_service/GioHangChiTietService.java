@@ -1,9 +1,11 @@
 package com.example.be_duantn.service.mua_hang_online_service;
 
+import com.example.be_duantn.dto.respon.mua_hang_online_respon.FindSoLuongGHCT;
 import com.example.be_duantn.dto.respon.mua_hang_online_respon.MessageGioHangCTRespon;
 import com.example.be_duantn.dto.respon.mua_hang_online_respon.GioHangChiTietRespon;
 import com.example.be_duantn.dto.respon.mua_hang_online_respon.TongSoTienRespon;
 import org.apache.coyote.BadRequestException;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.UUID;
@@ -27,4 +29,7 @@ public interface GioHangChiTietService {
 
     // load tổng tất cả số tiền của sp theo igh
     TongSoTienRespon loadTongSoTienSP(UUID idgh);
+
+    // Find số lượng sản phẩm trong giỏ hàng chi tiết
+    FindSoLuongGHCT FindSoLuongGHCT(UUID idspct, UUID idgh);
 }

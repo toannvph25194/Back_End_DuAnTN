@@ -1,5 +1,6 @@
 package com.example.be_duantn.repository.mua_hang_oneline_repository;
 
+import com.example.be_duantn.dto.respon.mua_hang_online_respon.FindSoLuongGHCT;
 import com.example.be_duantn.dto.respon.mua_hang_online_respon.GioHangChiTietRespon;
 import com.example.be_duantn.dto.respon.mua_hang_online_respon.TongSoTienRespon;
 import com.example.be_duantn.entity.GioHangChiTiet;
@@ -39,5 +40,10 @@ public interface GioHangChiTietRepository extends JpaRepository<GioHangChiTiet, 
             "WHERE ghct.SoLuong > 0 AND gh.id = ?",nativeQuery = true)
     TongSoTienRespon loadTongSoTienSP(UUID idgh);
 
+    // Find số lượng sản phẩm trong giỏ hàng chi tiết
+    @Query(value = "SELECT ghct.IdSPCT, SoLuong FROM GioHangChiTiet ghct\n" +
+            "JOIN GioHang gh on gh.Id = ghct.IdGH\n" +
+            "WHERE gh.TrangThai = 1 AND ghct.IdSPCT = ? AND gh.Id = ?", nativeQuery = true)
+    FindSoLuongGHCT FindSoLuongGHCT(UUID idspct, UUID idgh);
 
 }

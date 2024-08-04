@@ -1,5 +1,6 @@
 package com.example.be_duantn.service.mua_hang_online_service.Impl;
 
+import com.example.be_duantn.dto.respon.mua_hang_online_respon.FindSoLuongGHCT;
 import com.example.be_duantn.dto.respon.mua_hang_online_respon.GioHangChiTietRespon;
 import com.example.be_duantn.dto.respon.mua_hang_online_respon.MessageGioHangCTRespon;
 import com.example.be_duantn.dto.respon.mua_hang_online_respon.TongSoTienRespon;
@@ -44,12 +45,12 @@ public class GioHangChiTietServiceImpl implements GioHangChiTietService {
             ghct.setNgaycapnhat(new Date(System.currentTimeMillis()));
             gioHangChiTietRepository.save(ghct);
             // Giảm số lượng tổn của spct
-            if (spct != null){
-                spct.setSoluongton(spct.getSoluongton() - soluong);
-                sanPhamChiTietRepository.save(spct);
-            }else {
-                return MessageGioHangCTRespon.builder().message("K tìm thấy idspct !").build();
-            }
+//            if (spct != null){
+//                spct.setSoluongton(spct.getSoluongton() - soluong);
+//                sanPhamChiTietRepository.save(spct);
+//            }else {
+//                return MessageGioHangCTRespon.builder().message("K tìm thấy idspct !").build();
+//            }
             return MessageGioHangCTRespon.builder().message("Cập nhật thành công ghct !").build();
 
         }else {
@@ -79,8 +80,8 @@ public class GioHangChiTietServiceImpl implements GioHangChiTietService {
             gioHangChiTietRepository.save(ghctMoi);
 
             // update số lượng tồn trong spct
-            spct.setSoluongton(spct.getSoluongton() - soluong);
-            sanPhamChiTietRepository.save(spct);
+//            spct.setSoluongton(spct.getSoluongton() - soluong);
+//            sanPhamChiTietRepository.save(spct);
             return MessageGioHangCTRespon.builder().message("Thêm mới thành công ghct !").build();
         }
     }
@@ -90,17 +91,17 @@ public class GioHangChiTietServiceImpl implements GioHangChiTietService {
         GioHangChiTiet ghct = gioHangChiTietRepository.findById(idghct).orElse(null);
         if (ghct != null){
             // Số lượng hiện tại trong giỏ hàng
-            Integer soluongcu = ghct.getSoluong();
+//            Integer soluongcu = ghct.getSoluong();
             // Số lượng tồn hiện tại của spct
-            Integer soluongton = ghct.getSanphamchitiet().getSoluongton();
+//            Integer soluongton = ghct.getSanphamchitiet().getSoluongton();
 
             // xử lý cập nhật số lượng trong giỏ. Lấy số lượng mới - số lượng cũ
-            Integer soluongthaydoi = soluong - soluongcu;
+//            Integer soluongthaydoi = soluong - soluongcu;
             ghct.setSoluong(soluong);
 
             // xử lý cập nhật lại số lượng tồn trong spct. Lấy số lượng tồn - số lượng thay đổi
-            Integer soluongtonmoi = soluongton - soluongthaydoi;
-            ghct.getSanphamchitiet().setSoluongton((soluongtonmoi));
+//            Integer soluongtonmoi = soluongton - soluongthaydoi;
+//            ghct.getSanphamchitiet().setSoluongton((soluongtonmoi));
             gioHangChiTietRepository.save(ghct);
         }else {
             return MessageGioHangCTRespon.builder().message("K tìm thấy idghct !").build();
@@ -115,13 +116,13 @@ public class GioHangChiTietServiceImpl implements GioHangChiTietService {
             gioHangChiTietRepository.delete(ghct);
 
             // Cập nhật lại soluongton trong spct
-            SanPhamChiTiet spct = ghct.getSanphamchitiet();
-            if (spct != null){
-                spct.setSoluongton(ghct.getSoluong() + spct.getSoluongton());
-                sanPhamChiTietRepository.save(spct);
-            }else {
-                return MessageGioHangCTRespon.builder().message("K tìm thấy idspct trong ghct !").build();
-            }
+//            SanPhamChiTiet spct = ghct.getSanphamchitiet();
+//            if (spct != null){
+//                spct.setSoluongton(ghct.getSoluong() + spct.getSoluongton());
+//                sanPhamChiTietRepository.save(spct);
+//            }else {
+//                return MessageGioHangCTRespon.builder().message("K tìm thấy idspct trong ghct !").build();
+//            }
 
             return MessageGioHangCTRespon.builder().message("Xóa ghct thành công !").build();
         }else {
@@ -142,13 +143,13 @@ public class GioHangChiTietServiceImpl implements GioHangChiTietService {
             for (GioHangChiTiet ghct : ghctList) {
                 gioHangChiTietRepository.delete(ghct);
 
-                SanPhamChiTiet spct = ghct.getSanphamchitiet();
-                if (spct != null){
-                    spct.setSoluongton(spct.getSoluongton() + ghct.getSoluong());
-                    sanPhamChiTietRepository.save(spct);
-                }else {
-                    return MessageGioHangCTRespon.builder().message("K tìm thấy idspct trong ghct !").build();
-                }
+//                SanPhamChiTiet spct = ghct.getSanphamchitiet();
+//                if (spct != null){
+//                    spct.setSoluongton(spct.getSoluongton() + ghct.getSoluong());
+//                    sanPhamChiTietRepository.save(spct);
+//                }else {
+//                    return MessageGioHangCTRespon.builder().message("K tìm thấy idspct trong ghct !").build();
+//                }
             }
             // Cập nhật lại giỏ hàng sau khi xóa
             // Đặt lại danh sách ghct thành rỗng
@@ -163,5 +164,10 @@ public class GioHangChiTietServiceImpl implements GioHangChiTietService {
     @Override
     public TongSoTienRespon loadTongSoTienSP(UUID idgh) {
         return gioHangChiTietRepository.loadTongSoTienSP(idgh);
+    }
+
+    @Override
+    public FindSoLuongGHCT FindSoLuongGHCT(UUID idspct, UUID idgh) {
+        return gioHangChiTietRepository.FindSoLuongGHCT(idspct, idgh);
     }
 }

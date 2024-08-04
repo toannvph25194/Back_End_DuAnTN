@@ -6,6 +6,7 @@ import com.example.be_duantn.dto.respon.mua_hang_online_respon.hoa_don_respon.Me
 import com.example.be_duantn.dto.respon.mua_hang_online_respon.hoa_don_respon.MessageTTHoaDonNotLoginRespon;
 import com.example.be_duantn.entity.*;
 import com.example.be_duantn.enums.TrangThaiDonHangEnums;
+import com.example.be_duantn.repository.mua_hang_oneline_repository.SanPhamChiTietRepository;
 import com.example.be_duantn.repository.mua_hang_oneline_repository.VouCherRepository;
 import com.example.be_duantn.repository.mua_hang_oneline_repository.hoa_don_repository.*;
 import com.example.be_duantn.service.mua_hang_online_service.hoa_don_service.HoaDonService;
@@ -43,6 +44,8 @@ public class HoaDonServiceImpl implements HoaDonService {
     HinhThucThanhToanRepository hinhThucThanhToanRepository;
     @Autowired
     DiaChiThanhToanRepository diaChiThanhToanRepository;
+    @Autowired
+    SanPhamChiTietRepository sanPhamChiTietRepository;
     private final JavaMailSender javaMailSender;
 
     @Override
@@ -139,6 +142,8 @@ public class HoaDonServiceImpl implements HoaDonService {
                 Optional<GioHangChiTiet> ghct = gioHangCTThanhToanRepository.findById(idghct);
                 if (ghct.isPresent()) {
                     ghct.get().getGiohang().setTrangthai(2);
+                    ghct.get().getGiohang().setNgaycapnhat(new Date(System.currentTimeMillis()));
+                    ghct.get().getGiohang().setGhichu("Đã đặt hàng");
                     gioHangThanhToanRepository.save(ghct.get().getGiohang());
                 }
             }
@@ -147,7 +152,17 @@ public class HoaDonServiceImpl implements HoaDonService {
             for (UUID idghct : ttttrequest.getGiohangchitietlist()) {
                 Optional<GioHangChiTiet> ghct = gioHangCTThanhToanRepository.findById(idghct);
                 if (ghct.isPresent()) {
+                    // Cập nhật số lượng tồn cho sản phẩm
+                    SanPhamChiTiet spct = ghct.get().getSanphamchitiet();
+                    if (spct != null){
+                        spct.setSoluongton(spct.getSoluongton() - ghct.get().getSoluong());
+                        sanPhamChiTietRepository.save(spct);
+                    }else {
+                        return MessageTTHoaDonLoginRespon.builder().message("K tìm thấy idspct trong ghct !").build();
+                    }
+                    // Cập nhật số lượng sản phẩm và trạng thái cho giỏ hàng chi tiết
                     ghct.get().setSoluong(0);
+                    ghct.get().setTrangthai(2);
                     gioHangCTThanhToanRepository.save(ghct.get());
                 }
             }
@@ -359,6 +374,8 @@ public class HoaDonServiceImpl implements HoaDonService {
             Optional<GioHangChiTiet> ghct = gioHangCTThanhToanRepository.findById(idghct);
             if (ghct.isPresent()) {
                 ghct.get().getGiohang().setTrangthai(2);
+                ghct.get().getGiohang().setNgaycapnhat(new Date(System.currentTimeMillis()));
+                ghct.get().getGiohang().setGhichu("Đã đặt hàng");
                 gioHangThanhToanRepository.save(ghct.get().getGiohang());
             }
         }
@@ -367,7 +384,17 @@ public class HoaDonServiceImpl implements HoaDonService {
         for (UUID idghct : ttttrequest.getGiohangchitietlist()) {
             Optional<GioHangChiTiet> ghct = gioHangCTThanhToanRepository.findById(idghct);
             if (ghct.isPresent()) {
+                // Cập nhật số lượng tồn cho sản phẩm
+                SanPhamChiTiet spct = ghct.get().getSanphamchitiet();
+                if (spct != null){
+                    spct.setSoluongton(spct.getSoluongton() - ghct.get().getSoluong());
+                    sanPhamChiTietRepository.save(spct);
+                }else {
+                    return MessageTTHoaDonNotLoginRespon.builder().message("K tìm thấy idspct trong ghct !").build();
+                }
+                // Cập nhật số lượng sản phẩm và trạng thái cho giỏ hàng chi tiết
                 ghct.get().setSoluong(0);
+                ghct.get().setTrangthai(2);
                 gioHangCTThanhToanRepository.save(ghct.get());
             }
         }
