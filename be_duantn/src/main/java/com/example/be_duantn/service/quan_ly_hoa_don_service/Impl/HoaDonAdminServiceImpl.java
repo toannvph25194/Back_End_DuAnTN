@@ -560,7 +560,8 @@ public class HoaDonAdminServiceImpl implements HoaDonAdminService {
             // Giảm soluongdung của voucher hiện tại nếu có
             if (hoaDon.getVoucher() != null) {
                 VouCher currentVoucher = hoaDon.getVoucher();
-                currentVoucher.setSoluongdung(currentVoucher.getSoluongdung() - 1);
+                int soluongdung = Optional.ofNullable(currentVoucher.getSoluongdung()).orElse(0);
+                currentVoucher.setSoluongdung(soluongdung - 1);
                 vouCherRepository.save(currentVoucher);
             }
 
@@ -569,18 +570,27 @@ public class HoaDonAdminServiceImpl implements HoaDonAdminService {
 
             // Khởi tạo biến lưu trữ voucher phù hợp
             VouCher suitableVoucher = null;
-            Double maxDiscount = 0.0;
+            Double maxDiscountAmount = 0.0;
             Date now = new Date();
 
             // Tìm voucher phù hợp với mức thanh toán
             for (VouCher voucher : activeVouchers) {
+                int soluongdung = Optional.ofNullable(voucher.getSoluongdung()).orElse(0);
                 if (thanhtien01 >= voucher.getDieukientoithieuhoadon() &&
-                        voucher.getDieukientoithieuhoadon() > maxDiscount &&
-                        voucher.getSoluongdung() < voucher.getSoluongma() &&
+                        soluongdung < voucher.getSoluongma() &&
                         !now.before(voucher.getNgaybatdau()) && !now.after(voucher.getNgayketthuc())) {
 
-                    suitableVoucher = voucher;
-                    maxDiscount = voucher.getDieukientoithieuhoadon();
+                    Double potentialDiscount;
+                    if (voucher.getHinhthucgiam() == 1) {
+                        potentialDiscount = thanhtien01 * voucher.getGiatrigiam() / 100.0;
+                    } else {
+                        potentialDiscount = voucher.getGiatrigiam();
+                    }
+
+                    if (potentialDiscount > maxDiscountAmount) {
+                        maxDiscountAmount = potentialDiscount;
+                        suitableVoucher = voucher;
+                    }
                 }
             }
 
@@ -591,14 +601,12 @@ public class HoaDonAdminServiceImpl implements HoaDonAdminService {
                 Double newTienGiam;
                 if (suitableVoucher.getHinhthucgiam() == 1) {
                     // Trừ giá trị giảm theo phần trăm
-                    Double giamTheoPhanTram = thanhtien01 * suitableVoucher.getGiatrigiam() / 100.0;
-                    newThanhtien = thanhtien01 - giamTheoPhanTram;
-                    newTienGiam = giamTheoPhanTram;
+                    newTienGiam = thanhtien01 * suitableVoucher.getGiatrigiam() / 100.0;
                 } else {
                     // Trừ giá trị giảm cố định
-                    newThanhtien = thanhtien01 - suitableVoucher.getGiatrigiam();
                     newTienGiam = suitableVoucher.getGiatrigiam();
                 }
+                newThanhtien = thanhtien01 - newTienGiam;
 
                 hoaDon.setThanhtien(newThanhtien);
                 // Gán voucher phù hợp cho hóa đơn
@@ -607,7 +615,8 @@ public class HoaDonAdminServiceImpl implements HoaDonAdminService {
                 hoaDon.setGiatrigiam(newTienGiam);
 
                 // Tăng soluongdung của voucher phù hợp
-                suitableVoucher.setSoluongdung(suitableVoucher.getSoluongdung() + 1);
+                int soluongdung = Optional.ofNullable(suitableVoucher.getSoluongdung()).orElse(0);
+                suitableVoucher.setSoluongdung(soluongdung + 1);
                 vouCherRepository.save(suitableVoucher);
             } else {
                 // Nếu không có voucher nào thỏa mãn điều kiện, gán giá trị null cho voucher của hóa đơn

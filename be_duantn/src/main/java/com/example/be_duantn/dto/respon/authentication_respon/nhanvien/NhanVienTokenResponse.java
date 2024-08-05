@@ -26,5 +26,7 @@ public class NhanVienTokenResponse {
 
     private UUID idtk;
 
+    private String image;
+
     private String username;
 }
