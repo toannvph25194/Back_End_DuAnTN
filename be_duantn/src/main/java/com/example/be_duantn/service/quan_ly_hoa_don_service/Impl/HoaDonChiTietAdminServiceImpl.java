@@ -3,6 +3,7 @@ package com.example.be_duantn.service.quan_ly_hoa_don_service.Impl;
 import com.example.be_duantn.dto.respon.ban_tai_quay_respon.LoadSPTaiQuayRespon;
 import com.example.be_duantn.dto.respon.mua_hang_online_respon.MessageGioHangCTRespon;
 import com.example.be_duantn.dto.respon.quan_ly_hoa_don_respon.HoaDonChiTietRespon;
+import com.example.be_duantn.dto.respon.quan_ly_hoa_don_respon.LoadSPHoaDonChiTietRespon;
 import com.example.be_duantn.entity.HoaDon;
 import com.example.be_duantn.entity.HoaDonChiTiet;
 import com.example.be_duantn.entity.KhachHang;
@@ -56,7 +57,7 @@ public class HoaDonChiTietAdminServiceImpl implements HoaDonChiTietAdminService 
     }
 
     @Override
-    public Page<LoadSPTaiQuayRespon> LoadSPSuaHoaDon(Integer page) {
+    public Page<LoadSPHoaDonChiTietRespon> LoadSPSuaHoaDon(Integer page) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         // Kiểm tra quyền của người dùng và thực hiện xử lý tùy thuộc vào quyền
@@ -70,7 +71,7 @@ public class HoaDonChiTietAdminServiceImpl implements HoaDonChiTietAdminService 
     }
 
     @Override
-    public Page<LoadSPTaiQuayRespon> LocTenSPBanTaiQuay(Integer page, String tensp) {
+    public Page<LoadSPHoaDonChiTietRespon> LocTenSPBanTaiQuay(Integer page, String tensp) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         // Kiểm tra quyền của người dùng và thực hiện xử lý tùy thuộc vào quyền
@@ -85,7 +86,7 @@ public class HoaDonChiTietAdminServiceImpl implements HoaDonChiTietAdminService 
     }
 
     @Override
-    public Page<LoadSPTaiQuayRespon> LocSPNhieuTieuChiBanTaiQuay(Integer page, String tenmausac, String tensize, String tenchatlieu, String tendanhmuc, String tenthuonghieu, String tenxuatxu) {
+    public Page<LoadSPHoaDonChiTietRespon> LocSPNhieuTieuChiBanTaiQuay(Integer page, String tenmausac, String tensize, String tenchatlieu, String tendanhmuc, String tenthuonghieu, String tenxuatxu) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         // Kiểm tra quyền của người dùng và thực hiện xử lý tùy thuộc vào quyền

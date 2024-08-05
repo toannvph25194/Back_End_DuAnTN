@@ -3,6 +3,7 @@ package com.example.be_duantn.repository.quan_ly_hoa_don_repository;
 import com.example.be_duantn.dto.respon.ban_tai_quay_respon.LoadSPTaiQuayRespon;
 import com.example.be_duantn.dto.respon.quan_ly_hoa_don_respon.HoaDonChiTietRespon;
 import com.example.be_duantn.dto.respon.quan_ly_hoa_don_respon.Hoadonrespon;
+import com.example.be_duantn.dto.respon.quan_ly_hoa_don_respon.LoadSPHoaDonChiTietRespon;
 import com.example.be_duantn.entity.GioHangChiTiet;
 import com.example.be_duantn.entity.HoaDonChiTiet;
 import org.springframework.data.domain.Page;
@@ -54,7 +55,7 @@ public interface HoaDonChiTietAdminRepository extends JpaRepository<HoaDonChiTie
             "             ELSE NULL \n" +
             "         END\n",
             nativeQuery = true)
-    Page<LoadSPTaiQuayRespon> LoadSPBanTaiQuay(Pageable pageable);
+    Page<LoadSPHoaDonChiTietRespon> LoadSPBanTaiQuay(Pageable pageable);
 
 
     // Lọc sản phẩm phân trang theo tên sản phẩm sửa hoá đơn
@@ -81,7 +82,7 @@ public interface HoaDonChiTietAdminRepository extends JpaRepository<HoaDonChiTie
             "             WHEN gg.Id IS NOT NULL AND gg.TrangThai = 1 AND GETDATE() >= gg.NgayBatDau AND GETDATE() <= gg.NgayKetThuc THEN sp.DonGiaKhiGiam\n" +
             "             ELSE NULL \n" +
             "         END\n", nativeQuery = true)
-    Page<LoadSPTaiQuayRespon> LocTenSPSuaHoaDon(Pageable pageable, @Param("tensp") String tensp);
+    Page<LoadSPHoaDonChiTietRespon> LocTenSPSuaHoaDon(Pageable pageable, @Param("tensp") String tensp);
 
     // Lọc sản phẩm phân trang nhiều tiêu chí sửa hoá đơn
     @Query(value = "SELECT COUNT(spct.Id), spct.id, sp.TenSP, ms.TenMauSac, s.TenSize, cl.TenChatLieu, sp.ImageDefaul, sp.TheLoai, spct.SoLuongTon, sp.TrangThai, sp.GiaBan, \n" +
@@ -108,7 +109,7 @@ public interface HoaDonChiTietAdminRepository extends JpaRepository<HoaDonChiTie
             "          WHEN gg.Id IS NOT NULL AND gg.TrangThai = 1 AND GETDATE() >= gg.NgayBatDau AND GETDATE() <= gg.NgayKetThuc THEN sp.DonGiaKhiGiam\n" +
             "          ELSE NULL \n" +
             "       END\n", nativeQuery = true)
-    Page<LoadSPTaiQuayRespon> LocSPNhieuTieuChiSuaHoaDon(Pageable pageable, @Param("tenmausac") String tenmausac, @Param("tensize") String tensize,
+    Page<LoadSPHoaDonChiTietRespon> LocSPNhieuTieuChiSuaHoaDon(Pageable pageable, @Param("tenmausac") String tenmausac, @Param("tensize") String tensize,
                                                          @Param("tenchatlieu") String tenchatlieu, @Param("tendanhmuc") String tendanhmuc,
                                                          @Param("tenthuonghieu") String tenthuonghieu, @Param("tenxuatxu") String tenxuatxu);
 

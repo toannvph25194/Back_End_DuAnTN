@@ -63,6 +63,7 @@ public class NhanVienServiceImpl implements NhanVienService {
                     .role(optionalPhatTu.get().getChucvu().getTenchucvu().name())
                     .idtk(optionalPhatTu.get().getIdnv())
                     .username(optionalPhatTu.get().getTaikhoan())
+                    .image(optionalPhatTu.get().getImage())
                     .message("Login thành công")
                     .build();
         } else {

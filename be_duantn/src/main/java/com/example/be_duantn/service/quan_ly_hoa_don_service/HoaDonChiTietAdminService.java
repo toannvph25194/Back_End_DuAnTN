@@ -4,6 +4,7 @@ import com.example.be_duantn.dto.respon.ban_tai_quay_respon.LoadSPTaiQuayRespon;
 import com.example.be_duantn.dto.respon.mua_hang_online_respon.MessageGioHangCTRespon;
 import com.example.be_duantn.dto.respon.quan_ly_hoa_don_respon.HoaDonChiTietRespon;
 import com.example.be_duantn.dto.respon.quan_ly_hoa_don_respon.Hoadonrespon;
+import com.example.be_duantn.dto.respon.quan_ly_hoa_don_respon.LoadSPHoaDonChiTietRespon;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 
@@ -16,13 +17,13 @@ public interface HoaDonChiTietAdminService {
     public List<HoaDonChiTietRespon> finByIdHDCT(UUID IdHD);
 
     // Load sản phẩm phân trang lên bán hàng tại quầy
-    Page<LoadSPTaiQuayRespon> LoadSPSuaHoaDon(Integer page);
+    Page<LoadSPHoaDonChiTietRespon> LoadSPSuaHoaDon(Integer page);
 
     // Lọc sản phẩm phân trang theo tên sản phẩm sửa hoá đơn
-    Page<LoadSPTaiQuayRespon> LocTenSPBanTaiQuay(Integer page, String tensp);
+    Page<LoadSPHoaDonChiTietRespon> LocTenSPBanTaiQuay(Integer page, String tensp);
 
     // Lọc sản phẩm phân trang nhiều tiêu chí sửa háo đơn
-    Page<LoadSPTaiQuayRespon> LocSPNhieuTieuChiBanTaiQuay(Integer page, String tenmausac, String tensize, String tenchatlieu, String tendanhmuc, String tenthuonghieu, String tenxuatxu);
+    Page<LoadSPHoaDonChiTietRespon> LocSPNhieuTieuChiBanTaiQuay(Integer page, String tenmausac, String tensize, String tenchatlieu, String tendanhmuc, String tenthuonghieu, String tenxuatxu);
 
     // add sản phầm vào ghct
     MessageGioHangCTRespon addSPHDCT(UUID idhdct, UUID idspct, Integer soluong, Double dongiakhigiam, Principal principal);
