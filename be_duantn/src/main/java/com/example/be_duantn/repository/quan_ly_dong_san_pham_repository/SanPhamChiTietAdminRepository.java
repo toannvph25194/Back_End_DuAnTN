@@ -1,13 +1,17 @@
 package com.example.be_duantn.repository.quan_ly_dong_san_pham_repository;
 
-import com.example.be_duantn.dto.respon.mua_hang_online_respon.SanPhamChiTietRespon;
 import com.example.be_duantn.dto.respon.quan_ly_dong_san_pham_respon.SanPhamChiTietAdminRespon;
 import com.example.be_duantn.dto.respon.quan_ly_dong_san_pham_respon.SanPhamChiTietManThemHoaDonRespon;
+import com.example.be_duantn.entity.MauSac;
+import com.example.be_duantn.entity.SanPham;
 import com.example.be_duantn.entity.SanPhamChiTiet;
+import com.example.be_duantn.entity.Size;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface SanPhamChiTietAdminRepository extends JpaRepository<SanPhamChiTiet, UUID> {
@@ -33,7 +37,7 @@ public interface SanPhamChiTietAdminRepository extends JpaRepository<SanPhamChiT
             "WHERE sp.TrangThai = 1 AND spct.SoLuongTon > 0 AND sp.Id = ?1", nativeQuery = true)
     SanPhamChiTietManThemHoaDonRespon finByidSP(UUID idsp);
 
-
+    Optional<SanPhamChiTiet> findBySanphamAndMausacAndSize(@Param("sanpham") SanPham sanpham, @Param("mausac") MauSac mausac, @Param("size") Size size);
 
 
 }
