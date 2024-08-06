@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -45,30 +46,44 @@ public class SanPhamChiTietAdminServiceImpl implements SanPhamChiTietAdminServic
     public SanPhamChiTiet addSanPhamCT(SanPhamChiTietAdminRequest sanPhamChiTietAdminRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-
         // Kiểm tra quyền của người dùng và thực hiện xử lý tùy thuộc vào quyền
         if (hasPermission(authentication.getAuthorities(), "ADMIN", "NHANVIEN")) {
-            // Thực hiện xử lý cho người dùng có quyền "ADMIN" hoặc "NHANVIEN"
-            SanPhamChiTiet sp = new SanPhamChiTiet();
-            sp.setSoluongton(sanPhamChiTietAdminRequest.getSoluongton());
-            sp.setMota(sanPhamChiTietAdminRequest.getMota());
-            sp.setQrcode(sanPhamChiTietAdminRequest.getQrcode());
-            sp.setTrangthai(sanPhamChiTietAdminRequest.getTrangthai());
+            // Kiểm tra xem SanPhamChiTiet với mausac và size đã tồn tại chưa
             MauSac mauSac = new MauSac();
             mauSac.setIdmausac(sanPhamChiTietAdminRequest.getMausac());
-            sp.setMausac(mauSac);
+
             Size size = new Size();
             size.setIdsize(sanPhamChiTietAdminRequest.getSize());
-            sp.setSize(size);
+
             SanPham sanPham = new SanPham();
             sanPham.setIdsp(sanPhamChiTietAdminRequest.getSanpham());
-            sp.setSanpham(sanPham);
-            return sanPhamChiTietAdminRepository.save(sp);
+
+            Optional<SanPhamChiTiet> existingSpOpt = sanPhamChiTietAdminRepository
+                    .findBySanphamAndMausacAndSize(sanPham, mauSac, size);
+
+            if (existingSpOpt.isPresent()) {
+                // Nếu tồn tại, cập nhật số lượng tồn
+                SanPhamChiTiet existingSp = existingSpOpt.get();
+                existingSp.setSoluongton(existingSp.getSoluongton() + sanPhamChiTietAdminRequest.getSoluongton());
+                return sanPhamChiTietAdminRepository.save(existingSp);
+            } else {
+                // Nếu không tồn tại, tạo mới
+                SanPhamChiTiet sp = new SanPhamChiTiet();
+                sp.setSoluongton(sanPhamChiTietAdminRequest.getSoluongton());
+                sp.setMota(sanPhamChiTietAdminRequest.getMota());
+                sp.setQrcode(sanPhamChiTietAdminRequest.getQrcode());
+                sp.setTrangthai(sanPhamChiTietAdminRequest.getTrangthai());
+                sp.setMausac(mauSac);
+                sp.setSize(size);
+                sp.setSanpham(sanPham);
+                return sanPhamChiTietAdminRepository.save(sp);
+            }
         } else {
             // Người dùng không có quyền, xử lý theo ý của bạn
             throw new AccessDeniedException("Bạn không có quyền");
         }
     }
+
 
     @Override
     public SanPhamChiTiet updateCTSP(UUID idspct, Integer trangthai) {
