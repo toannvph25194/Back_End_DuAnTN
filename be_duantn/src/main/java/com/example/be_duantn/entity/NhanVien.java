@@ -80,7 +80,7 @@ public class NhanVien {
     @JsonManagedReference
     List<HinhThucThanhToan> hinhthucthanhtoan;
 
-    @OneToMany(mappedBy = "nhanvien", fetch = FetchType.LAZY)
-    @JsonManagedReference
-    List<GioHang> giohang;
+//    @OneToMany(mappedBy = "nhanvien", fetch = FetchType.LAZY)
+//    @JsonManagedReference
+//    List<GioHang> giohang;
 }

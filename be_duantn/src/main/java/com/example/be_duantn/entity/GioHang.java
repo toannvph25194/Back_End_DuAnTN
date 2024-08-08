@@ -39,10 +39,10 @@ public class GioHang {
     private Integer trangthai;
 
     // TODO N - 1 //
-    @ManyToOne
-    @JoinColumn(name = "idnv")
-    @JsonBackReference
-    NhanVien nhanvien;
+//    @ManyToOne
+//    @JoinColumn(name = "idnv")
+//    @JsonBackReference
+//    NhanVien nhanvien;
 
     @ManyToOne
     @JoinColumn(name = "idkh")
