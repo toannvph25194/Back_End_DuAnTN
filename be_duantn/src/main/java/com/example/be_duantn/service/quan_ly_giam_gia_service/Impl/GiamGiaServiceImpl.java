@@ -1,17 +1,14 @@
-package com.example.be_duantn.service.quan_ly_giam_gia_theo_sp_service.Impl;
+package com.example.be_duantn.service.quan_ly_giam_gia_service.Impl;
 
 
-import com.example.be_duantn.dto.request.quan_ly_giam_gia_theo_sp_request.MaGiamGiaRequest;
-import com.example.be_duantn.dto.respon.quan_ly_giam_gia_theo_sp_respon.GiamGiaRespon;
-import com.example.be_duantn.dto.respon.quan_ly_giam_gia_theo_sp_respon.SanPhamGiamGiaRespon;
-import com.example.be_duantn.dto.respon.quan_ly_hoa_don_respon.Hoadonrespon;
-import com.example.be_duantn.entity.ChatLieu;
-import com.example.be_duantn.entity.DanhMuc;
+import com.example.be_duantn.dto.request.quan_ly_giam_gia_request.MaGiamGiaRequest;
+import com.example.be_duantn.dto.respon.quan_ly_giam_gia_respon.GiamGiaRespon;
+import com.example.be_duantn.dto.respon.quan_ly_giam_gia_respon.SanPhamGiamGiaRespon;
 import com.example.be_duantn.entity.GiamGia;
 import com.example.be_duantn.entity.SanPham;
 import com.example.be_duantn.repository.quan_ly_dong_san_pham_repository.SanPhamRepository;
-import com.example.be_duantn.repository.quan_ly_giam_gia_theo_sp_repository.GiamGiaRepository;
-import com.example.be_duantn.service.quan_ly_giam_gia_theo_sp_service.GiamGiaService;
+import com.example.be_duantn.repository.quan_ly_giam_gia_repository.GiamGiaRepository;
+import com.example.be_duantn.service.quan_ly_giam_gia_service.GiamGiaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

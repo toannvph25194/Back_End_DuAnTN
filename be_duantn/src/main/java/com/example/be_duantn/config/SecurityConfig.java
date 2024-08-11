@@ -70,6 +70,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/admin/quan-ly-khach-hang/**").hasAnyAuthority("ADMIN", "NHANVIEN")
                         .requestMatchers("/api/admin/giamgia/**").hasAnyAuthority("ADMIN", "NHANVIEN")
                         .requestMatchers("/api/admin/quan-ly-nhan-vien/**").hasAnyAuthority("ADMIN")
+                        .requestMatchers("/api/admin/voucher/**").hasAnyAuthority("ADMIN", "NHANVIEN")
                         .anyRequest()
                         .authenticated())
                 .sessionManagement(

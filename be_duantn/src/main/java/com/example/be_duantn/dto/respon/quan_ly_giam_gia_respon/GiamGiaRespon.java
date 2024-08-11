@@ -1,8 +1,4 @@
-package com.example.be_duantn.dto.respon.quan_ly_giam_gia_theo_sp_respon;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+package com.example.be_duantn.dto.respon.quan_ly_giam_gia_respon;
 
 import java.util.Date;
 import java.util.UUID;

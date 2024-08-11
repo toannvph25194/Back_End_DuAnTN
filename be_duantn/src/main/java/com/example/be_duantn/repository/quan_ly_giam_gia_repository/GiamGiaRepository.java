@@ -1,7 +1,7 @@
-package com.example.be_duantn.repository.quan_ly_giam_gia_theo_sp_repository;
+package com.example.be_duantn.repository.quan_ly_giam_gia_repository;
 
-import com.example.be_duantn.dto.respon.quan_ly_giam_gia_theo_sp_respon.GiamGiaRespon;
-import com.example.be_duantn.dto.respon.quan_ly_giam_gia_theo_sp_respon.SanPhamGiamGiaRespon;
+import com.example.be_duantn.dto.respon.quan_ly_giam_gia_respon.GiamGiaRespon;
+import com.example.be_duantn.dto.respon.quan_ly_giam_gia_respon.SanPhamGiamGiaRespon;
 import com.example.be_duantn.entity.GiamGia;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
