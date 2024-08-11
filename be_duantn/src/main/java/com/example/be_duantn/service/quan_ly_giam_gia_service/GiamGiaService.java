@@ -1,11 +1,8 @@
-package com.example.be_duantn.service.quan_ly_giam_gia_theo_sp_service;
+package com.example.be_duantn.service.quan_ly_giam_gia_service;
 
-import com.example.be_duantn.dto.request.quan_ly_dong_san_pham_request.DanhMucRequest;
-import com.example.be_duantn.dto.request.quan_ly_giam_gia_theo_sp_request.MaGiamGiaRequest;
-import com.example.be_duantn.dto.respon.quan_ly_dong_san_pham_respon.ChatLieuRespon;
-import com.example.be_duantn.dto.respon.quan_ly_giam_gia_theo_sp_respon.GiamGiaRespon;
-import com.example.be_duantn.dto.respon.quan_ly_giam_gia_theo_sp_respon.SanPhamGiamGiaRespon;
-import com.example.be_duantn.entity.DanhMuc;
+import com.example.be_duantn.dto.request.quan_ly_giam_gia_request.MaGiamGiaRequest;
+import com.example.be_duantn.dto.respon.quan_ly_giam_gia_respon.GiamGiaRespon;
+import com.example.be_duantn.dto.respon.quan_ly_giam_gia_respon.SanPhamGiamGiaRespon;
 import com.example.be_duantn.entity.GiamGia;
 import com.example.be_duantn.entity.SanPham;
 import org.springframework.data.domain.Page;

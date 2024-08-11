@@ -1,8 +1,5 @@
-package com.example.be_duantn.dto.request.quan_ly_giam_gia_theo_sp_request;
+package com.example.be_duantn.dto.request.quan_ly_giam_gia_request;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

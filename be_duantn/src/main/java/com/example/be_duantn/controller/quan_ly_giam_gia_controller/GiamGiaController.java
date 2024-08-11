@@ -1,9 +1,9 @@
-package com.example.be_duantn.controller.quan_ly_giam_gia_theo_sp_controller;
+package com.example.be_duantn.controller.quan_ly_giam_gia_controller;
 
-import com.example.be_duantn.dto.request.quan_ly_giam_gia_theo_sp_request.MaGiamGiaRequest;
+import com.example.be_duantn.dto.request.quan_ly_giam_gia_request.MaGiamGiaRequest;
 import com.example.be_duantn.entity.GiamGia;
 import com.example.be_duantn.entity.SanPham;
-import com.example.be_duantn.service.quan_ly_giam_gia_theo_sp_service.Impl.GiamGiaServiceImpl;
+import com.example.be_duantn.service.quan_ly_giam_gia_service.Impl.GiamGiaServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
