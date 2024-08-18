@@ -30,7 +30,7 @@ public interface SanPhamRepository extends JpaRepository<SanPham, UUID> {
             "    sp.TrangThai\n" +
             "FROM     \n" +
             "    dbo.SanPham sp\n" +
-            "INNER JOIN\n" +
+            "LEFT JOIN\n" +
             "    dbo.SanPhamChiTiet spc ON sp.Id = spc.IdSP\n" +
             "GROUP BY \n" +
             "    sp.Id, \n" +
@@ -61,9 +61,9 @@ public interface SanPhamRepository extends JpaRepository<SanPham, UUID> {
             "JOIN XuatXu xx ON xx.Id = sp.IdXX\n" +
             "JOIN ThuongHieu th ON th.Id = sp.IdTH\n" +
             "JOIN ChatLieu cl ON cl.Id = sp.IdCL\n" +
-            "JOIN SanPhamChiTiet spct ON spct.IdSP = sp.Id\n" +
-            "JOIN MauSac ms ON ms.Id = spct.IdMS\n" +
-            "JOIN Size s ON s.Id = spct.IdSize\n" +
+            "LEFT JOIN SanPhamChiTiet spct ON spct.IdSP = sp.Id\n" +
+            "LEFT JOIN MauSac ms ON ms.Id = spct.IdMS\n" +
+            "LEFT JOIN Size s ON s.Id = spct.IdSize\n" +
             "WHERE sp.TenSP LIKE %:tensp%\n" +
             "GROUP BY sp.Id, sp.MaSP, sp.TenSP, sp.TheLoai, sp.ImageDefaul, sp.GiaBan, sp.GiaNhap, sp.TrangThai, sp.NgayThem\n", nativeQuery = true)
     Page<SanPhamAdminRespon> locTenSP(Pageable pageable, @Param("tensp") String tensp);
@@ -75,9 +75,9 @@ public interface SanPhamRepository extends JpaRepository<SanPham, UUID> {
             "JOIN XuatXu xx ON xx.Id = sp.IdXX\n" +
             "JOIN ThuongHieu th ON th.Id = sp.IdTH\n" +
             "JOIN ChatLieu cl ON cl.Id = sp.IdCL\n" +
-            "JOIN SanPhamChiTiet spct ON spct.IdSP = sp.Id\n" +
-            "JOIN MauSac ms ON ms.Id = spct.IdMS\n" +
-            "JOIN Size s ON s.Id = spct.IdSize\n" +
+            "LEFT JOIN SanPhamChiTiet spct ON spct.IdSP = sp.Id\n" +
+            "LEFT JOIN MauSac ms ON ms.Id = spct.IdMS\n" +
+            "LEFT JOIN Size s ON s.Id = spct.IdSize\n" +
             "WHERE dm.TenDanhMuc LIKE :tendanhmuc OR ms.TenMauSac LIKE :tenmausac OR s.TenSize LIKE :tensize OR cl.TenChatLieu LIKE :tenchatlieu OR xx.TenXuatXu LIKE :tenxuatxu OR th.TenThuongHieu LIKE :tenthuonghieu\n" +
             "GROUP BY sp.Id, sp.MaSP, sp.TenSP, sp.TheLoai, sp.ImageDefaul, sp.GiaBan, sp.GiaNhap, sp.TrangThai", nativeQuery = true)
     Page<SanPhamAdminRespon> locSPShopNTC(Pageable pageable, @Param("tendanhmuc") String tendanhmuc,
