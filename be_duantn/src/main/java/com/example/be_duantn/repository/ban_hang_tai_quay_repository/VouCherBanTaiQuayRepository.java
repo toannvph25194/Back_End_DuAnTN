@@ -12,14 +12,14 @@ public interface VouCherBanTaiQuayRepository extends JpaRepository<VouCher, UUID
 
     // load voucher lên trang checkout
     @Query(value = "SELECT Id,MaVouCher,TenVouCher,NgayKetThuc,SoLuongMa,SoLuongDung,DieuKienToiThieuHoaDon,GiaTriGiam,HinhThucGiam FROM VOUCHER\n" +
-            "WHERE TrangThai = 1 AND LoaiVouCher = 1 AND SoLuongMa > SoLuongDung \n" +
+            "WHERE TrangThai = 1 AND SoLuongMa > SoLuongDung \n" +
             "AND GETDATE() >= NgayBatDau AND NgayKetThuc >= GETDATE() ", nativeQuery = true)
     List<VouCherRespon> loadVouCher();
 
 
     // load voucher lên trang checkout
     @Query(value = "SELECT Id,MaVouCher,TenVouCher,NgayKetThuc,SoLuongMa,SoLuongDung,DieuKienToiThieuHoaDon,GiaTriGiam,HinhThucGiam FROM VOUCHER\n" +
-            "WHERE TrangThai = 1 AND LoaiVouCher = 1 AND SoLuongMa > SoLuongDung \n" +
+            "WHERE TrangThai = 1 AND SoLuongMa > SoLuongDung \n" +
             "AND GETDATE() >= NgayBatDau AND NgayKetThuc >= GETDATE() AND Id = ?", nativeQuery = true)
     VouCherRespon loadVouCherTheoId(UUID id);
 

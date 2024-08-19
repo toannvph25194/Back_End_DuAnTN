@@ -56,6 +56,7 @@ public class VouCherServiceAdminImpl implements VouCherServiceAdmin {
         vouCher.setDieukientoithieuhoadon(vouCherAdminRequest.getDieukientoithieuhoadon());
         vouCher.setLoaivoucher(1);
         vouCher.setSoluongma(vouCherAdminRequest.getSoluongma());
+        vouCher.setSoluongdung(0);
         vouCher.setGhichu(vouCherAdminRequest.getGhichu());
         vouCher.setTrangthai(1);
         return vouCherAdminRepository.save(vouCher);
