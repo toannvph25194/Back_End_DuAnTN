@@ -148,6 +148,7 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
         }
         // Cập nhật lại trạng thái hóa đơn thành hủy hóa đơn
         finhoadon.setNgaycapnhat(new Date(System.currentTimeMillis()));
+        finhoadon.setNgayhuy(new Date(System.currentTimeMillis()));
         finhoadon.setGhichu("Hóa đơn tại quầy đã bị hủy");
         finhoadon.setTrangthai(TrangThaiDonHangEnums.DA_HUY.getValue());
         hoaDonBanTaiQuayRepository.save(finhoadon);

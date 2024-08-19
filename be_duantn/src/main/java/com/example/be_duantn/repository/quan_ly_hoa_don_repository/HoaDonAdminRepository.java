@@ -16,48 +16,48 @@ public interface HoaDonAdminRepository extends JpaRepository<HoaDon, UUID> {
     //Lấy số hoá đơn chờ xác nhận
     @Query(value = "SELECT COUNT(DISTINCT dbo.hoadon.Id)\n" +
             "FROM dbo.hoadon\n" +
-            "INNER JOIN dbo.HoaDonChiTiet ON dbo.hoadon.Id = dbo.HoaDonChiTiet.IdHD\n" +
-            "INNER JOIN dbo.HinhThucThanhToan ON dbo.hoadon.Id = dbo.HinhThucThanhToan.IdHD\n" +
+            "LEFT JOIN dbo.HoaDonChiTiet ON dbo.hoadon.Id = dbo.HoaDonChiTiet.IdHD\n" +
+            "LEFT JOIN dbo.HinhThucThanhToan ON dbo.hoadon.Id = dbo.HinhThucThanhToan.IdHD\n" +
             "WHERE dbo.hoadon.TrangThai = 1;", nativeQuery = true)
     Integer TongSoHoaDonChoXacNhan();
 
     //Lấy số hoá đơn xác nhận
     @Query(value = "SELECT COUNT(DISTINCT dbo.hoadon.Id)\n" +
             "FROM dbo.hoadon\n" +
-            "INNER JOIN dbo.HoaDonChiTiet ON dbo.hoadon.Id = dbo.HoaDonChiTiet.IdHD\n" +
-            "INNER JOIN dbo.HinhThucThanhToan ON dbo.hoadon.Id = dbo.HinhThucThanhToan.IdHD\n" +
+            "LEFT JOIN dbo.HoaDonChiTiet ON dbo.hoadon.Id = dbo.HoaDonChiTiet.IdHD\n" +
+            "LEFT JOIN dbo.HinhThucThanhToan ON dbo.hoadon.Id = dbo.HinhThucThanhToan.IdHD\n" +
             "WHERE dbo.hoadon.TrangThai = 2;", nativeQuery = true)
     Integer TongSoHoaDonXacNhan();
 
     //Lấy số hoá đơn chờ giao
     @Query(value = "SELECT COUNT(DISTINCT dbo.hoadon.Id)\n" +
             "FROM dbo.hoadon\n" +
-            "INNER JOIN dbo.HoaDonChiTiet ON dbo.hoadon.Id = dbo.HoaDonChiTiet.IdHD\n" +
-            "INNER JOIN dbo.HinhThucThanhToan ON dbo.hoadon.Id = dbo.HinhThucThanhToan.IdHD\n" +
+            "LEFT JOIN dbo.HoaDonChiTiet ON dbo.hoadon.Id = dbo.HoaDonChiTiet.IdHD\n" +
+            "LEFT JOIN dbo.HinhThucThanhToan ON dbo.hoadon.Id = dbo.HinhThucThanhToan.IdHD\n" +
             "WHERE dbo.hoadon.TrangThai = 3;", nativeQuery = true)
     Integer TongSoHoaDonChoGiao();
 
     //Lấy số hoá đơn đang giao
     @Query(value = "SELECT COUNT(DISTINCT dbo.hoadon.Id)\n" +
             "FROM dbo.hoadon\n" +
-            "INNER JOIN dbo.HoaDonChiTiet ON dbo.hoadon.Id = dbo.HoaDonChiTiet.IdHD\n" +
-            "INNER JOIN dbo.HinhThucThanhToan ON dbo.hoadon.Id = dbo.HinhThucThanhToan.IdHD\n" +
+            "LEFT JOIN dbo.HoaDonChiTiet ON dbo.hoadon.Id = dbo.HoaDonChiTiet.IdHD\n" +
+            "LEFT JOIN dbo.HinhThucThanhToan ON dbo.hoadon.Id = dbo.HinhThucThanhToan.IdHD\n" +
             "WHERE dbo.hoadon.TrangThai = 4;", nativeQuery = true)
     Integer TongSoHoaDonDangGiao();
 
     //Lấy số hoá đơn hoàn thành
     @Query(value = "SELECT COUNT(DISTINCT dbo.hoadon.Id)\n" +
             "FROM dbo.hoadon\n" +
-            "INNER JOIN dbo.HoaDonChiTiet ON dbo.hoadon.Id = dbo.HoaDonChiTiet.IdHD\n" +
-            "INNER JOIN dbo.HinhThucThanhToan ON dbo.hoadon.Id = dbo.HinhThucThanhToan.IdHD\n" +
+            "LEFT JOIN dbo.HoaDonChiTiet ON dbo.hoadon.Id = dbo.HoaDonChiTiet.IdHD\n" +
+            "LEFT JOIN dbo.HinhThucThanhToan ON dbo.hoadon.Id = dbo.HinhThucThanhToan.IdHD\n" +
             "WHERE dbo.hoadon.TrangThai = 5;", nativeQuery = true)
     Integer TongSoHoaDonHoanThanh();
 
     //Lấy số hoá đơn huỷ
     @Query(value = "SELECT COUNT(DISTINCT dbo.hoadon.Id)\n" +
             "FROM dbo.hoadon\n" +
-            "INNER JOIN dbo.HoaDonChiTiet ON dbo.hoadon.Id = dbo.HoaDonChiTiet.IdHD\n" +
-            "INNER JOIN dbo.HinhThucThanhToan ON dbo.hoadon.Id = dbo.HinhThucThanhToan.IdHD\n" +
+            "LEFT JOIN dbo.HoaDonChiTiet ON dbo.hoadon.Id = dbo.HoaDonChiTiet.IdHD\n" +
+            "LEFT JOIN dbo.HinhThucThanhToan ON dbo.hoadon.Id = dbo.HinhThucThanhToan.IdHD\n" +
             "WHERE dbo.hoadon.TrangThai = 6;", nativeQuery = true)
     Integer TongSoHoaDonHuy();
 
@@ -73,9 +73,9 @@ public interface HoaDonAdminRepository extends JpaRepository<HoaDon, UUID> {
             "    dbo.HoaDon.SDTNguoiNhan\n" +
             "FROM     \n" +
             "    dbo.HoaDon \n" +
-            "INNER JOIN\n" +
+            "LEFT JOIN\n" +
             "    dbo.HoaDonChiTiet ON dbo.HoaDon.Id = dbo.HoaDonChiTiet.IdHD\n"
-            + "INNER JOIN\n" +
+            + "LEFT JOIN\n" +
             "      dbo.HinhThucThanhToan ON dbo.HoaDon.Id = dbo.HinhThucThanhToan.IdHD\n" +
             "\tGROUP BY\n" +
             "\tdbo.HoaDon.Id, \n" +
@@ -100,9 +100,9 @@ public interface HoaDonAdminRepository extends JpaRepository<HoaDon, UUID> {
             "    dbo.HoaDon.SDTNguoiNhan\n" +
             "FROM\n" +
             "    dbo.HoaDon\n" +
-            "INNER JOIN\n" +
+            "LEFT JOIN\n" +
             "    dbo.HoaDonChiTiet ON dbo.HoaDon.Id = dbo.HoaDonChiTiet.IdHD\n" +
-            "INNER JOIN\n" +
+            "LEFT JOIN\n" +
             "    dbo.HinhThucThanhToan ON dbo.HoaDon.Id = dbo.HinhThucThanhToan.IdHD\n" +
             "WHERE\n" +
             "    dbo.HoaDon.TrangThai = :trangthai\n" +
@@ -130,9 +130,9 @@ public interface HoaDonAdminRepository extends JpaRepository<HoaDon, UUID> {
             "    dbo.HoaDon.SDTNguoiNhan\n" +
             "FROM\n" +
             "    dbo.HoaDon\n" +
-            "INNER JOIN\n" +
+            "LEFT JOIN\n" +
             "    dbo.HoaDonChiTiet ON dbo.HoaDon.Id = dbo.HoaDonChiTiet.IdHD\n"
-            + "INNER JOIN\n" +
+            + "LEFT JOIN\n" +
             "      dbo.HinhThucThanhToan ON dbo.HoaDon.Id = dbo.HinhThucThanhToan.IdHD\n" +
             "WHERE\n" +
             "    dbo.HoaDon.MaHoaDon LIKE '%' + :mahoadon + '%'\n" +
@@ -159,9 +159,9 @@ public interface HoaDonAdminRepository extends JpaRepository<HoaDon, UUID> {
             "    dbo.HoaDon.SDTNguoiNhan\n" +
             "FROM\n" +
             "    dbo.HoaDon\n" +
-            "INNER JOIN\n" +
+            "LEFT JOIN\n" +
             "    dbo.HoaDonChiTiet ON dbo.HoaDon.Id = dbo.HoaDonChiTiet.IdHD\n"
-            + "INNER JOIN\n" +
+            + "LEFT JOIN\n" +
             "      dbo.HinhThucThanhToan ON dbo.HoaDon.Id = dbo.HinhThucThanhToan.IdHD\n" +
             "WHERE\n" +
             "    dbo.HoaDon.LoaiHoaDon = ?\n" +
