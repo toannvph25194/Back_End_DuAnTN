@@ -23,7 +23,7 @@ public class SanPhamRequest {
     private String masp;
 
     @NotBlank(message = "Tên sản phẩm không được để trống")
-    @Size(max = 20, message = "Tên sản phẩm không được vượt quá 20 ký tự")
+    @Size(max = 250, message = "Tên sản phẩm không được vượt quá 250 ký tự")
     private String tensp;
 
     @NotNull(message = "Loại sản phẩm không được để trống")
@@ -36,8 +36,6 @@ public class SanPhamRequest {
 
     private Date ngaythemsp = new Date();
 
-//    @NotNull(message = "Giá nhập không được để trống")
-//    @Positive(message = "Giá nhập phải là số dương")
     private Double gianhap;
 
     @NotNull(message = "Giá bán không được để trống")
