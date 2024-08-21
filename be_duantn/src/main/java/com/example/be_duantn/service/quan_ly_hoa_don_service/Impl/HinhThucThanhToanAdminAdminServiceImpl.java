@@ -145,16 +145,16 @@ public class HinhThucThanhToanAdminAdminServiceImpl implements HinhThucThanhToan
                 // Log thông tin sau khi lưu
                 System.out.println("Hình thức thanh toán đã được lưu thành công, ID: " + savedHTTT.getIdhttt());
                 // Send invoice email to customer
-                List<HoaDonChiTiet> hoaDonChiTiets = hoaDonChiTietAdminRepository.findByHoadon_Idhoadon(idhd);
-                String productList = generateProductList(hoaDonChiTiets);
+//                List<HoaDonChiTiet> hoaDonChiTiets = hoaDonChiTietAdminRepository.findByHoadon_Idhoadon(idhd);
+//                String productList = generateProductList(hoaDonChiTiets);
+//
+//                List<HinhThucThanhToan> hinhThucThanhToans = hinhThucThanhToanAdminRepository.findHinhThucThanhToanByHoadonIdhoadon(idhd);
+//                String hinhthucthanhtoan = HinhThucThanhToan(hinhThucThanhToans);
+//                Double tongtienhang = hoaDon.getThanhtien() + hoaDon.getGiatrigiam();
+//
+//                Double sotienphaitra = tongtienhang - hoaDon.getGiatrigiam();
 
-                List<HinhThucThanhToan> hinhThucThanhToans = hinhThucThanhToanAdminRepository.findHinhThucThanhToanByHoadonIdhoadon(idhd);
-                String hinhthucthanhtoan = HinhThucThanhToan(hinhThucThanhToans);
-                Double tongtienhang = hoaDon.getThanhtien() + hoaDon.getGiatrigiam();
-
-                Double sotienphaitra = tongtienhang - hoaDon.getGiatrigiam();
-
-                sendInvoiceEmail(hoaDon, hinhthucthanhtoan, productList, tongtienhang, sotienphaitra);
+//                sendInvoiceEmail(hoaDon, hinhthucthanhtoan, productList, tongtienhang, sotienphaitra);
                 return savedHTTT;
             }
         } else {
@@ -188,7 +188,7 @@ public class HinhThucThanhToanAdminAdminServiceImpl implements HinhThucThanhToan
             }
 
             // Gửi email hóa đơn cho khách hàng
-            sendInvoiceEmailhoanthanh(hoaDon);
+//            sendInvoiceEmailhoanthanh(hoaDon);
 
             return result;
         } else {
@@ -256,21 +256,21 @@ public class HinhThucThanhToanAdminAdminServiceImpl implements HinhThucThanhToan
         return HTTT;
     }
 
-    private void sendInvoiceEmailhoanthanh(HoaDon hoaDon) {
-        List<HoaDonChiTiet> hoaDonChiTiets = hoaDonChiTietAdminRepository.findByHoadon_Idhoadon(hoaDon.getIdhoadon());
-        String productList = generateProductList(hoaDonChiTiets);
-
-        List<HinhThucThanhToan> hinhThucThanhToans = hinhThucThanhToanAdminRepository.findHinhThucThanhToanByHoadonIdhoadon(hoaDon.getIdhoadon());
-        String hinhthucthanhtoan = HinhThucThanhToan(hinhThucThanhToans);
-        Double giatrigiam = (hoaDon.getGiatrigiam() != null) ? hoaDon.getGiatrigiam() : 0;
-
-        Double tongtienhang = hoaDon.getThanhtien() + giatrigiam;
-
-        Double sotienphaitra = tongtienhang - giatrigiam;
-
-
-        sendInvoiceEmailhoanthanh(hoaDon, hinhthucthanhtoan, productList, tongtienhang, sotienphaitra);
-    }
+//    private void sendInvoiceEmailhoanthanh(HoaDon hoaDon) {
+//        List<HoaDonChiTiet> hoaDonChiTiets = hoaDonChiTietAdminRepository.findByHoadon_Idhoadon(hoaDon.getIdhoadon());
+//        String productList = generateProductList(hoaDonChiTiets);
+//
+//        List<HinhThucThanhToan> hinhThucThanhToans = hinhThucThanhToanAdminRepository.findHinhThucThanhToanByHoadonIdhoadon(hoaDon.getIdhoadon());
+//        String hinhthucthanhtoan = HinhThucThanhToan(hinhThucThanhToans);
+//        Double giatrigiam = (hoaDon.getGiatrigiam() != null) ? hoaDon.getGiatrigiam() : 0;
+//
+//        Double tongtienhang = hoaDon.getThanhtien() + giatrigiam;
+//
+//        Double sotienphaitra = tongtienhang - giatrigiam;
+//
+//
+//        sendInvoiceEmailhoanthanh(hoaDon, hinhthucthanhtoan, productList, tongtienhang, sotienphaitra);
+//    }
 
     @Override
     public List<HinhThucThanhToan> updateNguoiXacNhan(UUID IDHD, UUID idnhanvien, Principal principal) {
@@ -334,209 +334,209 @@ public class HinhThucThanhToanAdminAdminServiceImpl implements HinhThucThanhToan
         return String.valueOf(transactionId);
     }
 
-    private String HinhThucThanhToan(List<HinhThucThanhToan> hoaDonChiTiets) {
-        StringBuilder hinhthucthanhtoan = new StringBuilder();
-        int STT = 1;
-        for (HinhThucThanhToan chiTiet : hoaDonChiTiets) {
-            String hinhThucThanhToanText;
-            if (chiTiet.getHinhthucthanhtoan() == 1) {
-                hinhThucThanhToanText = "tiền mặt";
-            } else if (chiTiet.getHinhthucthanhtoan() == 2) {
-                hinhThucThanhToanText = "chuyển khoản";
-            } else if (chiTiet.getHinhthucthanhtoan() == 3) {
-                hinhThucThanhToanText = "hoàn tiền cho khách";
-            } else {
-                hinhThucThanhToanText = "khác"; // For any other values
-            }
-
-            hinhthucthanhtoan.append(
-                    "<tr>\n" +
-                            "    <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + STT + "</td>\n" +
-                            "    <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + chiTiet.getMagiaodich() + "</td>\n" +
-                            "    <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + chiTiet.getSotientra() + "</td>\n" +
-                            "    <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + chiTiet.getNgaythanhtoan() + "</td>\n" +
-                            "    <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + hinhThucThanhToanText + "</td>\n" +
-                            "</tr>\n"
-            );
-            STT++;
-        }
-        return hinhthucthanhtoan.toString();
-    }
-
-    private String generateProductList(List<HoaDonChiTiet> hoaDonChiTiets) {
-        StringBuilder productList = new StringBuilder();
-        int STT = 1;
-        for (HoaDonChiTiet chiTiet : hoaDonChiTiets) {
-            productList.append(
-                    "<tr>\n" +
-                            "    <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + STT + "</td>\n" +
-                            "    <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + chiTiet.getSanphamchitiet().getSanpham().getTensp() + "</td>\n" +
-                            "    <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + chiTiet.getSoluong() + "</td>\n" +
-                            "    <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + chiTiet.getDongia() + " đ" + "</td>\n" +
-                            "    <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + ((chiTiet.getDongiakhigiam() != null) ? chiTiet.getDongiakhigiam() : 0) + " đ" + "</td>\n" +
-                            "    <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + ((chiTiet.getDongiakhigiam() != null) ? chiTiet.getDongiakhigiam() * chiTiet.getSoluong() : (chiTiet.getDongia() * chiTiet.getSoluong())) + " đ" + "</td>\n" +
-                            "</tr>\n"
-            );
-            STT++;
-        }
-        return productList.toString();
-    }
-
-    private void sendInvoiceEmail(HoaDon hoaDon, String hinhthucthanhtoan, String productList, Double tongtienhang, Double sotienphaitra) {
-        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        try {
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
-            helper.setTo(hoaDon.getEmailnguoinhan());
-            helper.setSubject("Thông Tin Đơn Hàng Của Quý Khách Hàng");
-
-            String htmlMsg = "<body style=\"font-family: Arial, sans-serif;\">\n" +
-                    "    <h1 style=\"color: rgb(255, 125, 26);\">Kính Gửi Quý Khách Hàng : " + hoaDon.getTennguoinhan() + "</h1>\n" +
-                    "    <h6 style=\"color: black; font-size: 15px;\">Chúng tôi xin chân thành cảm ơn Quý khách đã đặt hàng tại : <strong  style=\"color: rgb(255, 125, 26);\">2TH-SHOP</strong></h6>\n" +
-                    "    <h6 style=\"color: black; font-size: 15px;\">Thông tin chi tiết về đơn hàng của Quý khách như sau:</h6>\n" +
-                    "    <table style=\"width: 100%; border-collapse: collapse; margin-bottom: 20px;\">\n" +
-                    "        <thead>\n" +
-                    "           <tr>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Mã Đơn Hàng</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Khách Hàng</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Số Điện Thoại</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Email</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Ngày Đặt Hàng</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Địa chỉ giao hàng</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Trạng Thái</th>\n" +
-                    "           </tr>\n" +
-                    "        </thead>\n" +
-                    "        <tbody>\n" +
-                    "           <tr>\n" +
-                    "                <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + hoaDon.getMahoadon() + "</td>\n" +
-                    "                <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + hoaDon.getTennguoinhan() + "</td>\n" +
-                    "                <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + hoaDon.getSdtnguoinhan() + "</td>\n" +
-                    "                <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + hoaDon.getEmailnguoinhan() + "</td>\n" +
-                    "                <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + hoaDon.getNgaytao() + "</td>\n" +
-                    "                <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + hoaDon.getDiachinhanhang() + "</td>\n" +
-                    "                <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + "Đã huỷ" + "</td>\n" +
-                    "           </tr>\n" +
-                    "        </tbody>\n" +
-                    "    </table>\n" +
-                    "    <table style=\"width: 100%; border-collapse: collapse;\">\n" +
-                    "        <thead>\n" +
-                    "            <tr>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">STT</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Tên Sản Phẩm</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Số Lượng</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Đơn Giá</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Giảm Giá</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Thành Tiền</th>\n" +
-                    "            </tr>\n" +
-                    "        </thead>\n" +
-                    "        <tbody>\n" +
-                    productList +
-                    "        </tbody>\n" +
-                    "    </table>\n" +
-                    "    <br>\n" +
-                    "    <table style=\"width: 100%; border-collapse: collapse;\">\n" +
-                    "        <thead>\n" +
-                    "            <tr>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">STT</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Mã giao dịch</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Số tiền trả</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Ngày thanh toán</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Hình thức</th>\n" +
-                    "            </tr>\n" +
-                    "        </thead>\n" +
-                    "        <tbody>\n" +
-                    hinhthucthanhtoan +
-                    "        </tbody>\n" +
-                    "    </table>\n" +
-                    "    <h6 style=\"color: black; font-size: 15px;\">Tổng Tiền Hàng: " + tongtienhang + " đ</h6>\n" +
-                    "    <h6 style=\"color: black; font-size: 15px;\">Giảm Giá: " + hoaDon.getGiatrigiam() + " đ</h6>\n" +
-                    "<h6 style=\"color: black; font-size: 15px;\">Tiền ship: " + (hoaDon.getTiengiaohang() != null ? hoaDon.getTiengiaohang() + " đ" : "0 đ") + "</h6>\n"+
-            "    <h6 style=\"color: black; font-size: 15px;\">Số Tiền Phải Trả: " + sotienphaitra + " đ</h6>\n" +
-                    "</body>";
-
-            helper.setText(htmlMsg, true);
-            javaMailSender.send(mimeMessage);
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void sendInvoiceEmailhoanthanh(HoaDon hoaDon, String hinhthucthanhtoan, String productList, Double tongtienhang, Double sotienphaitra) {
-        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        try {
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
-            helper.setTo(hoaDon.getEmailnguoinhan());
-            helper.setSubject("Thông Tin Đơn Hàng Của Quý Khách Hàng");
-
-            String htmlMsg = "<body style=\"font-family: Arial, sans-serif;\">\n" +
-                    "    <h1 style=\"color: rgb(255, 125, 26);\">Kính Gửi Quý Khách Hàng : " + hoaDon.getTennguoinhan() + "</h1>\n" +
-                    "    <h6 style=\"color: black; font-size: 15px;\">Chúng tôi xin chân thành cảm ơn Quý khách đã đặt hàng tại : <strong  style=\"color: rgb(255, 125, 26);\">2TH-SHOP</strong></h6>\n" +
-                    "    <h6 style=\"color: black; font-size: 15px;\">Thông tin chi tiết về đơn hàng của Quý khách như sau:</h6>\n" +
-                    "    <table style=\"width: 100%; border-collapse: collapse; margin-bottom: 20px;\">\n" +
-                    "        <thead>\n" +
-                    "           <tr>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Mã Đơn Hàng</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Khách Hàng</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Số Điện Thoại</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Email</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Ngày Đặt Hàng</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Địa chỉ giao hàng</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Trạng Thái</th>\n" +
-                    "           </tr>\n" +
-                    "        </thead>\n" +
-                    "        <tbody>\n" +
-                    "           <tr>\n" +
-                    "                <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + hoaDon.getMahoadon() + "</td>\n" +
-                    "                <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + hoaDon.getTennguoinhan() + "</td>\n" +
-                    "                <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + hoaDon.getSdtnguoinhan() + "</td>\n" +
-                    "                <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + hoaDon.getEmailnguoinhan() + "</td>\n" +
-                    "                <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + hoaDon.getNgaytao() + "</td>\n" +
-                    "                <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + hoaDon.getDiachinhanhang() + "</td>\n" +
-                    "                <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + "Hoàn thành" + "</td>\n" +
-                    "           </tr>\n" +
-                    "        </tbody>\n" +
-                    "    </table>\n" +
-                    "    <table style=\"width: 100%; border-collapse: collapse;\">\n" +
-                    "        <thead>\n" +
-                    "            <tr>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">STT</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Tên Sản Phẩm</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Số Lượng</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Đơn Giá</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Giảm Giá</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Thành Tiền</th>\n" +
-                    "            </tr>\n" +
-                    "        </thead>\n" +
-                    "        <tbody>\n" +
-                    productList +
-                    "        </tbody>\n" +
-                    "    </table>\n" +
-                    "    <br>\n" +
-                    "    <table style=\"width: 100%; border-collapse: collapse;\">\n" +
-                    "        <thead>\n" +
-                    "            <tr>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">STT</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Mã giao dịch</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Số tiền trả</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Ngày thanh toán</th>\n" +
-                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Hình thức</th>\n" +
-                    "            </tr>\n" +
-                    "        </thead>\n" +
-                    "        <tbody>\n" +
-                    hinhthucthanhtoan +
-                    "        </tbody>\n" +
-                    "    </table>\n" +
-                    "    <h6 style=\"color: black; font-size: 15px;\">Tổng Tiền Hàng: " + tongtienhang + " đ</h6>\n" +
-                    "    <h6 style=\"color: black; font-size: 15px;\">Giảm Giá: " + hoaDon.getGiatrigiam() + " đ</h6>\n" +
-                    "    <h6 style=\"color: black; font-size: 15px;\">Tiền ship: " + hoaDon.getTiengiaohang() + " đ</h6>\n" +
-                    "    <h6 style=\"color: black; font-size: 15px;\">Số Tiền Phải Trả: " + sotienphaitra + " đ</h6>\n" +
-                    "</body>";
-
-            helper.setText(htmlMsg, true);
-            javaMailSender.send(mimeMessage);
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-    }
+//    private String HinhThucThanhToan(List<HinhThucThanhToan> hoaDonChiTiets) {
+//        StringBuilder hinhthucthanhtoan = new StringBuilder();
+//        int STT = 1;
+//        for (HinhThucThanhToan chiTiet : hoaDonChiTiets) {
+//            String hinhThucThanhToanText;
+//            if (chiTiet.getHinhthucthanhtoan() == 1) {
+//                hinhThucThanhToanText = "tiền mặt";
+//            } else if (chiTiet.getHinhthucthanhtoan() == 2) {
+//                hinhThucThanhToanText = "chuyển khoản";
+//            } else if (chiTiet.getHinhthucthanhtoan() == 3) {
+//                hinhThucThanhToanText = "hoàn tiền cho khách";
+//            } else {
+//                hinhThucThanhToanText = "khác"; // For any other values
+//            }
+//
+//            hinhthucthanhtoan.append(
+//                    "<tr>\n" +
+//                            "    <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + STT + "</td>\n" +
+//                            "    <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + chiTiet.getMagiaodich() + "</td>\n" +
+//                            "    <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + chiTiet.getSotientra() + "</td>\n" +
+//                            "    <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + chiTiet.getNgaythanhtoan() + "</td>\n" +
+//                            "    <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + hinhThucThanhToanText + "</td>\n" +
+//                            "</tr>\n"
+//            );
+//            STT++;
+//        }
+//        return hinhthucthanhtoan.toString();
+//    }
+//
+//    private String generateProductList(List<HoaDonChiTiet> hoaDonChiTiets) {
+//        StringBuilder productList = new StringBuilder();
+//        int STT = 1;
+//        for (HoaDonChiTiet chiTiet : hoaDonChiTiets) {
+//            productList.append(
+//                    "<tr>\n" +
+//                            "    <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + STT + "</td>\n" +
+//                            "    <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + chiTiet.getSanphamchitiet().getSanpham().getTensp() + "</td>\n" +
+//                            "    <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + chiTiet.getSoluong() + "</td>\n" +
+//                            "    <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + chiTiet.getDongia() + " đ" + "</td>\n" +
+//                            "    <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + ((chiTiet.getDongiakhigiam() != null) ? chiTiet.getDongiakhigiam() : 0) + " đ" + "</td>\n" +
+//                            "    <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + ((chiTiet.getDongiakhigiam() != null) ? chiTiet.getDongiakhigiam() * chiTiet.getSoluong() : (chiTiet.getDongia() * chiTiet.getSoluong())) + " đ" + "</td>\n" +
+//                            "</tr>\n"
+//            );
+//            STT++;
+//        }
+//        return productList.toString();
+//    }
+//
+//    private void sendInvoiceEmail(HoaDon hoaDon, String hinhthucthanhtoan, String productList, Double tongtienhang, Double sotienphaitra) {
+//        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+//        try {
+//            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
+//            helper.setTo(hoaDon.getEmailnguoinhan());
+//            helper.setSubject("Thông Tin Đơn Hàng Của Quý Khách Hàng");
+//
+//            String htmlMsg = "<body style=\"font-family: Arial, sans-serif;\">\n" +
+//                    "    <h1 style=\"color: rgb(255, 125, 26);\">Kính Gửi Quý Khách Hàng : " + hoaDon.getTennguoinhan() + "</h1>\n" +
+//                    "    <h6 style=\"color: black; font-size: 15px;\">Chúng tôi xin chân thành cảm ơn Quý khách đã đặt hàng tại : <strong  style=\"color: rgb(255, 125, 26);\">2TH-SHOP</strong></h6>\n" +
+//                    "    <h6 style=\"color: black; font-size: 15px;\">Thông tin chi tiết về đơn hàng của Quý khách như sau:</h6>\n" +
+//                    "    <table style=\"width: 100%; border-collapse: collapse; margin-bottom: 20px;\">\n" +
+//                    "        <thead>\n" +
+//                    "           <tr>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Mã Đơn Hàng</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Khách Hàng</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Số Điện Thoại</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Email</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Ngày Đặt Hàng</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Địa chỉ giao hàng</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Trạng Thái</th>\n" +
+//                    "           </tr>\n" +
+//                    "        </thead>\n" +
+//                    "        <tbody>\n" +
+//                    "           <tr>\n" +
+//                    "                <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + hoaDon.getMahoadon() + "</td>\n" +
+//                    "                <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + hoaDon.getTennguoinhan() + "</td>\n" +
+//                    "                <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + hoaDon.getSdtnguoinhan() + "</td>\n" +
+//                    "                <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + hoaDon.getEmailnguoinhan() + "</td>\n" +
+//                    "                <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + hoaDon.getNgaytao() + "</td>\n" +
+//                    "                <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + hoaDon.getDiachinhanhang() + "</td>\n" +
+//                    "                <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + "Đã huỷ" + "</td>\n" +
+//                    "           </tr>\n" +
+//                    "        </tbody>\n" +
+//                    "    </table>\n" +
+//                    "    <table style=\"width: 100%; border-collapse: collapse;\">\n" +
+//                    "        <thead>\n" +
+//                    "            <tr>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">STT</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Tên Sản Phẩm</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Số Lượng</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Đơn Giá</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Giảm Giá</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Thành Tiền</th>\n" +
+//                    "            </tr>\n" +
+//                    "        </thead>\n" +
+//                    "        <tbody>\n" +
+//                    productList +
+//                    "        </tbody>\n" +
+//                    "    </table>\n" +
+//                    "    <br>\n" +
+//                    "    <table style=\"width: 100%; border-collapse: collapse;\">\n" +
+//                    "        <thead>\n" +
+//                    "            <tr>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">STT</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Mã giao dịch</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Số tiền trả</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Ngày thanh toán</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Hình thức</th>\n" +
+//                    "            </tr>\n" +
+//                    "        </thead>\n" +
+//                    "        <tbody>\n" +
+//                    hinhthucthanhtoan +
+//                    "        </tbody>\n" +
+//                    "    </table>\n" +
+//                    "    <h6 style=\"color: black; font-size: 15px;\">Tổng Tiền Hàng: " + tongtienhang + " đ</h6>\n" +
+//                    "    <h6 style=\"color: black; font-size: 15px;\">Giảm Giá: " + hoaDon.getGiatrigiam() + " đ</h6>\n" +
+//                    "<h6 style=\"color: black; font-size: 15px;\">Tiền ship: " + (hoaDon.getTiengiaohang() != null ? hoaDon.getTiengiaohang() + " đ" : "0 đ") + "</h6>\n"+
+//            "    <h6 style=\"color: black; font-size: 15px;\">Số Tiền Phải Trả: " + sotienphaitra + " đ</h6>\n" +
+//                    "</body>";
+//
+//            helper.setText(htmlMsg, true);
+//            javaMailSender.send(mimeMessage);
+//        } catch (MessagingException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    private void sendInvoiceEmailhoanthanh(HoaDon hoaDon, String hinhthucthanhtoan, String productList, Double tongtienhang, Double sotienphaitra) {
+//        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+//        try {
+//            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
+//            helper.setTo(hoaDon.getEmailnguoinhan());
+//            helper.setSubject("Thông Tin Đơn Hàng Của Quý Khách Hàng");
+//
+//            String htmlMsg = "<body style=\"font-family: Arial, sans-serif;\">\n" +
+//                    "    <h1 style=\"color: rgb(255, 125, 26);\">Kính Gửi Quý Khách Hàng : " + hoaDon.getTennguoinhan() + "</h1>\n" +
+//                    "    <h6 style=\"color: black; font-size: 15px;\">Chúng tôi xin chân thành cảm ơn Quý khách đã đặt hàng tại : <strong  style=\"color: rgb(255, 125, 26);\">2TH-SHOP</strong></h6>\n" +
+//                    "    <h6 style=\"color: black; font-size: 15px;\">Thông tin chi tiết về đơn hàng của Quý khách như sau:</h6>\n" +
+//                    "    <table style=\"width: 100%; border-collapse: collapse; margin-bottom: 20px;\">\n" +
+//                    "        <thead>\n" +
+//                    "           <tr>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Mã Đơn Hàng</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Khách Hàng</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Số Điện Thoại</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Email</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Ngày Đặt Hàng</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Địa chỉ giao hàng</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Trạng Thái</th>\n" +
+//                    "           </tr>\n" +
+//                    "        </thead>\n" +
+//                    "        <tbody>\n" +
+//                    "           <tr>\n" +
+//                    "                <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + hoaDon.getMahoadon() + "</td>\n" +
+//                    "                <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + hoaDon.getTennguoinhan() + "</td>\n" +
+//                    "                <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + hoaDon.getSdtnguoinhan() + "</td>\n" +
+//                    "                <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + hoaDon.getEmailnguoinhan() + "</td>\n" +
+//                    "                <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + hoaDon.getNgaytao() + "</td>\n" +
+//                    "                <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + hoaDon.getDiachinhanhang() + "</td>\n" +
+//                    "                <td style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">" + "Hoàn thành" + "</td>\n" +
+//                    "           </tr>\n" +
+//                    "        </tbody>\n" +
+//                    "    </table>\n" +
+//                    "    <table style=\"width: 100%; border-collapse: collapse;\">\n" +
+//                    "        <thead>\n" +
+//                    "            <tr>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">STT</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Tên Sản Phẩm</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Số Lượng</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Đơn Giá</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Giảm Giá</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Thành Tiền</th>\n" +
+//                    "            </tr>\n" +
+//                    "        </thead>\n" +
+//                    "        <tbody>\n" +
+//                    productList +
+//                    "        </tbody>\n" +
+//                    "    </table>\n" +
+//                    "    <br>\n" +
+//                    "    <table style=\"width: 100%; border-collapse: collapse;\">\n" +
+//                    "        <thead>\n" +
+//                    "            <tr>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">STT</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Mã giao dịch</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Số tiền trả</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Ngày thanh toán</th>\n" +
+//                    "                <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Hình thức</th>\n" +
+//                    "            </tr>\n" +
+//                    "        </thead>\n" +
+//                    "        <tbody>\n" +
+//                    hinhthucthanhtoan +
+//                    "        </tbody>\n" +
+//                    "    </table>\n" +
+//                    "    <h6 style=\"color: black; font-size: 15px;\">Tổng Tiền Hàng: " + tongtienhang + " đ</h6>\n" +
+//                    "    <h6 style=\"color: black; font-size: 15px;\">Giảm Giá: " + hoaDon.getGiatrigiam() + " đ</h6>\n" +
+//                    "    <h6 style=\"color: black; font-size: 15px;\">Tiền ship: " + hoaDon.getTiengiaohang() + " đ</h6>\n" +
+//                    "    <h6 style=\"color: black; font-size: 15px;\">Số Tiền Phải Trả: " + sotienphaitra + " đ</h6>\n" +
+//                    "</body>";
+//
+//            helper.setText(htmlMsg, true);
+//            javaMailSender.send(mimeMessage);
+//        } catch (MessagingException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
     private boolean hasPermission(Collection<? extends GrantedAuthority> authorities, String... requiredRoles) {
