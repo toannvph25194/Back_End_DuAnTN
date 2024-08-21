@@ -336,8 +336,10 @@ public class HoaDonAdminServiceImpl implements HoaDonAdminService {
 
             Double tongtienhang = hoaDon.getThanhtien() + giatrigiam;
             Double sotienphaitra = tongtienhang - giatrigiam;
+            if (hoaDonTrangThaiAdminRequest.getTrangthai()==2) {
+                sendInvoiceEmailTheotrangthai(hoaDon, hinhthucthanhtoan, productList, tongtienhang, sotienphaitra);
+            }
 
-            sendInvoiceEmailTheotrangthai(hoaDon, hinhthucthanhtoan, productList, tongtienhang, sotienphaitra);
             String taikhoan01 = principal.getName();
             KhachHang khachHang = new KhachHang();
             khachHang.setIdkh(hoaDon.getKhachhang().getIdkh());
