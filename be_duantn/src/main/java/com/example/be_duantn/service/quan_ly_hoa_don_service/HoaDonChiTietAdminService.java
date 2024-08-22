@@ -33,4 +33,5 @@ public interface HoaDonChiTietAdminService {
 
     // delete hdct theo idghct
     MessageGioHangCTRespon deleteHoaDonCT(UUID idghct,UUID idhd,Principal principal);
+
 }

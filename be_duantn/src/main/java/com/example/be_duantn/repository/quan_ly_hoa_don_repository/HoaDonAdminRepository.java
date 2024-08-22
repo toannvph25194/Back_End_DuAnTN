@@ -178,35 +178,8 @@ public interface HoaDonAdminRepository extends JpaRepository<HoaDon, UUID> {
 
     // hiển thị hoá đơn theo id
 
-    @Query(value = "SELECT [Id]\n" +
-            "      ,[IdNV]\n" +
-            "      ,[IdKH]\n" +
-            "      ,[IdVouCher]\n" +
-            "      ,[MaHoaDon]\n" +
-            "      ,[NgayTao]\n" +
-            "      ,[NgayCapNhat]\n" +
-            "      ,[NgayXacNhan]\n" +
-            "      ,[NgayChoGiaoHang]\n" +
-            "      ,[NgayGiaoHang]\n" +
-            "      ,[DonViGiaoHang]\n" +
-            "      ,[TenNguoiGiao]\n" +
-            "      ,[SDTNguoiGiao]\n" +
-            "      ,[TienGiaoHang]\n" +
-            "      ,[NgayNhanHang]\n" +
-            "      ,[TenNguoiNhan]\n" +
-            "      ,[SDTNguoiNhan]\n" +
-            "      ,[EmailNguoiNhan]\n" +
-            "      ,[DiaChiNhanHang]\n" +
-            "      ,[NgayThanhToan]\n" +
-            "      ,[NgayHuy]\n" +
-            "      ,[GiaTriGiam]\n" +
-            "      ,[TienKhachTra]\n" +
-            "      ,[TienThua]\n" +
-            "      ,[ThanhTien]\n" +
-            "      ,[GhiChu]\n" +
-            "      ,[LoaiHoaDon]\n" +
-            "      ,[TrangThai]\n" +
-            "  FROM [dbo].[HoaDon]\n" +
-            "  where Id= ?", nativeQuery = true)
+    @Query(value = "SELECT dbo.HoaDon.*, dbo.VouCher.MaVouCher, dbo.VouCher.HinhThucGiam, dbo.VouCher.GiaTriGiam AS GiaTriGiamVouCher\n" +
+            "FROM dbo.HoaDon LEFT JOIN dbo.VouCher ON dbo.HoaDon.IdVouCher = dbo.VouCher.Id\n" +
+            " where dbo.HoaDon.Id= ?", nativeQuery = true)
     Hoadonrespon finByidHD(UUID idHD);
 }
