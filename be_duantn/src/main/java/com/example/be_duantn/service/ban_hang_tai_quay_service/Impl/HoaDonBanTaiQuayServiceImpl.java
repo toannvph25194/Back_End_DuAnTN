@@ -59,6 +59,9 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
     @Autowired
     NhanVienRepository nhanVienRepository;
 
+    @Autowired
+    VouCherBanTaiQuayRepository vouCherBanTaiQuayRepository;
+
 
     @Autowired
     HinhThucThanhToanAdminBanTaiQuayRepository hinhThucThanhToanAdminBanTaiQuayRepository;
@@ -263,10 +266,17 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
             hoaDon.setNgaynhanhang(timestamp);
 
             // Kiểm tra và gán voucher nếu không null
+            // Tìm voucher theo Idgg
+            VouCher vouChertheoID = vouCherBanTaiQuayRepository.findById(Idgg).orElse(null);
             if (Idgg != null) {
                 VouCher vouCher = new VouCher();
                 vouCher.setIdvoucher(Idgg);
                 hoaDon.setVoucher(vouCher);
+                // Tăng số lượng sử dụng lên 1
+                int soluongdung = vouChertheoID.getSoluongdung() + 1;
+                vouChertheoID.setSoluongdung(soluongdung);
+                // Lưu voucher đã cập nhật vào cơ sở dữ liệu
+                vouCherBanTaiQuayRepository.save(vouChertheoID);
             } else {
                 hoaDon.setVoucher(null); // Hoặc giá trị mặc định nếu cần thiết
             }
@@ -354,10 +364,17 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
             hoaDon.setNgaythanhtoan(timestamp);
             hoaDon.setNgayxacnhan(timestamp);
 
+            // Tìm voucher theo Idgg
+            VouCher vouChertheoID = vouCherBanTaiQuayRepository.findById(Idgg).orElse(null);
             if (Idgg != null) {
                 VouCher vouCher = new VouCher();
                 vouCher.setIdvoucher(Idgg);
                 hoaDon.setVoucher(vouCher);
+                // Tăng số lượng sử dụng lên 1
+                int soluongdung = vouChertheoID.getSoluongdung() + 1;
+                vouChertheoID.setSoluongdung(soluongdung);
+                // Lưu voucher đã cập nhật vào cơ sở dữ liệu
+                vouCherBanTaiQuayRepository.save(vouChertheoID);
             } else {
                 hoaDon.setVoucher(null);
             }
