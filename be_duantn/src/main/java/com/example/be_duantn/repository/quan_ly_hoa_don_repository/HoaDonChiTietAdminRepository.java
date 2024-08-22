@@ -1,10 +1,7 @@
 package com.example.be_duantn.repository.quan_ly_hoa_don_repository;
 
-import com.example.be_duantn.dto.respon.ban_tai_quay_respon.LoadSPTaiQuayRespon;
 import com.example.be_duantn.dto.respon.quan_ly_hoa_don_respon.HoaDonChiTietRespon;
-import com.example.be_duantn.dto.respon.quan_ly_hoa_don_respon.Hoadonrespon;
 import com.example.be_duantn.dto.respon.quan_ly_hoa_don_respon.LoadSPHoaDonChiTietRespon;
-import com.example.be_duantn.entity.GioHangChiTiet;
 import com.example.be_duantn.entity.HoaDonChiTiet;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -110,13 +107,14 @@ public interface HoaDonChiTietAdminRepository extends JpaRepository<HoaDonChiTie
             "          ELSE NULL \n" +
             "       END\n", nativeQuery = true)
     Page<LoadSPHoaDonChiTietRespon> LocSPNhieuTieuChiSuaHoaDon(Pageable pageable, @Param("tenmausac") String tenmausac, @Param("tensize") String tensize,
-                                                         @Param("tenchatlieu") String tenchatlieu, @Param("tendanhmuc") String tendanhmuc,
-                                                         @Param("tenthuonghieu") String tenthuonghieu, @Param("tenxuatxu") String tenxuatxu);
+                                                               @Param("tenchatlieu") String tenchatlieu, @Param("tendanhmuc") String tendanhmuc,
+                                                               @Param("tenthuonghieu") String tenthuonghieu, @Param("tenxuatxu") String tenxuatxu);
 
     // Tìm kiếm idgh và idspct trong ghct
     HoaDonChiTiet findByHoadonIdhoadonAndSanphamchitietIdspct(UUID idhd, UUID idspct);
 
     List<HoaDonChiTiet> findByHoadon_Idhoadon(UUID idhd);
+
 
 }
 

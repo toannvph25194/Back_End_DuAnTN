@@ -87,12 +87,26 @@ public interface GiamGiaRepository extends JpaRepository<GiamGia, UUID> {
             "FROM dbo.SanPham\n" +
             "LEFT JOIN dbo.GiamGia \n" +
             "    ON dbo.SanPham.IdGG = dbo.GiamGia.Id\n" +
-            "WHERE dbo.GiamGia.TrangThai = 2 OR dbo.GiamGia.Id IS NULL;", nativeQuery = true)
+            "WHERE dbo.GiamGia.TrangThai = 2 OR dbo.GiamGia.Id IS NULL\n" +
+            "ORDER BY dbo.SanPham.NgayThem DESC;\n", nativeQuery = true)
     Page<SanPhamGiamGiaRespon> GetAllSanPhamGiamGiaThem(Pageable pageable);
 
-    @Query(value = "SELECT dbo.SanPham.TenSP, dbo.SanPham.GiaBan,dbo.SanPham.ImageDefaul, dbo.GiamGia.MaGiamGia, dbo.GiamGia.TenGiamGia, dbo.SanPham.DonGiaKhiGiam, dbo.SanPham.NgayThemGiamGia\n" +
-            "FROM     dbo.SanPham INNER JOIN\n" +
-            "                  dbo.GiamGia ON dbo.SanPham.IdGG = dbo.GiamGia.Id where dbo.GiamGia.TrangThai = 1", nativeQuery = true)
+    @Query(value = "SELECT \n" +
+            "    dbo.SanPham.TenSP, \n" +
+            "    dbo.SanPham.GiaBan,\n" +
+            "    dbo.SanPham.ImageDefaul, \n" +
+            "    dbo.GiamGia.MaGiamGia, \n" +
+            "    dbo.GiamGia.TenGiamGia, \n" +
+            "    dbo.SanPham.DonGiaKhiGiam, \n" +
+            "    dbo.SanPham.NgayThemGiamGia\n" +
+            "FROM \n" +
+            "    dbo.SanPham \n" +
+            "INNER JOIN \n" +
+            "    dbo.GiamGia ON dbo.SanPham.IdGG = dbo.GiamGia.Id \n" +
+            "WHERE \n" +
+            "    dbo.GiamGia.TrangThai = 1\n" +
+            "ORDER BY \n" +
+            "    dbo.SanPham.ngaythemgiamgia DESC;\n", nativeQuery = true)
     Page<SanPhamGiamGiaRespon> GetAllSanPhamGiamGia(Pageable pageable);
 
 }

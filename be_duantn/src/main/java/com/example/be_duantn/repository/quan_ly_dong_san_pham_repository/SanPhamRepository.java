@@ -41,7 +41,9 @@ public interface SanPhamRepository extends JpaRepository<SanPham, UUID> {
             "    sp.GiaBan, \n" +
             "    sp.GiaNhap, \n" +
             "    sp.NgayThem, \n" +
-            "    sp.TrangThai\n", nativeQuery = true)
+            "    sp.TrangThai\n" +
+            "ORDER BY \n" +
+            "    sp.NgayThem DESC;\n", nativeQuery = true)
     Page<SanPhamAdminRespon> ShowSanPham(Pageable pageable);
 
     // tìm theo idsp

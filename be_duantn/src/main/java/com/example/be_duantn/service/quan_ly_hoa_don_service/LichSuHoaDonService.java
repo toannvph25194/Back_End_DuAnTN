@@ -8,4 +8,6 @@ import java.util.UUID;
 public interface LichSuHoaDonService {
     // hiển thị hoá đơn theo id
     public List<LichSuHoaDon> finByIdLSTT(UUID IdHD);
+
+
 }

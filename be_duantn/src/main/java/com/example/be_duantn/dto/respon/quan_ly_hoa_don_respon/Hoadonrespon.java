@@ -59,4 +59,10 @@ public interface Hoadonrespon {
 
 
     Integer gettrangthai();
+
+    Double getgiaTrigiamvouCher();
+
+    Integer gethinhthucgiam();
+
+    String getmavoucher();
 }

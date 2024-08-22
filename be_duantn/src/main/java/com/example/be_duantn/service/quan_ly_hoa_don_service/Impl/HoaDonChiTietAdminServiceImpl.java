@@ -1,6 +1,5 @@
 package com.example.be_duantn.service.quan_ly_hoa_don_service.Impl;
 
-import com.example.be_duantn.dto.respon.ban_tai_quay_respon.LoadSPTaiQuayRespon;
 import com.example.be_duantn.dto.respon.mua_hang_online_respon.MessageGioHangCTRespon;
 import com.example.be_duantn.dto.respon.quan_ly_hoa_don_respon.HoaDonChiTietRespon;
 import com.example.be_duantn.dto.respon.quan_ly_hoa_don_respon.LoadSPHoaDonChiTietRespon;
@@ -261,6 +260,7 @@ public class HoaDonChiTietAdminServiceImpl implements HoaDonChiTietAdminService 
             throw new AccessDeniedException("Bạn không có quyền");
         }
     }
+
 
     private boolean hasPermission(Collection<? extends GrantedAuthority> authorities, String... requiredRoles) {
         // Kiểm tra xem người dùng có ít nhất một trong các quyền cần thiết hay không
