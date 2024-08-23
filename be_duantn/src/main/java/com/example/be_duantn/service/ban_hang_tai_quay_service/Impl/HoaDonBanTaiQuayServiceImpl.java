@@ -267,8 +267,9 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
 
             // Kiểm tra và gán voucher nếu không null
             // Tìm voucher theo Idgg
-            VouCher vouChertheoID = vouCherBanTaiQuayRepository.findById(Idgg).orElse(null);
+
             if (Idgg != null) {
+                VouCher vouChertheoID = vouCherBanTaiQuayRepository.findById(Idgg).orElse(null);
                 VouCher vouCher = new VouCher();
                 vouCher.setIdvoucher(Idgg);
                 hoaDon.setVoucher(vouCher);
@@ -365,8 +366,9 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
             hoaDon.setNgayxacnhan(timestamp);
 
             // Tìm voucher theo Idgg
-            VouCher vouChertheoID = vouCherBanTaiQuayRepository.findById(Idgg).orElse(null);
+
             if (Idgg != null) {
+                VouCher vouChertheoID = vouCherBanTaiQuayRepository.findById(Idgg).orElse(null);
                 VouCher vouCher = new VouCher();
                 vouCher.setIdvoucher(Idgg);
                 hoaDon.setVoucher(vouCher);
