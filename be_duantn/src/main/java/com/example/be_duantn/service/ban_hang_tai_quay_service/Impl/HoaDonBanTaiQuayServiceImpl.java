@@ -264,6 +264,9 @@ public class HoaDonBanTaiQuayServiceImpl implements HoaDonBanTaiQuayService {
             hoaDon.setNgaycapnhat(timestamp);
             hoaDon.setNgaythanhtoan(timestamp);
             hoaDon.setNgaynhanhang(timestamp);
+            hoaDon.setEmailnguoinhan(hoaDon.getKhachhang().getEmail());
+            hoaDon.setSdtnguoinhan(hoaDon.getKhachhang().getSodienthoai());
+
 
             // Kiểm tra và gán voucher nếu không null
             // Tìm voucher theo Idgg
