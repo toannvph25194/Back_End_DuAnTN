@@ -3,6 +3,7 @@ import com.example.be_duantn.entity.NhanVien;
 import com.example.be_duantn.jwt.nhan_vien_jwt.NhanVienCustomDetails;
 import com.example.be_duantn.repository.authentication_repository.NhanVienRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 @Service
+@Primary
 public class NhanVienDetailServiceImpl implements UserDetailsService {
 
     @Autowired
